@@ -1,0 +1,9 @@
+object TFrmMain: TTFrmMain
+  Left = 386
+  Height = 240
+  Top = 197
+  Width = 320
+  Caption = 'TFrmMain'
+  OnCreate = FormCreate
+  LCLVersion = '1.2.4.0'
+end

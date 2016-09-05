@@ -1,0 +1,30 @@
+object TFrmMain: TTFrmMain
+  Left = 153
+  Height = 600
+  Top = 62
+  Width = 960
+  Caption = 'Threemilestone Beavers - Beta v1.85'
+  ClientHeight = 600
+  ClientWidth = 960
+  Color = clWhite
+  OnCreate = FormCreate
+  LCLVersion = '1.4.4.0'
+  object BtnConnection: TButton
+    Left = 63
+    Height = 118
+    Top = 71
+    Width = 144
+    Caption = 'Debug check'
+    OnClick = BtnConnectionClick
+    TabOrder = 0
+  end
+  object BtnPerformance: TButton
+    Left = 269
+    Height = 101
+    Top = 82
+    Width = 168
+    Caption = 'Current points'
+    OnClick = BtnPerformanceClick
+    TabOrder = 1
+  end
+end

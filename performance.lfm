@@ -1,0 +1,657 @@
+object TFrmPoints: TTFrmPoints
+  Left = 308
+  Height = 706
+  Top = 159
+  Width = 1360
+  Caption = 'Current points - Beta v1.85'
+  ClientHeight = 706
+  ClientWidth = 1360
+  Color = clWhite
+  OnClose = FormClose
+  OnCreate = FormCreate
+  LCLVersion = '1.4.4.0'
+  object L1P1: TShape
+    Left = 120
+    Height = 60
+    Top = 568
+    Width = 123
+    Brush.Color = clNone
+    Visible = False
+  end
+  object LblPoints1: TLabel
+    Left = 48
+    Height = 15
+    Top = 557
+    Width = 6
+    Caption = '1'
+    ParentColor = False
+  end
+  object LblPoints2: TLabel
+    Left = 48
+    Height = 15
+    Top = 501
+    Width = 6
+    Caption = '2'
+    ParentColor = False
+  end
+  object LblPoints3: TLabel
+    Left = 48
+    Height = 15
+    Top = 445
+    Width = 6
+    Caption = '3'
+    ParentColor = False
+  end
+  object LblPoints4: TLabel
+    Left = 48
+    Height = 15
+    Top = 389
+    Width = 6
+    Caption = '4'
+    ParentColor = False
+  end
+  object LblPoints5: TLabel
+    Left = 48
+    Height = 15
+    Top = 333
+    Width = 6
+    Caption = '5'
+    ParentColor = False
+  end
+  object LblPoints6: TLabel
+    Left = 48
+    Height = 15
+    Top = 277
+    Width = 6
+    Caption = '6'
+    ParentColor = False
+  end
+  object L1P2: TShape
+    Left = 120
+    Height = 60
+    Top = 512
+    Width = 123
+    Visible = False
+  end
+  object L1P3: TShape
+    Left = 120
+    Height = 60
+    Top = 456
+    Width = 123
+    Visible = False
+  end
+  object L1P4: TShape
+    Left = 120
+    Height = 60
+    Top = 400
+    Width = 123
+    Visible = False
+  end
+  object L1P5: TShape
+    Left = 120
+    Height = 60
+    Top = 344
+    Width = 123
+    Visible = False
+  end
+  object L1P6: TShape
+    Left = 120
+    Height = 60
+    Top = 288
+    Width = 123
+    Visible = False
+  end
+  object L1P7: TShape
+    Left = 120
+    Height = 60
+    Top = 232
+    Width = 123
+    Visible = False
+  end
+  object L1P8: TShape
+    Left = 120
+    Height = 60
+    Top = 176
+    Width = 123
+    Visible = False
+  end
+  object L1P9: TShape
+    Left = 120
+    Height = 60
+    Top = 120
+    Width = 123
+    Visible = False
+  end
+  object L1P10: TShape
+    Left = 120
+    Height = 60
+    Top = 64
+    Width = 123
+    Visible = False
+  end
+  object LblPoints0: TLabel
+    Left = 48
+    Height = 15
+    Top = 613
+    Width = 6
+    Caption = '0'
+    ParentColor = False
+  end
+  object LblPoints8: TLabel
+    Left = 48
+    Height = 15
+    Top = 165
+    Width = 6
+    Caption = '8'
+    ParentColor = False
+  end
+  object LblPoints9: TLabel
+    Left = 48
+    Height = 15
+    Top = 109
+    Width = 6
+    Caption = '9'
+    ParentColor = False
+  end
+  object LblPoints10: TLabel
+    Left = 48
+    Height = 15
+    Top = 64
+    Width = 12
+    Caption = '10'
+    ParentColor = False
+  end
+  object LblPoints7: TLabel
+    Left = 48
+    Height = 15
+    Top = 221
+    Width = 6
+    Caption = '7'
+    ParentColor = False
+  end
+  object L2P1: TShape
+    Left = 432
+    Height = 60
+    Top = 568
+    Width = 123
+    Visible = False
+  end
+  object L2P2: TShape
+    Left = 432
+    Height = 60
+    Top = 512
+    Width = 123
+    Visible = False
+  end
+  object L2P3: TShape
+    Left = 432
+    Height = 60
+    Top = 456
+    Width = 123
+    Visible = False
+  end
+  object L2P4: TShape
+    Left = 432
+    Height = 60
+    Top = 400
+    Width = 123
+    Visible = False
+  end
+  object L2P5: TShape
+    Left = 432
+    Height = 60
+    Top = 344
+    Width = 123
+    Visible = False
+  end
+  object L2P6: TShape
+    Left = 432
+    Height = 60
+    Top = 288
+    Width = 123
+    Visible = False
+  end
+  object L2P7: TShape
+    Left = 432
+    Height = 60
+    Top = 232
+    Width = 123
+    Visible = False
+  end
+  object L2P8: TShape
+    Left = 432
+    Height = 60
+    Top = 176
+    Width = 123
+    Visible = False
+  end
+  object L2P9: TShape
+    Left = 432
+    Height = 60
+    Top = 120
+    Width = 123
+    Visible = False
+  end
+  object L2P10: TShape
+    Left = 432
+    Height = 60
+    Top = 64
+    Width = 123
+    Visible = False
+  end
+  object BtnActive: TButton
+    Left = 1272
+    Height = 77
+    Top = 120
+    Width = 67
+    Caption = 'Go'
+    OnClick = BtnActiveClick
+    TabOrder = 0
+    TabStop = False
+    Visible = False
+  end
+  object LblLodge1: TLabel
+    Left = 160
+    Height = 15
+    Top = 644
+    Width = 6
+    Caption = '1'
+    ParentColor = False
+    OnClick = LblLodge1Click
+  end
+  object LblLodge2: TLabel
+    Left = 472
+    Height = 15
+    Top = 644
+    Width = 6
+    Caption = '2'
+    ParentColor = False
+  end
+  object ColBoxL1: TColorBox
+    Left = 1242
+    Height = 22
+    Top = 368
+    Width = 98
+    ItemHeight = 16
+    OnChange = ColBoxL1Change
+    TabOrder = 1
+    Visible = False
+  end
+  object BtnAdjustScale: TButton
+    Left = 1264
+    Height = 49
+    Top = 40
+    Width = 69
+    Caption = 'Adjust Scale'
+    OnClick = BtnAdjustScaleClick
+    TabOrder = 2
+    Visible = False
+  end
+  object BtnSetColour: TButton
+    Left = 1242
+    Height = 45
+    Top = 221
+    Width = 91
+    Caption = 'BtnSetColour'
+    OnClick = BtnSetColourClick
+    TabOrder = 3
+    Visible = False
+  end
+  object L3P1: TShape
+    Left = 752
+    Height = 60
+    Top = 568
+    Width = 123
+    Visible = False
+  end
+  object L3P2: TShape
+    Left = 752
+    Height = 60
+    Top = 512
+    Width = 123
+    Visible = False
+  end
+  object L3P3: TShape
+    Left = 752
+    Height = 60
+    Top = 456
+    Width = 123
+    Visible = False
+  end
+  object L3P4: TShape
+    Left = 752
+    Height = 60
+    Top = 400
+    Width = 123
+    Visible = False
+  end
+  object L3P5: TShape
+    Left = 752
+    Height = 60
+    Top = 344
+    Width = 123
+    Visible = False
+  end
+  object L3P6: TShape
+    Left = 752
+    Height = 60
+    Top = 288
+    Width = 123
+    Visible = False
+  end
+  object L3P7: TShape
+    Left = 752
+    Height = 60
+    Top = 232
+    Width = 123
+    Visible = False
+  end
+  object L3P8: TShape
+    Left = 752
+    Height = 60
+    Top = 176
+    Width = 123
+    Visible = False
+  end
+  object L3P9: TShape
+    Left = 752
+    Height = 60
+    Top = 120
+    Width = 123
+    Visible = False
+  end
+  object L3P10: TShape
+    Left = 752
+    Height = 60
+    Top = 64
+    Width = 123
+    Visible = False
+  end
+  object LblLodge3: TLabel
+    Left = 792
+    Height = 15
+    Top = 644
+    Width = 6
+    Caption = '3'
+    ParentColor = False
+  end
+  object L4P1: TShape
+    Left = 1056
+    Height = 60
+    Top = 568
+    Width = 123
+    Visible = False
+  end
+  object L4P2: TShape
+    Left = 1056
+    Height = 60
+    Top = 512
+    Width = 123
+    Visible = False
+  end
+  object L4P3: TShape
+    Left = 1056
+    Height = 60
+    Top = 456
+    Width = 123
+    Visible = False
+  end
+  object L4P4: TShape
+    Left = 1056
+    Height = 60
+    Top = 400
+    Width = 123
+    Visible = False
+  end
+  object L4P5: TShape
+    Left = 1056
+    Height = 60
+    Top = 344
+    Width = 123
+    Visible = False
+  end
+  object L4P6: TShape
+    Left = 1056
+    Height = 60
+    Top = 288
+    Width = 123
+    Visible = False
+  end
+  object L4P7: TShape
+    Left = 1056
+    Height = 60
+    Top = 232
+    Width = 123
+    Visible = False
+  end
+  object L4P8: TShape
+    Left = 1056
+    Height = 60
+    Top = 176
+    Width = 123
+    Visible = False
+  end
+  object L4P9: TShape
+    Left = 1056
+    Height = 60
+    Top = 120
+    Width = 123
+    Visible = False
+  end
+  object L4P10: TShape
+    Left = 1056
+    Height = 60
+    Top = 64
+    Width = 123
+    Visible = False
+  end
+  object LblLodge4: TLabel
+    Left = 1096
+    Height = 15
+    Top = 644
+    Width = 6
+    Caption = '4'
+    ParentColor = False
+  end
+  object SEPL1: TSpinEdit
+    Left = 160
+    Height = 23
+    Top = 672
+    Width = 41
+    OnChange = SEPL1Change
+    OnEditingDone = SEPL1Change
+    OnExit = SEPL1Change
+    TabOrder = 4
+  end
+  object SEPL2: TSpinEdit
+    Left = 472
+    Height = 23
+    Top = 672
+    Width = 41
+    OnChange = SEPL2Change
+    OnEditingDone = SEPL2Change
+    OnExit = SEPL2Change
+    TabOrder = 5
+  end
+  object SEPL3: TSpinEdit
+    Left = 800
+    Height = 23
+    Top = 672
+    Width = 41
+    OnChange = SEPL3Change
+    OnEditingDone = SEPL3Change
+    OnExit = SEPL3Change
+    TabOrder = 6
+  end
+  object SEPL4: TSpinEdit
+    Left = 1096
+    Height = 23
+    Top = 672
+    Width = 41
+    MaxValue = 1000
+    OnChange = SEPL4Change
+    OnEditingDone = SEPL4Change
+    OnExit = SEPL4Change
+    TabOrder = 7
+  end
+  object ColBoxL2: TColorBox
+    Left = 1242
+    Height = 22
+    Top = 396
+    Width = 98
+    ItemHeight = 16
+    OnChange = ColBoxL1Change
+    TabOrder = 8
+    Visible = False
+  end
+  object ColBoxL3: TColorBox
+    Left = 1242
+    Height = 22
+    Top = 424
+    Width = 98
+    ItemHeight = 16
+    OnChange = ColBoxL1Change
+    TabOrder = 9
+    Visible = False
+  end
+  object ColBoxL4: TColorBox
+    Left = 1242
+    Height = 22
+    Top = 448
+    Width = 98
+    ItemHeight = 16
+    OnChange = ColBoxL1Change
+    TabOrder = 10
+    Visible = False
+  end
+  object LbL1: TLabel
+    Left = 152
+    Height = 64
+    Top = 0
+    Width = 54
+    Caption = '10'
+    Font.CharSet = ANSI_CHARSET
+    Font.Height = -48
+    Font.Name = '@Arial Unicode MS'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    ParentColor = False
+    ParentFont = False
+    OnClick = LbL1Click
+  end
+  object LbL2: TLabel
+    Left = 464
+    Height = 64
+    Top = 0
+    Width = 54
+    Caption = '10'
+    Font.CharSet = ANSI_CHARSET
+    Font.Height = -48
+    Font.Name = '@Arial Unicode MS'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    ParentColor = False
+    ParentFont = False
+    OnClick = LbL1Click
+  end
+  object LbL3: TLabel
+    Left = 787
+    Height = 64
+    Top = 0
+    Width = 54
+    Caption = '10'
+    Font.CharSet = ANSI_CHARSET
+    Font.Height = -48
+    Font.Name = '@Arial Unicode MS'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    ParentColor = False
+    ParentFont = False
+    OnClick = LbL1Click
+  end
+  object LbL4: TLabel
+    Left = 1088
+    Height = 64
+    Top = 0
+    Width = 54
+    Caption = '10'
+    Font.CharSet = ANSI_CHARSET
+    Font.Height = -48
+    Font.Name = '@Arial Unicode MS'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    ParentColor = False
+    ParentFont = False
+    OnClick = LbL1Click
+  end
+  object SQLGetInfo: TSQLQuery
+    FieldDefs = <>
+    Database = SQLConnector
+    Transaction = SQLTransaction
+    SQL.Strings = (
+      ''
+    )
+    UpdateSQL.Strings = (
+      '''"UPDATE LodgePoints SET Points = (Points,PrPoints )WHERE ID = 4"'';'
+      '  SQLGetInfo.Params.ParamByName(''PrPoints'').AsInteger:= SEPL4.Value;'
+    )
+    DeleteSQL.Strings = (
+      '  SELECT * FROM LodgePoints'
+    )
+    Params = <>
+    left = 32
+    top = 648
+  end
+  object DataSourceColour: TDataSource
+    DataSet = SQLGetInfo
+    left = 344
+    top = 648
+  end
+  object SQLConnector: TSQLConnector
+    Connected = False
+    LoginPrompt = False
+    DatabaseName = 'LodgePoints.db'
+    KeepConnection = False
+    Transaction = SQLTransaction
+    LogEvents = []
+    ConnectorType = 'SQLite3'
+    left = 960
+    top = 648
+  end
+  object SQLTransaction: TSQLTransaction
+    Active = False
+    Database = SQLConnector
+    left = 640
+    top = 648
+  end
+  object TimerUpdateScale: TTimer
+    Interval = 100
+    OnTimer = TimerUpdateScaleTimer
+    left = 32
+    top = 10
+  end
+  object TimerRefreshPoints1: TTimer
+    Interval = 100
+    OnTimer = SEPL1Change
+    left = 312
+    top = 16
+  end
+  object TimerRefreshPoints2: TTimer
+    Interval = 100
+    OnTimer = SEPL2Change
+    left = 640
+    top = 16
+  end
+  object TimerRefreshPoints3: TTimer
+    Interval = 100
+    OnTimer = SEPL3Change
+    left = 968
+    top = 8
+  end
+  object TimerRefreshPoints4: TTimer
+    Interval = 100
+    OnTimer = SEPL4Change
+    left = 1224
+    top = 10
+  end
+end
