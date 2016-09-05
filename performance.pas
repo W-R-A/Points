@@ -1,4 +1,3 @@
-{%BuildWorkingDir F:\Ross\Documents\Pi files\Beaver lodge manager\Output}
 unit performance;
 
 {$mode objfpc}{$H+}
