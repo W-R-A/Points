@@ -1,7 +1,7 @@
 object TFrmMain: TTFrmMain
-  Left = 2163
+  Left = 485
   Height = 600
-  Top = 202
+  Top = 143
   Width = 960
   Caption = 'Threemilestone Beavers - Beta v1.85'
   ClientHeight = 600

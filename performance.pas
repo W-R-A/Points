@@ -12,11 +12,16 @@ uses
 type
 
   { TTFrmPoints }
+  //Declare record of points pieces
+  TPointChunks = record
+    chunks : array [ 0..9] of TShape;
+  end;
 
   TTFrmPoints = class(TForm)
     BtnActive: TButton;
     BtnAdjustScale: TButton;
     BtnSetColour: TButton;
+    BtnDrawScreen: TButton;
     ColBoxL1: TColorBox;
     ColBoxL2: TColorBox;
     ColBoxL3: TColorBox;
@@ -96,6 +101,7 @@ type
     procedure BtnActiveClick(Sender: TObject);
     procedure BtnAdjustScaleClick(Sender: TObject);
     procedure BtnSetColourClick(Sender: TObject);
+    procedure BtnDrawScreenClick(Sender: TObject);
     procedure ColBoxL1Change(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
@@ -116,7 +122,10 @@ type
 
 var
   TFrmPoints: TTFrmPoints;
-
+  //New code using arrays to give dynamic screen size adaptation
+  //pointsChunks --> array to hold 1-10 segments for displaying numbr of points lodge has - duplicated for number of lodges on the system
+  pointChunks : array [ 0..9] of TShape;
+  scoreColumns : array [ 0 ..9] of TPointChunks;
 
 implementation
 
@@ -127,11 +136,19 @@ uses
   Depend;
 
 procedure TTFrmPoints.FormCreate(Sender: TObject);
+var
+  screenWidth, screenHeight, noCols, colWidth, btwnCols, margin: Integer;
+  i : Integer;
 begin
-SQLGetInfo.SQL.Clear;
-SQLGetInfo.SQL.Text:='SELECT * FROM LodgePoints';
-BtnActive.Click;
-TFrmPoints.Scale:=10;
+  //Maximise program screen area then start database queries and set up program screen then activate it, aloso set initial scale
+  begin
+  WindowState:=wsMaximized;
+  SQLGetInfo.SQL.Clear;
+  SQLGetInfo.SQL.Text:='SELECT * FROM LodgePoints';
+  BtnActive.Click;
+  TFrmPoints.Scale:=10;
+  TFrmPoints.BtnDrawScreen.Click;
+  end;
 end;
 
 procedure TTFrmPoints.LbL1Click(Sender: TObject);
@@ -947,6 +964,47 @@ begin
   L4P8.Brush.Color:=ColBoxL4.Selected;
   L4P9.Brush.Color:=ColBoxL4.Selected;
   L4P10.Brush.Color:=ColBoxL4.Selected;
+end;
+
+//This hooks in to the OnResize event of the form
+procedure TTFrmPoints.BtnDrawScreenClick(Sender: TObject);
+var
+  screenWidth, screenHeight, noCols, colWidth, btwnCols, margin: Integer;
+  i : Integer;
+begin
+  begin
+    //Setup screen width and height varibles
+    noCols := 4;
+    margin := 64;
+    screenHeight := TFrmPoints.Height;
+    screenWidth := TFrmPoints.Width;
+    colWidth := Round(screenWidth/(noCols*2));
+    btwnCols := Round(colWidth+(colWidth/noCols));
+    //ShowMessage(InttoStr(Round((screenHeight-2*margin)/10)));
+  end;
+  //Cleanup previously generated shapes
+  begin
+    for i := 9 downto 0 do
+    begin
+      if pointChunks[i] is TShape then
+         pointChunks[i].Free;
+    end;
+  end;
+  //Generate new shapes and set required properties
+  begin
+    for i := 0 to 9 do
+      begin
+        pointChunks[i] := TShape.Create(self);
+        with pointChunks[i] do
+        begin
+          Parent := self;
+          Top := Round(margin + i*Round((screenHeight-2*margin)/10)-i);
+          Height := Round((screenHeight-2*margin)/10);
+          Left := margin + btwnCols;
+          Width := colWidth;
+        end
+      end
+  end;
 end;
 
 procedure TTFrmPoints.ColBoxL1Change(Sender: TObject);

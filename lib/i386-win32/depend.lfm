@@ -1,27 +1,27 @@
 object TFrmDepend: TTFrmDepend
-  Left = 55
+  Left = 811
   Height = 600
-  Top = 24
+  Top = 280
   Width = 960
   Caption = 'Debug - Beta v1.85'
   ClientHeight = 600
   ClientWidth = 960
   OnClose = FormClose
   OnCreate = FormCreate
-  LCLVersion = '1.2.4.0'
+  LCLVersion = '1.4.4.0'
   object BtnCheck: TButton
-    Left = 8
+    Left = 112
     Height = 60
-    Top = 40
+    Top = 88
     Width = 121
     Caption = 'Check Connection'
     OnClick = BtnCheckClick
     TabOrder = 0
   end
   object LabelInfo: TLabel
-    Left = 24
+    Left = 144
     Height = 15
-    Top = 16
+    Top = 40
     Width = 49
     Caption = 'LabelInfo'
     ParentColor = False
@@ -92,9 +92,9 @@ object TFrmDepend: TTFrmDepend
     ParentColor = False
   end
   object CBColors: TComboBox
-    Left = 341
+    Left = 376
     Height = 23
-    Top = 249
+    Top = 304
     Width = 128
     ItemHeight = 15
     Items.Strings = (
@@ -104,13 +104,14 @@ object TFrmDepend: TTFrmDepend
       'Red'
       'Yellow'
     )
+    OnChange = CBColorsChange
     TabOrder = 6
     Text = 'CBColors'
   end
   object BtnUpdateDB: TButton
-    Left = 229
+    Left = 808
     Height = 52
-    Top = 342
+    Top = 328
     Width = 96
     Caption = 'Update DB'
     OnClick = BtnUpdateDBClick
@@ -125,13 +126,13 @@ object TFrmDepend: TTFrmDepend
     Transaction = SQLTransactionIntergration
     LogEvents = []
     Options = []
-    left = 74
-    top = 440
+    left = 160
+    top = 424
   end
   object DataSourceLodge: TDataSource
     DataSet = SQLQuery
     OnDataChange = DataSourceLodgeDataChange
-    left = 32
+    left = 160
     top = 288
   end
   object SQLQuery: TSQLQuery
@@ -142,13 +143,13 @@ object TFrmDepend: TTFrmDepend
       'SELECT * FROM LodgePoints'
     )
     Params = <>
-    left = 32
-    top = 368
+    left = 160
+    top = 352
   end
   object SQLTransactionIntergration: TSQLTransaction
     Active = True
     Database = SQLite3ConnectionMain
-    left = 74
-    top = 170
+    left = 160
+    top = 216
   end
 end

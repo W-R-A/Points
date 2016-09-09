@@ -1,7 +1,7 @@
 object TFrmPoints: TTFrmPoints
-  Left = 2042
+  Left = 302
   Height = 706
-  Top = 222
+  Top = 137
   Width = 1360
   Caption = 'Current points - Beta v1.85'
   ClientHeight = 706
@@ -9,6 +9,7 @@ object TFrmPoints: TTFrmPoints
   Color = clWhite
   OnClose = FormClose
   OnCreate = FormCreate
+  OnResize = BtnDrawScreenClick
   LCLVersion = '1.4.4.0'
   object L1P1: TShape
     Left = 120
@@ -583,6 +584,16 @@ object TFrmPoints: TTFrmPoints
     ParentColor = False
     ParentFont = False
     OnClick = LbL1Click
+  end
+  object BtnDrawScreen: TButton
+    Left = 1243
+    Height = 37
+    Top = 499
+    Width = 97
+    Caption = 'BtnDrawScreen'
+    OnClick = BtnDrawScreenClick
+    TabOrder = 11
+    Visible = False
   end
   object SQLGetInfo: TSQLQuery
     FieldDefs = <>

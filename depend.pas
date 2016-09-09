@@ -30,6 +30,7 @@ type
     procedure BtnCheckClick(Sender: TObject);
     procedure BtnUpdateClick(Sender: TObject);
     procedure BtnUpdateDBClick(Sender: TObject);
+    procedure CBColorsChange(Sender: TObject);
     procedure DataSourceLodgeDataChange(Sender: TObject; Field: TField);
     procedure DBGridCurrentEditingDone(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -132,6 +133,11 @@ begin
   except
     ShowMessage('Unable to write to database')
   end;
+
+end;
+
+procedure TTFrmDepend.CBColorsChange(Sender: TObject);
+begin
 
 end;
 
