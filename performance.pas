@@ -124,8 +124,8 @@ var
   TFrmPoints: TTFrmPoints;
   //New code using arrays to give dynamic screen size adaptation
   //pointsChunks --> array to hold 1-10 segments for displaying numbr of points lodge has - duplicated for number of lodges on the system
-  pointChunks : array [ 0..9] of TShape;
-  scoreColumns : array [ 0 ..9] of TPointChunks;
+  //pointChunks : array [ 0..9] of TShape;
+  scoreColumns : array of TPointChunks;
 
 implementation
 
@@ -970,7 +970,7 @@ end;
 procedure TTFrmPoints.BtnDrawScreenClick(Sender: TObject);
 var
   screenWidth, screenHeight, noCols, colWidth, btwnCols, margin: Integer;
-  i : Integer;
+  i, j : Integer;
 begin
   begin
     //Setup screen width and height varibles
@@ -980,30 +980,36 @@ begin
     screenWidth := TFrmPoints.Width;
     colWidth := Round(screenWidth/(noCols*2));
     btwnCols := Round(colWidth+(colWidth/noCols));
+    //set length of scoreColumns array
+    SetLength(scoreColumns, noCols)
     //ShowMessage(InttoStr(Round((screenHeight-2*margin)/10)));
   end;
   //Cleanup previously generated shapes
-  begin
-    for i := 9 downto 0 do
-    begin
-      if pointChunks[i] is TShape then
-         pointChunks[i].Free;
-    end;
-  end;
+  //begin
+    //for i := noCols downto 0 do
+    //begin
+      //for j := 9 downto 0 do
+        //if scoreColumns[i].chunks[j] is TShape then
+        //scoreColumns[i].chunks[j].Free;
+    //end;
+  //end;
   //Generate new shapes and set required properties
   begin
-    for i := 0 to 9 do
+    for i := 0 to 4 do
       begin
-        pointChunks[i] := TShape.Create(self);
-        with pointChunks[i] do
-        begin
-          Parent := self;
-          Top := Round(margin + i*Round((screenHeight-2*margin)/10)-i);
-          Height := Round((screenHeight-2*margin)/10);
-          Left := margin + btwnCols;
-          Width := colWidth;
-        end
-      end
+        for j := 0 to 9 do
+          begin
+            scoreColumns[i].chunks[j] := TShape.Create(self);
+            with scoreColumns[i].chunks[j] do
+              begin
+                Parent := self;
+                Top := Round(margin + j*Round((screenHeight-2*margin)/10)-j);
+                Height := Round((screenHeight-2*margin)/10);
+                Left := margin + btwnCols;
+                Width := colWidth;
+              end;
+          end
+      end;
   end;
 end;
 
