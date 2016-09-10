@@ -22,7 +22,7 @@
       <MajorVersionNr Value="1"/>
       <MinorVersionNr Value="8"/>
       <RevisionNr Value="5"/>
-      <BuildNr Value="15"/>
+      <BuildNr Value="16"/>
       <Language Value="0809"/>
       <StringTable LegalCopyright="GPL v3" ProductVersion="Beaver Lodge Manager"/>
     </VersionInfo>
@@ -51,6 +51,9 @@
               <OverflowChecks Value="True"/>
               <StackChecks Value="True"/>
             </Checks>
+            <Optimizations>
+              <OptimizationLevel Value="0"/>
+            </Optimizations>
           </CodeGeneration>
           <Linking>
             <Debugging>
@@ -176,26 +179,4 @@
       </Options>
     </Linking>
   </CompilerOptions>
-  <Debugging>
-    <Exceptions Count="6">
-      <Item1>
-        <Name Value="EAbort"/>
-      </Item1>
-      <Item2>
-        <Name Value="ECodetoolError"/>
-      </Item2>
-      <Item3>
-        <Name Value="EFOpenError"/>
-      </Item3>
-      <Item4>
-        <Name Value="EConvertError"/>
-      </Item4>
-      <Item5>
-        <Name Value="EDatabaseError"/>
-      </Item5>
-      <Item6>
-        <Name Value="RunError(201)"/>
-      </Item6>
-    </Exceptions>
-  </Debugging>
 </CONFIG>

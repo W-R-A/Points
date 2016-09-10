@@ -3,7 +3,7 @@ object TFrmPoints: TTFrmPoints
   Height = 706
   Top = 137
   Width = 1360
-  Caption = 'Current points - Beta v1.85'
+  Caption = 'Points v2.0-dev'
   ClientHeight = 706
   ClientWidth = 1360
   Color = clWhite

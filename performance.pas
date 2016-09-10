@@ -967,23 +967,33 @@ end;
 //This hooks in to the OnResize event of the form
 procedure TTFrmPoints.BtnDrawScreenClick(Sender: TObject);
 var
-  screenWidth, screenHeight, noCols, colWidth, btwnCols, margin: Integer;
+  //Setup varibles:
+  //screenWidth --> Stores the width, in pixels of the screen
+  //screenHeight --> Stores the height, in pixels of the screen
+  //noCols --> The number of columns of points to display depentant of the number of lodges to track points for
+  //colWidth --> The width, in pixels of the columns
+  //btwnCols --> The width, in pixels between columns
+  //hMargin --> The horizontal margin around the display
+  //vMarginT --> The vertical margin at the top of the display
+  //vMarginB --> The vertical margin at the bottom of the display
+  screenWidth, screenHeight, noCols, colWidth, btwnCols, hMargin, vMarginT, vMarginB: Integer;
   i, j : Integer;
-  shapes : array [0..9] of TShape;
 begin
   begin
     //Setup screen width and height varibles
     noCols := 4;
     if noCols < 1 then
       ShowMessage('The number of columns must be greater than 1');
-    margin := 64;
+    //Setup margins
     screenHeight := TFrmPoints.Height;
     screenWidth := TFrmPoints.Width;
-    colWidth := Round(screenWidth/(noCols*2));
+    hMargin := Round(0.05*screenWidth);
+    vMarginT := Round(0.05*screenHeight);
+    vMarginB := Round(1.5*vMarginT);
+    colWidth := Round((screenWidth-2*hMargin)/(noCols*2));
     btwnCols := Round(colWidth+(colWidth/noCols));
     //Set length of scoreColumns array
     SetLength(scoreColumns, (noCols + 1))
-    //ShowMessage(InttoStr(Round((screenHeight-2*margin)/10)));
   end;
   //Cleanup previously generated shapes
   begin
@@ -1004,9 +1014,9 @@ begin
             with scoreColumns[i,j] do
               begin
                 Parent := self;
-                Top := Round(margin + j*Round((screenHeight-2*margin)/10)-j);
-                Height := Round((screenHeight-2*margin)/10);
-                Left := margin + btwnCols;
+                Top := Round(vMarginT + j*Round((screenHeight-(vMarginT + vMarginB))/10)-j);
+                Height := Round((screenHeight-(vMarginT + vMarginB))/10);
+                Left := hMargin + (i*btwnCols) + (i*colWidth);
                 Width := colWidth;
               end;
           end
