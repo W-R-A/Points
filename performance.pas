@@ -13,9 +13,7 @@ type
 
   { TTFrmPoints }
   //Declare record of points pieces
-  TPointChunks = record
-    chunks : array [ 0..9] of TShape;
-  end;
+  //TPointChunks = array [ 0..9] of TShape;
 
   TTFrmPoints = class(TForm)
     BtnActive: TButton;
@@ -125,7 +123,7 @@ var
   //New code using arrays to give dynamic screen size adaptation
   //pointsChunks --> array to hold 1-10 segments for displaying numbr of points lodge has - duplicated for number of lodges on the system
   //pointChunks : array [ 0..9] of TShape;
-  scoreColumns : array of TPointChunks;
+  scoreColumns : array of array [ 0..9] of TShape;
 
 implementation
 
@@ -140,7 +138,7 @@ var
   screenWidth, screenHeight, noCols, colWidth, btwnCols, margin: Integer;
   i : Integer;
 begin
-  //Maximise program screen area then start database queries and set up program screen then activate it, aloso set initial scale
+  //Maximise program screen area then start database queries and set up program screen then activate it, also set initial scale
   begin
   WindowState:=wsMaximized;
   SQLGetInfo.SQL.Clear;
@@ -971,36 +969,39 @@ procedure TTFrmPoints.BtnDrawScreenClick(Sender: TObject);
 var
   screenWidth, screenHeight, noCols, colWidth, btwnCols, margin: Integer;
   i, j : Integer;
+  shapes : array [0..9] of TShape;
 begin
   begin
     //Setup screen width and height varibles
     noCols := 4;
+    if noCols < 1 then
+      ShowMessage('The number of columns must be greater than 1');
     margin := 64;
     screenHeight := TFrmPoints.Height;
     screenWidth := TFrmPoints.Width;
     colWidth := Round(screenWidth/(noCols*2));
     btwnCols := Round(colWidth+(colWidth/noCols));
-    //set length of scoreColumns array
-    SetLength(scoreColumns, noCols)
+    //Set length of scoreColumns array
+    SetLength(scoreColumns, (noCols + 1))
     //ShowMessage(InttoStr(Round((screenHeight-2*margin)/10)));
   end;
   //Cleanup previously generated shapes
-  //begin
-    //for i := noCols downto 0 do
-    //begin
-      //for j := 9 downto 0 do
-        //if scoreColumns[i].chunks[j] is TShape then
-        //scoreColumns[i].chunks[j].Free;
-    //end;
-  //end;
+  begin
+    for i := noCols downto 0 do
+    begin
+      for j := 9 downto 0 do
+        if scoreColumns[i,j] is TShape then
+        scoreColumns[i,j].Free;
+    end;
+  end;
   //Generate new shapes and set required properties
   begin
-    for i := 0 to 4 do
+    for i := 0 to noCols do
       begin
         for j := 0 to 9 do
           begin
-            scoreColumns[i].chunks[j] := TShape.Create(self);
-            with scoreColumns[i].chunks[j] do
+            scoreColumns[i,j]:= TShape.Create(self);
+            with scoreColumns[i,j] do
               begin
                 Parent := self;
                 Top := Round(margin + j*Round((screenHeight-2*margin)/10)-j);
@@ -1012,7 +1013,6 @@ begin
       end;
   end;
 end;
-
 procedure TTFrmPoints.ColBoxL1Change(Sender: TObject);
 begin
 
