@@ -17,7 +17,9 @@ type
     BtnUpdate: TButton;
     BtnUpdateDB: TButton;
     BtnGetPoints: TButton;
+    BtnCustomColour: TButton;
     CBColors: TComboBox;
+    CDSelColour: TColorDialog;
     DataSourceLodge: TDataSource;
     EdtID: TEdit;
     EdtColour: TEdit;
@@ -28,6 +30,7 @@ type
     SQLQuery: TSQLQuery;
     SQLTransactionIntergration: TSQLTransaction;
     procedure BtnCheckClick(Sender: TObject);
+    procedure BtnCustomColourClick(Sender: TObject);
     procedure BtnGetPointsClick(Sender: TObject);
     procedure BtnUpdateClick(Sender: TObject);
     procedure BtnUpdateDBClick(Sender: TObject);
@@ -85,6 +88,13 @@ begin
          ShowMessage('Error connecting to database')
        end;
      end;
+end;
+
+procedure TTFrmDepend.BtnCustomColourClick(Sender: TObject);
+var
+res : Boolean;
+begin
+  res := CDSelColour.Execute;
 end;
 
 procedure TTFrmDepend.BtnGetPointsClick(Sender: TObject);

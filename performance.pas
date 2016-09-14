@@ -18,10 +18,8 @@ type
   TTFrmPoints = class(TForm)
     BtnActive: TButton;
     BtnAdjustScale: TButton;
-    BtnSetColour: TButton;
     BtnDrawScreen: TButton;
     ColBox: TColorBox;
-    DataSourceColour: TDataSource;
     L3P1: TShape;
     L3P2: TShape;
     L3P3: TShape;
@@ -82,17 +80,7 @@ type
     L1P8: TShape;
     L1P9: TShape;
     SEPL1: TSpinEdit;
-    SEPL2: TSpinEdit;
-    SEPL3: TSpinEdit;
-    SEPL4: TSpinEdit;
-    SQLConnector: TSQLConnector;
-    SQLGetInfo: TSQLQuery;
-    SQLTransaction: TSQLTransaction;
-    TimerRefreshPoints1: TTimer;
-    TimerRefreshPoints2: TTimer;
-    TimerRefreshPoints3: TTimer;
-    TimerRefreshPoints4: TTimer;
-    TimerUpdateScale: TTimer;
+    procedure BtnActiveClick(Sender: TObject);
     procedure BtnAdjustScaleClick(Sender: TObject);
     procedure BtnSetColourClick(Sender: TObject);
     procedure BtnDrawScreenClick(Sender: TObject);
@@ -102,9 +90,6 @@ type
     procedure LbL1Click(Sender: TObject);
     procedure LblLodge1Click(Sender: TObject);
     procedure SEPL1Change(Sender: TObject);
-    procedure SEPL2Change(Sender: TObject);
-    procedure SEPL3Change(Sender: TObject);
-    procedure SEPL4Change(Sender: TObject);
     procedure TimerUpdateScaleTimer(Sender: TObject);
 
   private
@@ -119,8 +104,7 @@ type
 var
   TFrmPoints: TTFrmPoints;
   //New code using arrays to give dynamic screen size adaptation
-  //pointsChunks --> array to hold 1-10 segments for displaying numbr of points lodge has - duplicated for number of lodges on the system
-  //pointChunks : array [ 0..9] of TShape;
+  //scoreColumns --> array to hold 1-10 segments for displaying numbr of points lodge has - duplicated for number of lodges on the system
   scoreColumns : array of array [ 0..9] of TShape;
 
 implementation
@@ -138,10 +122,7 @@ begin
   //Initiate other form to get data from DB
   TFrmDepend.BtnGetPoints.Click;
   WindowState:=wsMaximized;
-  SQLGetInfo.SQL.Clear;
-  SQLGetInfo.SQL.Text:='SELECT * FROM LodgePoints';
-  BtnActive.Click;
-  TFrmPoints.Scale:=10;
+  TFrmPoints.Scale:= 10;
   TFrmPoints.BtnDrawScreen.Click;
   end;
 end;
@@ -163,7 +144,6 @@ begin
 TFrmPoints.Points1:= Trunc(SEPL1.Value);
 DP:=Round(SEPL1.Value/(TFrmPoints.Scale/10));
 BtnAdjustScale.Click;
-BtnSetColour.Click;
 TFrmPoints.LbL1.Caption:=InttoStr(SEPL1.Value);
   try
       case DP of
@@ -305,453 +285,7 @@ TFrmPoints.LbL1.Caption:=InttoStr(SEPL1.Value);
    end;
 end;
 
-procedure TTFrmPoints.SEPL2Change(Sender: TObject);
-var
-  DP:Integer;
-begin
-TFrmPoints.Points2:= Trunc(SEPL2.Value);
-DP:=Round(SEPL2.Value/(TFrmPoints.Scale/10));
-BtnAdjustScale.Click;
-BtnSetColour.Click;
-TFrmPoints.LbL2.Caption:=InttoStr(SEPL2.Value);
-  try
-      case DP of
-      0: begin
-           L2P1.Visible:=False;
-           L2P2.Visible:=False;
-           L2P3.Visible:=False;
-           L2P4.Visible:=False;
-           L2P5.Visible:=False;
-           L2P6.Visible:=False;
-           L2P7.Visible:=False;
-           L2P8.Visible:=False;
-           L2P9.Visible:=False;
-           L2P10.Visible:=False;
-         end;
-      1: begin
-           L2P1.Visible:=True;
-           L2P2.Visible:=False;
-           L2P3.Visible:=False;
-           L2P4.Visible:=False;
-           L2P5.Visible:=False;
-           L2P6.Visible:=False;
-           L2P7.Visible:=False;
-           L2P8.Visible:=False;
-           L2P9.Visible:=False;
-           L2P10.Visible:=False;
-         end;
-      2: begin
-           L2P1.Visible:=True;
-           L2P2.Visible:=True;
-           L2P3.Visible:=False;
-           L2P4.Visible:=False;
-           L2P5.Visible:=False;
-           L2P6.Visible:=False;
-           L2P7.Visible:=False;
-           L2P8.Visible:=False;
-           L2P9.Visible:=False;
-           L2P10.Visible:=False;
-         end;
-      3:begin
-           L2P1.Visible:=True;
-           L2P2.Visible:=True;
-           L2P3.Visible:=True;
-           L2P4.Visible:=False;
-           L2P5.Visible:=False;
-           L2P6.Visible:=False;
-           L2P7.Visible:=False;
-           L2P8.Visible:=False;
-           L2P9.Visible:=False;
-           L2P10.Visible:=False;
-         end;
-      4:begin
-           L2P1.Visible:=True;
-           L2P2.Visible:=True;
-           L2P3.Visible:=True;
-           L2P4.Visible:=True;
-           L2P5.Visible:=False;
-           L2P6.Visible:=False;
-           L2P7.Visible:=False;
-           L2P8.Visible:=False;
-           L2P9.Visible:=False;
-           L2P10.Visible:=False;
-         end;
-      5:begin
-           L2P1.Visible:=True;
-           L2P2.Visible:=True;
-           L2P3.Visible:=True;
-           L2P4.Visible:=True;
-           L2P5.Visible:=True;
-           L2P6.Visible:=False;
-           L2P7.Visible:=False;
-           L2P8.Visible:=False;
-           L2P9.Visible:=False;
-           L2P10.Visible:=False;
-         end;
-      6:begin
-           L2P1.Visible:=True;
-           L2P2.Visible:=True;
-           L2P3.Visible:=True;
-           L2P4.Visible:=True;
-           L2P5.Visible:=True;
-           L2P6.Visible:=True;
-           L2P7.Visible:=False;
-           L2P8.Visible:=False;
-           L2P9.Visible:=False;
-           L2P10.Visible:=False;
-         end;
-      7:begin
-           L2P1.Visible:=True;
-           L2P2.Visible:=True;
-           L2P3.Visible:=True;
-           L2P4.Visible:=True;
-           L2P5.Visible:=True;
-           L2P6.Visible:=True;
-           L2P7.Visible:=True;
-           L2P8.Visible:=False;
-           L2P9.Visible:=False;
-           L2P10.Visible:=False;
-         end;
-      8:begin
-           L2P1.Visible:=True;
-           L2P2.Visible:=True;
-           L2P3.Visible:=True;
-           L2P4.Visible:=True;
-           L2P5.Visible:=True;
-           L2P6.Visible:=True;
-           L2P7.Visible:=True;
-           L2P8.Visible:=True;
-           L2P9.Visible:=False;
-           L2P10.Visible:=False;
-         end;
-      9:begin
-           L2P1.Visible:=True;
-           L2P2.Visible:=True;
-           L2P3.Visible:=True;
-           L2P4.Visible:=True;
-           L2P5.Visible:=True;
-           L2P6.Visible:=True;
-           L2P7.Visible:=True;
-           L2P8.Visible:=True;
-           L2P9.Visible:=True;
-           L2P10.Visible:=False;
-         end;
-      10:begin
-           L2P1.Visible:=True;
-           L2P2.Visible:=True;
-           L2P3.Visible:=True;
-           L2P4.Visible:=True;
-           L2P5.Visible:=True;
-           L2P6.Visible:=True;
-           L2P7.Visible:=True;
-           L2P8.Visible:=True;
-           L2P9.Visible:=True;
-           L2P10.Visible:=True;
-         end;
-    end;
-   except
-     ShowMessage('Please enter a number between 0 and 50')
-   end;
-end;
 
-procedure TTFrmPoints.SEPL3Change(Sender: TObject);
-var
-  DP:Integer;
-begin
-TFrmPoints.Points3:= Trunc(SEPL3.Value);
-DP:=Round(SEPL3.Value/(TFrmPoints.Scale/10));
-BtnAdjustScale.Click;
-BtnSetColour.Click;
-TFrmPoints.LbL3.Caption:=InttoStr(SEPL3.Value);
-  try
-      case DP of
-      0: begin
-           L3P1.Visible:=False;
-           L3P2.Visible:=False;
-           L3P3.Visible:=False;
-           L3P4.Visible:=False;
-           L3P5.Visible:=False;
-           L3P6.Visible:=False;
-           L3P7.Visible:=False;
-           L3P8.Visible:=False;
-           L3P9.Visible:=False;
-           L3P10.Visible:=False;
-         end;
-      1: begin
-           L3P1.Visible:=True;
-           L3P2.Visible:=False;
-           L3P3.Visible:=False;
-           L3P4.Visible:=False;
-           L3P5.Visible:=False;
-           L3P6.Visible:=False;
-           L3P7.Visible:=False;
-           L3P8.Visible:=False;
-           L3P9.Visible:=False;
-           L3P10.Visible:=False;
-         end;
-      2: begin
-           L3P1.Visible:=True;
-           L3P2.Visible:=True;
-           L3P3.Visible:=False;
-           L3P4.Visible:=False;
-           L3P5.Visible:=False;
-           L3P6.Visible:=False;
-           L3P7.Visible:=False;
-           L3P8.Visible:=False;
-           L3P9.Visible:=False;
-           L3P10.Visible:=False;
-         end;
-      3:begin
-           L3P1.Visible:=True;
-           L3P2.Visible:=True;
-           L3P3.Visible:=True;
-           L3P4.Visible:=False;
-           L3P5.Visible:=False;
-           L3P6.Visible:=False;
-           L3P7.Visible:=False;
-           L3P8.Visible:=False;
-           L3P9.Visible:=False;
-           L3P10.Visible:=False;
-         end;
-      4:begin
-           L3P1.Visible:=True;
-           L3P2.Visible:=True;
-           L3P3.Visible:=True;
-           L3P4.Visible:=True;
-           L3P5.Visible:=False;
-           L3P6.Visible:=False;
-           L3P7.Visible:=False;
-           L3P8.Visible:=False;
-           L3P9.Visible:=False;
-           L3P10.Visible:=False;
-         end;
-      5:begin
-           L3P1.Visible:=True;
-           L3P2.Visible:=True;
-           L3P3.Visible:=True;
-           L3P4.Visible:=True;
-           L3P5.Visible:=True;
-           L3P6.Visible:=False;
-           L3P7.Visible:=False;
-           L3P8.Visible:=False;
-           L3P9.Visible:=False;
-           L3P10.Visible:=False;
-         end;
-      6:begin
-           L3P1.Visible:=True;
-           L3P2.Visible:=True;
-           L3P3.Visible:=True;
-           L3P4.Visible:=True;
-           L3P5.Visible:=True;
-           L3P6.Visible:=True;
-           L3P7.Visible:=False;
-           L3P8.Visible:=False;
-           L3P9.Visible:=False;
-           L3P10.Visible:=False;
-         end;
-      7:begin
-           L3P1.Visible:=True;
-           L3P2.Visible:=True;
-           L3P3.Visible:=True;
-           L3P4.Visible:=True;
-           L3P5.Visible:=True;
-           L3P6.Visible:=True;
-           L3P7.Visible:=True;
-           L3P8.Visible:=False;
-           L3P9.Visible:=False;
-           L3P10.Visible:=False;
-         end;
-      8:begin
-           L3P1.Visible:=True;
-           L3P2.Visible:=True;
-           L3P3.Visible:=True;
-           L3P4.Visible:=True;
-           L3P5.Visible:=True;
-           L3P6.Visible:=True;
-           L3P7.Visible:=True;
-           L3P8.Visible:=True;
-           L3P9.Visible:=False;
-           L3P10.Visible:=False;
-         end;
-      9:begin
-           L3P1.Visible:=True;
-           L3P2.Visible:=True;
-           L3P3.Visible:=True;
-           L3P4.Visible:=True;
-           L3P5.Visible:=True;
-           L3P6.Visible:=True;
-           L3P7.Visible:=True;
-           L3P8.Visible:=True;
-           L3P9.Visible:=True;
-           L3P10.Visible:=False;
-         end;
-      10:begin
-           L3P1.Visible:=True;
-           L3P2.Visible:=True;
-           L3P3.Visible:=True;
-           L3P4.Visible:=True;
-           L3P5.Visible:=True;
-           L3P6.Visible:=True;
-           L3P7.Visible:=True;
-           L3P8.Visible:=True;
-           L3P9.Visible:=True;
-           L3P10.Visible:=True;
-         end;
-    end;
-   except
-     ShowMessage('Please enter a number between 0 and 50')
-   end;
-end;
-
-procedure TTFrmPoints.SEPL4Change(Sender: TObject);
-var
-  DP:Integer;
-begin
-TFrmPoints.Points4:= Trunc(SEPL4.Value);
-DP:=Round(SEPL4.Value/(TFrmPoints.Scale/10));
-BtnAdjustScale.Click;
-BtnSetColour.Click;
-TFrmPoints.LbL4.Caption:=InttoStr(SEPL4.Value);
-  try
-      case DP of
-      0: begin
-           L4P1.Visible:=False;
-           L4P2.Visible:=False;
-           L4P3.Visible:=False;
-           L4P4.Visible:=False;
-           L4P5.Visible:=False;
-           L4P6.Visible:=False;
-           L4P7.Visible:=False;
-           L4P8.Visible:=False;
-           L4P9.Visible:=False;
-           L4P10.Visible:=False;
-         end;
-      1: begin
-           L4P1.Visible:=True;
-           L4P2.Visible:=False;
-           L4P3.Visible:=False;
-           L4P4.Visible:=False;
-           L4P5.Visible:=False;
-           L4P6.Visible:=False;
-           L4P7.Visible:=False;
-           L4P8.Visible:=False;
-           L4P9.Visible:=False;
-           L4P10.Visible:=False;
-         end;
-      2: begin
-           L4P1.Visible:=True;
-           L4P2.Visible:=True;
-           L4P3.Visible:=False;
-           L4P4.Visible:=False;
-           L4P5.Visible:=False;
-           L4P6.Visible:=False;
-           L4P7.Visible:=False;
-           L4P8.Visible:=False;
-           L4P9.Visible:=False;
-           L4P10.Visible:=False;
-         end;
-      3:begin
-           L4P1.Visible:=True;
-           L4P2.Visible:=True;
-           L4P3.Visible:=True;
-           L4P4.Visible:=False;
-           L4P5.Visible:=False;
-           L4P6.Visible:=False;
-           L4P7.Visible:=False;
-           L4P8.Visible:=False;
-           L4P9.Visible:=False;
-           L4P10.Visible:=False;
-         end;
-      4:begin
-           L4P1.Visible:=True;
-           L4P2.Visible:=True;
-           L4P3.Visible:=True;
-           L4P4.Visible:=True;
-           L4P5.Visible:=False;
-           L4P6.Visible:=False;
-           L4P7.Visible:=False;
-           L4P8.Visible:=False;
-           L4P9.Visible:=False;
-           L4P10.Visible:=False;
-         end;
-      5:begin
-           L4P1.Visible:=True;
-           L4P2.Visible:=True;
-           L4P3.Visible:=True;
-           L4P4.Visible:=True;
-           L4P5.Visible:=True;
-           L4P6.Visible:=False;
-           L4P7.Visible:=False;
-           L4P8.Visible:=False;
-           L4P9.Visible:=False;
-           L4P10.Visible:=False;
-         end;
-      6:begin
-           L4P1.Visible:=True;
-           L4P2.Visible:=True;
-           L4P3.Visible:=True;
-           L4P4.Visible:=True;
-           L4P5.Visible:=True;
-           L4P6.Visible:=True;
-           L4P7.Visible:=False;
-           L4P8.Visible:=False;
-           L4P9.Visible:=False;
-           L4P10.Visible:=False;
-         end;
-      7:begin
-           L4P1.Visible:=True;
-           L4P2.Visible:=True;
-           L4P3.Visible:=True;
-           L4P4.Visible:=True;
-           L4P5.Visible:=True;
-           L4P6.Visible:=True;
-           L4P7.Visible:=True;
-           L4P8.Visible:=False;
-           L4P9.Visible:=False;
-           L4P10.Visible:=False;
-         end;
-      8:begin
-           L4P1.Visible:=True;
-           L4P2.Visible:=True;
-           L4P3.Visible:=True;
-           L4P4.Visible:=True;
-           L4P5.Visible:=True;
-           L4P6.Visible:=True;
-           L4P7.Visible:=True;
-           L4P8.Visible:=True;
-           L4P9.Visible:=False;
-           L4P10.Visible:=False;
-         end;
-      9:begin
-           L4P1.Visible:=True;
-           L4P2.Visible:=True;
-           L4P3.Visible:=True;
-           L4P4.Visible:=True;
-           L4P5.Visible:=True;
-           L4P6.Visible:=True;
-           L4P7.Visible:=True;
-           L4P8.Visible:=True;
-           L4P9.Visible:=True;
-           L4P10.Visible:=False;
-         end;
-      10:begin
-           L4P1.Visible:=True;
-           L4P2.Visible:=True;
-           L4P3.Visible:=True;
-           L4P4.Visible:=True;
-           L4P5.Visible:=True;
-           L4P6.Visible:=True;
-           L4P7.Visible:=True;
-           L4P8.Visible:=True;
-           L4P9.Visible:=True;
-           L4P10.Visible:=True;
-         end;
-    end;
-   except
-     ShowMessage('Please enter a number between 0 and 10000')
-   end;
-
-end;
 
 procedure TTFrmPoints.TimerUpdateScaleTimer(Sender: TObject);
 var
@@ -821,6 +355,11 @@ begin
   except
     ShowMessage('Scale not recognised')
   end;
+end;
+
+procedure TTFrmPoints.BtnActiveClick(Sender: TObject);
+begin
+
 end;
 
 //This is called once the drawscreen proceedure has generated all the shapes
@@ -963,14 +502,14 @@ begin
         scoreColumns[i,j].Free;
     end;
   end;
-  //Generate new shapes and set required properties
+  //Generate the correct number of columns based on what is found in the database
   begin
     for i := 0 to noCols do
       begin
-        //ShowMessage(Colours[i+1]);
+      //Workaround to different bases for arrays
         if Colours[i+1] <> '' then
           ColBox.Selected:=TColor(StringtoColor(Colours[i+1]));
-        //ShowMessage(ColortoString(ColBox.Selected));
+        //Generate segments for coloumns and set properties
         for j := 0 to 9 do
           begin
             scoreColumns[i,j]:= TShape.Create(self);
