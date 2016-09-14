@@ -26,9 +26,16 @@
 #*.obj
 #
 
-#ignore backups
+#Ignore backups
 
 *.bak
+
+#Ignore debugging files
+*.dbg
+
+#Ignore shortcut files
+
+*.ink
 
 # Delphi compiler-generated binaries (safe to delete)
 *.exe

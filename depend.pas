@@ -16,9 +16,9 @@ type
     BtnCheck: TButton;
     BtnUpdate: TButton;
     BtnUpdateDB: TButton;
+    BtnGetPoints: TButton;
     CBColors: TComboBox;
     DataSourceLodge: TDataSource;
-    DBGridCurrent: TDBGrid;
     EdtID: TEdit;
     EdtColour: TEdit;
     EdtPoints: TEdit;
@@ -28,6 +28,7 @@ type
     SQLQuery: TSQLQuery;
     SQLTransactionIntergration: TSQLTransaction;
     procedure BtnCheckClick(Sender: TObject);
+    procedure BtnGetPointsClick(Sender: TObject);
     procedure BtnUpdateClick(Sender: TObject);
     procedure BtnUpdateDBClick(Sender: TObject);
     procedure CBColorsChange(Sender: TObject);
@@ -40,6 +41,7 @@ type
     { private declarations }
   public
     { public declarations }
+    RecordNo : Integer;
   end;
 
 var
@@ -74,14 +76,40 @@ begin
      end
    else
      begin
-       ShowMessage('Error, database not open -trying again');
+       ShowMessage('Error, database is not open, attempting to open it now');
        try
-         SQLite3ConnectionMain.Connected:=True;
          SQLite3ConnectionMain.Connected:=False;
+         SQLite3ConnectionMain.Connected:=True;
+         ShowMessage('Success')
        except
          ShowMessage('Error connecting to database')
        end;
      end;
+end;
+
+procedure TTFrmDepend.BtnGetPointsClick(Sender: TObject);
+var
+  i:Integer;
+begin
+  //Load points from database
+  SQLQuery.Active:=True;
+  RecordNo := SQLQuery.RecordCount;
+  SetLength(TFrmPoints.points, (RecordNo+1));
+  SetLength(TFrmPoints.Colours, (RecordNo+2));
+  SQLQuery.Active:=False;
+  for i := 1 to RecordNo do
+    begin
+      SQLQuery.SQL.Clear;
+      SQLQuery.SQL.Text:='SELECT * FROM LodgePoints WHERE ID='+IntToStr(i);
+      SQLQuery.Active:=True;
+      TFrmPoints.Colours[i]:=SQLQuery.Fields[1].AsString;
+      TFrmPoints.points[i]:=SQLQuery.Fields[2].AsInteger;
+      SQLQuery.Active:=False;
+    end;
+  SQLTransactionIntergration.CloseDataSets;
+  SQLTransactionIntergration.CleanupInstance;
+  SQLQuery.Active:=False;
+  SQLQuery.Close;
 end;
 
 
@@ -101,7 +129,8 @@ begin
       else
         SQLTransactionIntergration.Active:=True;
         SQLQuery.Close;
-        SQLQuery.SQL.Text := 'Insert into LodgePoints (ID,Colour,Points) values (:PrID,:PrColour,:PrPoints)';
+        SQLQuery.SQL.Text := 'Insert into LodgePoints (Colour,Points) values (col, 0)';
+        //Insert into LodgePoints (Colour,Points) values ('FF0000', '0')
         SQLQuery.Params.ParamByName('PrID').AsString := EdtID.Text;
         SQLQuery.Params.ParamByName('PrColour').AsString := EdtColour.Text;
         SQLQuery.Params.ParamByName('PrPoints').AsInteger:= Converted;

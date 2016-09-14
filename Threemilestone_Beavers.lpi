@@ -179,4 +179,14 @@
       </Options>
     </Linking>
   </CompilerOptions>
+  <Debugging>
+    <Exceptions Count="2">
+      <Item1>
+        <Name Value="RunError(210)"/>
+      </Item1>
+      <Item2>
+        <Name Value="Exception"/>
+      </Item2>
+    </Exceptions>
+  </Debugging>
 </CONFIG>

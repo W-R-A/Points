@@ -20,10 +20,7 @@ type
     BtnAdjustScale: TButton;
     BtnSetColour: TButton;
     BtnDrawScreen: TButton;
-    ColBoxL1: TColorBox;
-    ColBoxL2: TColorBox;
-    ColBoxL3: TColorBox;
-    ColBoxL4: TColorBox;
+    ColBox: TColorBox;
     DataSourceColour: TDataSource;
     L3P1: TShape;
     L3P2: TShape;
@@ -96,7 +93,6 @@ type
     TimerRefreshPoints3: TTimer;
     TimerRefreshPoints4: TTimer;
     TimerUpdateScale: TTimer;
-    procedure BtnActiveClick(Sender: TObject);
     procedure BtnAdjustScaleClick(Sender: TObject);
     procedure BtnSetColourClick(Sender: TObject);
     procedure BtnDrawScreenClick(Sender: TObject);
@@ -115,7 +111,9 @@ type
     { private declarations }
   public
     { public declarations }
-    Points1, Points2, Points3, Points4, Scale:Integer;
+    Scale, Points1, Points2, Points3, Points4:Integer;
+    points : array of Integer;
+    Colours : array of string;
   end;
 
 var
@@ -134,12 +132,11 @@ uses
   Depend;
 
 procedure TTFrmPoints.FormCreate(Sender: TObject);
-var
-  screenWidth, screenHeight, noCols, colWidth, btwnCols, margin: Integer;
-  i : Integer;
 begin
   //Maximise program screen area then start database queries and set up program screen then activate it, also set initial scale
   begin
+  //Initiate other form to get data from DB
+  TFrmDepend.BtnGetPoints.Click;
   WindowState:=wsMaximized;
   SQLGetInfo.SQL.Clear;
   SQLGetInfo.SQL.Text:='SELECT * FROM LodgePoints';
@@ -808,53 +805,6 @@ if (TFrmPoints.Points1>=TFrmPoints.Points2)and(TFrmPoints.Points1>=TFrmPoints.Po
   BtnAdjustScale.Click;
 end;
 
-procedure TTFrmPoints.BtnActiveClick(Sender: TObject);
-var
-  Records, count:Integer;
-begin
-SQLGetInfo.Active:=True;
-Records := SQLGetInfo.RecordCount;
-for count:= 1 to Records do
-  begin
-    SQLGetInfo.SQL.Clear;
-    SQLGetInfo.Active:=False;
-    SQLGetInfo.SQL.Text:='SELECT * FROM LodgePoints WHERE ID='+IntToStr(count);
-    SQLGetInfo.Active:=True;
-    if count = 1 then
-      begin
-      LblLodge1.Caption:=SQLGetInfo.Fields[1].AsString;
-      SEPL1.Value:=SQLGetInfo.Fields[2].AsInteger;
-      end
-      else
-        if count = 2 then
-          begin
-          LblLodge2.Caption:=SQLGetInfo.Fields[1].AsString;
-          SEPL2.Value:=SQLGetInfo.Fields[2].AsInteger;
-          end
-          else
-            if count = 3 then
-              begin
-              LblLodge3.Caption:=SQLGetInfo.Fields[1].AsString;
-              SEPL3.Value:=SQLGetInfo.Fields[2].AsInteger;
-              end
-              else
-                  if count = 4 then
-                    begin
-                    LblLodge4.Caption:=SQLGetInfo.Fields[1].AsString;
-                    SEPL4.Value:=SQLGetInfo.Fields[2].AsInteger;
-                    end
-    //ShowMessage(IntToStr(count));
-    //ShowMessage(SQLGetInfo.Fields[1].AsString)
-  end;
-//ShowMessage(inttostr(records));
-SQLConnector.CloseDataSets;
-SQLConnector.CloseTransactions;
-SQLTransaction.CloseDataSets;
-SQLTransaction.CleanupInstance;
-SQLGetInfo.Active:=False;
-SQLGetInfo.Close;
-end;
-
 procedure TTFrmPoints.BtnAdjustScaleClick(Sender: TObject);
 begin
   try
@@ -873,8 +823,14 @@ begin
   end;
 end;
 
+//This is called once the drawscreen proceedure has generated all the shapes
 procedure TTFrmPoints.BtnSetColourClick(Sender: TObject);
 begin
+
+end;
+
+//Begin old code
+(*begin
   try
     case TFrmPoints.LblLodge1.Caption of
     'Green': ColBoxL1.Selected:=TColor($008000);
@@ -910,11 +866,11 @@ begin
 
   try
     case TFrmPoints.LblLodge4.Caption of
-    'Green': ColBoxL4.Selected:=TColor($008000);
-    'Red': ColBoxL4.Selected:=TColor($0000FF);
-    'Yellow': ColBoxL4.Selected:=TColor($00FFFF);
-    'Blue': ColBoxL4.Selected:=TColor($FF0000);
-    'Purple': ColBoxL4.Selected:=TColor($800080);
+    'Green': ColBox.Selected:=TColor($008000);
+    'Red': ColBox.Selected:=TColor($0000FF);
+    'Yellow': ColBox.Selected:=TColor($00FFFF);
+    'Blue': ColBox.Selected:=TColor($FF0000);
+    'Purple': ColBox.Selected:=TColor($800080);
     end;
   except
   end;
@@ -952,17 +908,17 @@ begin
   L3P9.Brush.Color:=ColBoxL3.Selected;
   L3P10.Brush.Color:=ColBoxL3.Selected;
 
-  L4P1.Brush.Color:=ColBoxL4.Selected;
-  L4P2.Brush.Color:=ColBoxL4.Selected;
-  L4P3.Brush.Color:=ColBoxL4.Selected;
-  L4P4.Brush.Color:=ColBoxL4.Selected;
-  L4P5.Brush.Color:=ColBoxL4.Selected;
-  L4P6.Brush.Color:=ColBoxL4.Selected;
-  L4P7.Brush.Color:=ColBoxL4.Selected;
-  L4P8.Brush.Color:=ColBoxL4.Selected;
-  L4P9.Brush.Color:=ColBoxL4.Selected;
-  L4P10.Brush.Color:=ColBoxL4.Selected;
-end;
+  L4P1.Brush.Color:=ColBox.Selected;
+  L4P2.Brush.Color:=ColBox.Selected;
+  L4P3.Brush.Color:=ColBox.Selected;
+  L4P4.Brush.Color:=ColBox.Selected;
+  L4P5.Brush.Color:=ColBox.Selected;
+  L4P6.Brush.Color:=ColBox.Selected;
+  L4P7.Brush.Color:=ColBox.Selected;
+  L4P8.Brush.Color:=ColBox.Selected;
+  L4P9.Brush.Color:=ColBox.Selected;
+  L4P10.Brush.Color:=ColBox.Selected;
+end;*)
 
 //This hooks in to the OnResize event of the form
 procedure TTFrmPoints.BtnDrawScreenClick(Sender: TObject);
@@ -981,9 +937,12 @@ var
 begin
   begin
     //Setup screen width and height varibles
-    noCols := 4;
+    noCols := TFrmDepend.RecordNo;
     if noCols < 1 then
-      ShowMessage('The number of columns must be greater than 1');
+      begin
+        ShowMessage('The number of columns must be greater than 1');
+        noCols := 1;
+      end;
     //Setup margins
     screenHeight := TFrmPoints.Height;
     screenWidth := TFrmPoints.Width;
@@ -1008,6 +967,10 @@ begin
   begin
     for i := 0 to noCols do
       begin
+        //ShowMessage(Colours[i+1]);
+        if Colours[i+1] <> '' then
+          ColBox.Selected:=TColor(StringtoColor(Colours[i+1]));
+        //ShowMessage(ColortoString(ColBox.Selected));
         for j := 0 to 9 do
           begin
             scoreColumns[i,j]:= TShape.Create(self);
@@ -1018,6 +981,7 @@ begin
                 Height := Round((screenHeight-(vMarginT + vMarginB))/10);
                 Left := hMargin + (i*btwnCols) + (i*colWidth);
                 Width := colWidth;
+                Brush.Color:=ColBox.Selected
               end;
           end
       end;

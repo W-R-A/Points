@@ -1,7 +1,7 @@
 object TFrmPoints: TTFrmPoints
-  Left = 302
+  Left = 376
   Height = 706
-  Top = 137
+  Top = 167
   Width = 1360
   Caption = 'Points v2.0-dev'
   ClientHeight = 706
@@ -246,7 +246,6 @@ object TFrmPoints: TTFrmPoints
     Top = 120
     Width = 67
     Caption = 'Go'
-    OnClick = BtnActiveClick
     TabOrder = 0
     TabStop = False
     Visible = False
@@ -268,16 +267,6 @@ object TFrmPoints: TTFrmPoints
     Caption = '2'
     ParentColor = False
   end
-  object ColBoxL1: TColorBox
-    Left = 1242
-    Height = 22
-    Top = 368
-    Width = 98
-    ItemHeight = 16
-    OnChange = ColBoxL1Change
-    TabOrder = 1
-    Visible = False
-  end
   object BtnAdjustScale: TButton
     Left = 1264
     Height = 49
@@ -285,7 +274,7 @@ object TFrmPoints: TTFrmPoints
     Width = 69
     Caption = 'Adjust Scale'
     OnClick = BtnAdjustScaleClick
-    TabOrder = 2
+    TabOrder = 1
     Visible = False
   end
   object BtnSetColour: TButton
@@ -295,7 +284,7 @@ object TFrmPoints: TTFrmPoints
     Width = 91
     Caption = 'BtnSetColour'
     OnClick = BtnSetColourClick
-    TabOrder = 3
+    TabOrder = 2
     Visible = False
   end
   object L3P1: TShape
@@ -462,7 +451,7 @@ object TFrmPoints: TTFrmPoints
     OnChange = SEPL1Change
     OnEditingDone = SEPL1Change
     OnExit = SEPL1Change
-    TabOrder = 4
+    TabOrder = 3
   end
   object SEPL2: TSpinEdit
     Left = 472
@@ -472,7 +461,7 @@ object TFrmPoints: TTFrmPoints
     OnChange = SEPL2Change
     OnEditingDone = SEPL2Change
     OnExit = SEPL2Change
-    TabOrder = 5
+    TabOrder = 4
   end
   object SEPL3: TSpinEdit
     Left = 800
@@ -482,7 +471,7 @@ object TFrmPoints: TTFrmPoints
     OnChange = SEPL3Change
     OnEditingDone = SEPL3Change
     OnExit = SEPL3Change
-    TabOrder = 6
+    TabOrder = 5
   end
   object SEPL4: TSpinEdit
     Left = 1096
@@ -493,36 +482,16 @@ object TFrmPoints: TTFrmPoints
     OnChange = SEPL4Change
     OnEditingDone = SEPL4Change
     OnExit = SEPL4Change
-    TabOrder = 7
+    TabOrder = 6
   end
-  object ColBoxL2: TColorBox
-    Left = 1242
-    Height = 22
-    Top = 396
-    Width = 98
-    ItemHeight = 16
-    OnChange = ColBoxL1Change
-    TabOrder = 8
-    Visible = False
-  end
-  object ColBoxL3: TColorBox
-    Left = 1242
-    Height = 22
-    Top = 424
-    Width = 98
-    ItemHeight = 16
-    OnChange = ColBoxL1Change
-    TabOrder = 9
-    Visible = False
-  end
-  object ColBoxL4: TColorBox
+  object ColBox: TColorBox
     Left = 1242
     Height = 22
     Top = 448
     Width = 98
     ItemHeight = 16
     OnChange = ColBoxL1Change
-    TabOrder = 10
+    TabOrder = 7
     Visible = False
   end
   object LbL1: TLabel
@@ -592,7 +561,7 @@ object TFrmPoints: TTFrmPoints
     Width = 97
     Caption = 'BtnDrawScreen'
     OnClick = BtnDrawScreenClick
-    TabOrder = 11
+    TabOrder = 8
     Visible = False
   end
   object SQLGetInfo: TSQLQuery

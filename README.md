@@ -17,4 +17,3 @@ Dynamically adjust points locations to auto-optimises use of screen space on dif
 Allow the scores to be shown on a website
 
 General code cleanup
-
