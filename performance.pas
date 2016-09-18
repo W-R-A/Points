@@ -82,7 +82,6 @@ type
     SEPL1: TSpinEdit;
     procedure BtnActiveClick(Sender: TObject);
     procedure BtnAdjustScaleClick(Sender: TObject);
-    procedure BtnSetColourClick(Sender: TObject);
     procedure BtnDrawScreenClick(Sender: TObject);
     procedure ColBoxL1Change(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -281,7 +280,7 @@ TFrmPoints.LbL1.Caption:=InttoStr(SEPL1.Value);
          end;
     end;
    except
-     ShowMessage('Please enter a number between 0 and 50')
+     ShowMessage('An error occured')
    end;
 end;
 
@@ -361,103 +360,6 @@ procedure TTFrmPoints.BtnActiveClick(Sender: TObject);
 begin
 
 end;
-
-//This is called once the drawscreen proceedure has generated all the shapes
-procedure TTFrmPoints.BtnSetColourClick(Sender: TObject);
-begin
-
-end;
-
-//Begin old code
-(*begin
-  try
-    case TFrmPoints.LblLodge1.Caption of
-    'Green': ColBoxL1.Selected:=TColor($008000);
-    'Red': ColBoxL1.Selected:=TColor($0000FF);
-    'Yellow': ColBoxL1.Selected:=TColor($00FFFF);
-    'Blue': ColBoxL1.Selected:=TColor($FF0000);
-    'Purple': ColBoxL1.Selected:=TColor($800080);
-    end;
-  except
-  end;
-
-  try
-    case TFrmPoints.LblLodge2.Caption of
-    'Green': ColBoxL2.Selected:=TColor($008000);
-    'Red': ColBoxL2.Selected:=TColor($0000FF);
-    'Yellow': ColBoxL2.Selected:=TColor($00FFFF);
-    'Blue': ColBoxL2.Selected:=TColor($FF0000);
-    'Purple': ColBoxL2.Selected:=TColor($800080);
-    end;
-  except
-  end;
-
-  try
-    case TFrmPoints.LblLodge3.Caption of
-    'Green': ColBoxL3.Selected:=TColor($008000);
-    'Red': ColBoxL3.Selected:=TColor($0000FF);
-    'Yellow': ColBoxL3.Selected:=TColor($00FFFF);
-    'Blue': ColBoxL3.Selected:=TColor($FF0000);
-    'Purple': ColBoxL3.Selected:=TColor($800080);
-    end;
-  except
-  end;
-
-  try
-    case TFrmPoints.LblLodge4.Caption of
-    'Green': ColBox.Selected:=TColor($008000);
-    'Red': ColBox.Selected:=TColor($0000FF);
-    'Yellow': ColBox.Selected:=TColor($00FFFF);
-    'Blue': ColBox.Selected:=TColor($FF0000);
-    'Purple': ColBox.Selected:=TColor($800080);
-    end;
-  except
-  end;
-
-  L1P1.Brush.Color:=ColBoxL1.Selected;
-  L1P2.Brush.Color:=ColBoxL1.Selected;
-  L1P3.Brush.Color:=ColBoxL1.Selected;
-  L1P4.Brush.Color:=ColBoxL1.Selected;
-  L1P5.Brush.Color:=ColBoxL1.Selected;
-  L1P6.Brush.Color:=ColBoxL1.Selected;
-  L1P7.Brush.Color:=ColBoxL1.Selected;
-  L1P8.Brush.Color:=ColBoxL1.Selected;
-  L1P9.Brush.Color:=ColBoxL1.Selected;
-  L1P10.Brush.Color:=ColBoxL1.Selected;
-
-  L2P1.Brush.Color:=ColBoxL2.Selected;
-  L2P2.Brush.Color:=ColBoxL2.Selected;
-  L2P3.Brush.Color:=ColBoxL2.Selected;
-  L2P4.Brush.Color:=ColBoxL2.Selected;
-  L2P5.Brush.Color:=ColBoxL2.Selected;
-  L2P6.Brush.Color:=ColBoxL2.Selected;
-  L2P7.Brush.Color:=ColBoxL2.Selected;
-  L2P8.Brush.Color:=ColBoxL2.Selected;
-  L2P9.Brush.Color:=ColBoxL2.Selected;
-  L2P10.Brush.Color:=ColBoxL2.Selected;
-
-  L3P1.Brush.Color:=ColBoxL3.Selected;
-  L3P2.Brush.Color:=ColBoxL3.Selected;
-  L3P3.Brush.Color:=ColBoxL3.Selected;
-  L3P4.Brush.Color:=ColBoxL3.Selected;
-  L3P5.Brush.Color:=ColBoxL3.Selected;
-  L3P6.Brush.Color:=ColBoxL3.Selected;
-  L3P7.Brush.Color:=ColBoxL3.Selected;
-  L3P8.Brush.Color:=ColBoxL3.Selected;
-  L3P9.Brush.Color:=ColBoxL3.Selected;
-  L3P10.Brush.Color:=ColBoxL3.Selected;
-
-  L4P1.Brush.Color:=ColBox.Selected;
-  L4P2.Brush.Color:=ColBox.Selected;
-  L4P3.Brush.Color:=ColBox.Selected;
-  L4P4.Brush.Color:=ColBox.Selected;
-  L4P5.Brush.Color:=ColBox.Selected;
-  L4P6.Brush.Color:=ColBox.Selected;
-  L4P7.Brush.Color:=ColBox.Selected;
-  L4P8.Brush.Color:=ColBox.Selected;
-  L4P9.Brush.Color:=ColBox.Selected;
-  L4P10.Brush.Color:=ColBox.Selected;
-end;*)
 
 //This hooks in to the OnResize event of the form
 procedure TTFrmPoints.BtnDrawScreenClick(Sender: TObject);
