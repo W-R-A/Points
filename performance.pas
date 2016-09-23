@@ -105,6 +105,7 @@ var
   //New code using arrays to give dynamic screen size adaptation
   //scoreColumns --> array to hold 1-10 segments for displaying numbr of points lodge has - duplicated for number of lodges on the system
   scoreColumns : array of array [ 0..9] of TShape;
+  spinEdts : array of TSpinEdit;
 
 implementation
 
@@ -392,25 +393,39 @@ begin
     vMarginB := Round(1.5*vMarginT);
     colWidth := Round((screenWidth-2*hMargin)/(noCols*2));
     btwnCols := Round(colWidth+(colWidth/noCols));
-    //Set length of scoreColumns array
-    SetLength(scoreColumns, (noCols + 1))
+    //Set length of scoreColumns and spinEdts array
+    SetLength(scoreColumns, (noCols + 1));
+    SetLength(spinEdts, (noCols + 1));
   end;
-  //Cleanup previously generated shapes
+  //Cleanup previously generated shapes and objects/components
   begin
     for i := noCols downto 0 do
-    begin
-      for j := 9 downto 0 do
-        if scoreColumns[i,j] is TShape then
-        scoreColumns[i,j].Free;
-    end;
+      begin
+        if spinEdts[i] is TSpinEdit then
+          spinEdts[i].Free;
+        for j := 9 downto 0 do
+          if scoreColumns[i,j] is TShape then
+          scoreColumns[i,j].Free;
+      end;
   end;
   //Generate the correct number of columns based on what is found in the database
   begin
     for i := 0 to noCols do
       begin
       //Workaround to different bases for arrays
+        //Set colour for column
         if Colours[i+1] <> '' then
           ColBox.Selected:=TColor(StringtoColor(Colours[i+1]));
+        //Generate spin edit components to allow points to be added of subtracted from the coloumn score
+        spinEdts[i] := TSpinEdit.Create(self);
+        with spinEdts[i] do
+          begin
+            Parent := self;
+            Top := 50;
+            Height := 30;
+            Left := Round(75 * i);
+            Width := colWidth;
+          end;
         //Generate segments for coloumns and set properties
         for j := 0 to 9 do
           begin
