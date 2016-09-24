@@ -1,7 +1,7 @@
 object TFrmPoints: TTFrmPoints
-  Left = 376
+  Left = 238
   Height = 706
-  Top = 167
+  Top = 75
   Width = 1360
   Caption = 'Points v2.0-dev'
   ClientHeight = 706
@@ -10,235 +10,94 @@ object TFrmPoints: TTFrmPoints
   OnClose = FormClose
   OnCreate = FormCreate
   OnResize = BtnDrawScreenClick
-  LCLVersion = '1.4.4.0'
-  object L1P1: TShape
-    Left = 120
-    Height = 60
-    Top = 568
-    Width = 123
-    Brush.Color = clNone
-    Visible = False
-  end
+  LCLVersion = '1.6.0.4'
   object LblPoints1: TLabel
     Left = 48
-    Height = 15
+    Height = 20
     Top = 557
-    Width = 6
+    Width = 8
     Caption = '1'
     ParentColor = False
   end
   object LblPoints2: TLabel
     Left = 48
-    Height = 15
+    Height = 20
     Top = 501
-    Width = 6
+    Width = 8
     Caption = '2'
     ParentColor = False
   end
   object LblPoints3: TLabel
     Left = 48
-    Height = 15
+    Height = 20
     Top = 445
-    Width = 6
+    Width = 8
     Caption = '3'
     ParentColor = False
   end
   object LblPoints4: TLabel
     Left = 48
-    Height = 15
+    Height = 20
     Top = 389
-    Width = 6
+    Width = 8
     Caption = '4'
     ParentColor = False
   end
   object LblPoints5: TLabel
     Left = 48
-    Height = 15
+    Height = 20
     Top = 333
-    Width = 6
+    Width = 8
     Caption = '5'
     ParentColor = False
   end
   object LblPoints6: TLabel
     Left = 48
-    Height = 15
+    Height = 20
     Top = 277
-    Width = 6
+    Width = 8
     Caption = '6'
     ParentColor = False
   end
-  object L1P2: TShape
-    Left = 120
-    Height = 60
-    Top = 512
-    Width = 123
-    Visible = False
-  end
-  object L1P3: TShape
-    Left = 120
-    Height = 60
-    Top = 456
-    Width = 123
-    Visible = False
-  end
-  object L1P4: TShape
-    Left = 120
-    Height = 60
-    Top = 400
-    Width = 123
-    Visible = False
-  end
-  object L1P5: TShape
-    Left = 120
-    Height = 60
-    Top = 344
-    Width = 123
-    Visible = False
-  end
-  object L1P6: TShape
-    Left = 120
-    Height = 60
-    Top = 288
-    Width = 123
-    Visible = False
-  end
-  object L1P7: TShape
-    Left = 120
-    Height = 60
-    Top = 232
-    Width = 123
-    Visible = False
-  end
-  object L1P8: TShape
-    Left = 120
-    Height = 60
-    Top = 176
-    Width = 123
-    Visible = False
-  end
-  object L1P9: TShape
-    Left = 120
-    Height = 60
-    Top = 120
-    Width = 123
-    Visible = False
-  end
-  object L1P10: TShape
-    Left = 120
-    Height = 60
-    Top = 64
-    Width = 123
-    Visible = False
-  end
   object LblPoints0: TLabel
     Left = 48
-    Height = 15
+    Height = 20
     Top = 613
-    Width = 6
+    Width = 8
     Caption = '0'
     ParentColor = False
   end
   object LblPoints8: TLabel
     Left = 48
-    Height = 15
+    Height = 20
     Top = 165
-    Width = 6
+    Width = 8
     Caption = '8'
     ParentColor = False
   end
   object LblPoints9: TLabel
     Left = 48
-    Height = 15
+    Height = 20
     Top = 109
-    Width = 6
+    Width = 8
     Caption = '9'
     ParentColor = False
   end
   object LblPoints10: TLabel
     Left = 48
-    Height = 15
+    Height = 20
     Top = 64
-    Width = 12
+    Width = 16
     Caption = '10'
     ParentColor = False
   end
   object LblPoints7: TLabel
     Left = 48
-    Height = 15
+    Height = 20
     Top = 221
-    Width = 6
+    Width = 8
     Caption = '7'
     ParentColor = False
-  end
-  object L2P1: TShape
-    Left = 432
-    Height = 60
-    Top = 568
-    Width = 123
-    Visible = False
-  end
-  object L2P2: TShape
-    Left = 432
-    Height = 60
-    Top = 512
-    Width = 123
-    Visible = False
-  end
-  object L2P3: TShape
-    Left = 432
-    Height = 60
-    Top = 456
-    Width = 123
-    Visible = False
-  end
-  object L2P4: TShape
-    Left = 432
-    Height = 60
-    Top = 400
-    Width = 123
-    Visible = False
-  end
-  object L2P5: TShape
-    Left = 432
-    Height = 60
-    Top = 344
-    Width = 123
-    Visible = False
-  end
-  object L2P6: TShape
-    Left = 432
-    Height = 60
-    Top = 288
-    Width = 123
-    Visible = False
-  end
-  object L2P7: TShape
-    Left = 432
-    Height = 60
-    Top = 232
-    Width = 123
-    Visible = False
-  end
-  object L2P8: TShape
-    Left = 432
-    Height = 60
-    Top = 176
-    Width = 123
-    Visible = False
-  end
-  object L2P9: TShape
-    Left = 432
-    Height = 60
-    Top = 120
-    Width = 123
-    Visible = False
-  end
-  object L2P10: TShape
-    Left = 432
-    Height = 60
-    Top = 64
-    Width = 123
-    Visible = False
   end
   object BtnActive: TButton
     Left = 1272
@@ -251,23 +110,6 @@ object TFrmPoints: TTFrmPoints
     TabStop = False
     Visible = False
   end
-  object LblLodge1: TLabel
-    Left = 160
-    Height = 15
-    Top = 644
-    Width = 6
-    Caption = '1'
-    ParentColor = False
-    OnClick = LblLodge1Click
-  end
-  object LblLodge2: TLabel
-    Left = 472
-    Height = 15
-    Top = 644
-    Width = 6
-    Caption = '2'
-    ParentColor = False
-  end
   object BtnAdjustScale: TButton
     Left = 1248
     Height = 49
@@ -277,84 +119,6 @@ object TFrmPoints: TTFrmPoints
     OnClick = BtnAdjustScaleClick
     TabOrder = 1
     Visible = False
-  end
-  object L3P1: TShape
-    Left = 752
-    Height = 60
-    Top = 568
-    Width = 123
-    Visible = False
-  end
-  object L3P2: TShape
-    Left = 752
-    Height = 60
-    Top = 512
-    Width = 123
-    Visible = False
-  end
-  object L3P3: TShape
-    Left = 752
-    Height = 60
-    Top = 456
-    Width = 123
-    Visible = False
-  end
-  object L3P4: TShape
-    Left = 752
-    Height = 60
-    Top = 400
-    Width = 123
-    Visible = False
-  end
-  object L3P5: TShape
-    Left = 752
-    Height = 60
-    Top = 344
-    Width = 123
-    Visible = False
-  end
-  object L3P6: TShape
-    Left = 752
-    Height = 60
-    Top = 288
-    Width = 123
-    Visible = False
-  end
-  object L3P7: TShape
-    Left = 752
-    Height = 60
-    Top = 232
-    Width = 123
-    Visible = False
-  end
-  object L3P8: TShape
-    Left = 752
-    Height = 60
-    Top = 176
-    Width = 123
-    Visible = False
-  end
-  object L3P9: TShape
-    Left = 752
-    Height = 60
-    Top = 120
-    Width = 123
-    Visible = False
-  end
-  object L3P10: TShape
-    Left = 752
-    Height = 60
-    Top = 64
-    Width = 123
-    Visible = False
-  end
-  object LblLodge3: TLabel
-    Left = 792
-    Height = 15
-    Top = 644
-    Width = 6
-    Caption = '3'
-    ParentColor = False
   end
   object L4P1: TShape
     Left = 1056
@@ -426,17 +190,9 @@ object TFrmPoints: TTFrmPoints
     Width = 123
     Visible = False
   end
-  object LblLodge4: TLabel
-    Left = 1096
-    Height = 15
-    Top = 644
-    Width = 6
-    Caption = '4'
-    ParentColor = False
-  end
   object SEPL1: TSpinEdit
     Left = 160
-    Height = 23
+    Height = 28
     Top = 672
     Width = 41
     OnChange = SEPL1Change
@@ -456,9 +212,9 @@ object TFrmPoints: TTFrmPoints
   end
   object LbL1: TLabel
     Left = 152
-    Height = 64
+    Height = 65
     Top = 0
-    Width = 54
+    Width = 52
     Caption = '10'
     Font.CharSet = ANSI_CHARSET
     Font.Height = -48
@@ -471,9 +227,9 @@ object TFrmPoints: TTFrmPoints
   end
   object LbL2: TLabel
     Left = 464
-    Height = 64
+    Height = 65
     Top = 0
-    Width = 54
+    Width = 52
     Caption = '10'
     Font.CharSet = ANSI_CHARSET
     Font.Height = -48
@@ -486,9 +242,9 @@ object TFrmPoints: TTFrmPoints
   end
   object LbL3: TLabel
     Left = 787
-    Height = 64
+    Height = 65
     Top = 0
-    Width = 54
+    Width = 52
     Caption = '10'
     Font.CharSet = ANSI_CHARSET
     Font.Height = -48
@@ -501,9 +257,9 @@ object TFrmPoints: TTFrmPoints
   end
   object LbL4: TLabel
     Left = 1088
-    Height = 64
+    Height = 65
     Top = 0
-    Width = 54
+    Width = 52
     Caption = '10'
     Font.CharSet = ANSI_CHARSET
     Font.Height = -48

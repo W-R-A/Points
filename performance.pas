@@ -20,16 +20,6 @@ type
     BtnAdjustScale: TButton;
     BtnDrawScreen: TButton;
     ColBox: TColorBox;
-    L3P1: TShape;
-    L3P2: TShape;
-    L3P3: TShape;
-    L3P4: TShape;
-    L3P5: TShape;
-    L3P6: TShape;
-    L3P7: TShape;
-    L3P8: TShape;
-    L3P9: TShape;
-    L3P10: TShape;
     L4P1: TShape;
     L4P2: TShape;
     L4P3: TShape;
@@ -44,10 +34,6 @@ type
     LbL2: TLabel;
     LbL3: TLabel;
     LbL4: TLabel;
-    LblLodge1: TLabel;
-    LblLodge2: TLabel;
-    LblLodge3: TLabel;
-    LblLodge4: TLabel;
     LblPoints1: TLabel;
     LblPoints10: TLabel;
     LblPoints7: TLabel;
@@ -59,30 +45,11 @@ type
     LblPoints0: TLabel;
     LblPoints8: TLabel;
     LblPoints9: TLabel;
-    L1P1: TShape;
-    L1P10: TShape;
-    L2P1: TShape;
-    L2P2: TShape;
-    L2P3: TShape;
-    L2P4: TShape;
-    L2P5: TShape;
-    L2P6: TShape;
-    L2P7: TShape;
-    L2P8: TShape;
-    L2P9: TShape;
-    L1P2: TShape;
-    L2P10: TShape;
-    L1P3: TShape;
-    L1P4: TShape;
-    L1P5: TShape;
-    L1P6: TShape;
-    L1P7: TShape;
-    L1P8: TShape;
-    L1P9: TShape;
     SEPL1: TSpinEdit;
     procedure BtnActiveClick(Sender: TObject);
     procedure BtnAdjustScaleClick(Sender: TObject);
     procedure BtnDrawScreenClick(Sender: TObject);
+    procedure BtnFwdClick(Sender: TObject);
     procedure ColBoxL1Change(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
@@ -145,7 +112,7 @@ TFrmPoints.Points1:= Trunc(SEPL1.Value);
 DP:=Round(SEPL1.Value/(TFrmPoints.Scale/10));
 BtnAdjustScale.Click;
 TFrmPoints.LbL1.Caption:=InttoStr(SEPL1.Value);
-  try
+{  try
       case DP of
       0: begin
            L1P1.Visible:=False;
@@ -282,7 +249,7 @@ TFrmPoints.LbL1.Caption:=InttoStr(SEPL1.Value);
     end;
    except
      ShowMessage('An error occured')
-   end;
+   end;}
 end;
 
 
@@ -408,6 +375,8 @@ begin
           scoreColumns[i,j].Free;
       end;
   end;
+  //Set initial value for j varible to prevent components from being generated in the wrong places
+  j := 9;
   //Generate the correct number of columns based on what is found in the database
   begin
     for i := 0 to noCols do
@@ -421,10 +390,10 @@ begin
         with spinEdts[i] do
           begin
             Parent := self;
-            Top := 50;
-            Height := 30;
-            Left := Round(75 * i);
-            Width := colWidth;
+            Top := Round((vMarginT*1.4) + ((screenHeight-(vMarginT + vMarginB))/10) + j*Round((screenHeight-(vMarginT + vMarginB))/10)-j);
+            Height := Round(vMarginT/2);
+            Left := Round(hMargin + (i*btwnCols) + (i*colWidth) + colWidth/4);
+            Width := Round(colWidth/2);
           end;
         //Generate segments for coloumns and set properties
         for j := 0 to 9 do
@@ -443,6 +412,12 @@ begin
       end;
   end;
 end;
+
+procedure TTFrmPoints.BtnFwdClick(Sender: TObject);
+begin
+
+end;
+
 procedure TTFrmPoints.ColBoxL1Change(Sender: TObject);
 begin
 

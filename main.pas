@@ -39,7 +39,7 @@ procedure TTFrmMain.BtnConnectionClick(Sender: TObject);
 begin
   try
     //Sleep(5);
-    TFrmDepend.ShowModal
+    //TFrmDepend.ShowModal
   except
     //ShowMessage('Connection error')
   end;
