@@ -12,8 +12,11 @@ This is a program designed to allow beavers to see which of the lodges have the 
 You will need a compiler such as lazarus to compile the code or for ease of use pre-built binaries are available from https://andrewarthacornwall.com/software
 
 TODO:
-Dynamically adjust points locations to auto-optimises use of screen space on different devices
 
-Allow the scores to be shown on a website
+-Dynamically adjust points locations to automatically optimise use of screen space on different devices
+-- Update program to dynamically generate the components needed programtically to optimise the layout on different screen sizes
+-- Rewrite the onChange event handler for the spin edit components to allow multiple spin edit components to use the same event handler
+ 
+-Allow the scores to be shown/uploaded on a website
 
-General code cleanup
+-General code cleanup
