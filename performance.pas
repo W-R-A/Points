@@ -19,6 +19,7 @@ type
     BtnActive: TButton;
     BtnAdjustScale: TButton;
     BtnDrawScreen: TButton;
+    BtnUpdateScore: TButton;
     ColBox: TColorBox;
     L4P1: TShape;
     L4P2: TShape;
@@ -45,17 +46,16 @@ type
     LblPoints0: TLabel;
     LblPoints8: TLabel;
     LblPoints9: TLabel;
-    SEPL1: TSpinEdit;
     procedure BtnActiveClick(Sender: TObject);
     procedure BtnAdjustScaleClick(Sender: TObject);
     procedure BtnDrawScreenClick(Sender: TObject);
     procedure BtnFwdClick(Sender: TObject);
+    procedure BtnUpdateScoreClick(Sender: TObject);
     procedure ColBoxL1Change(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure LbL1Click(Sender: TObject);
     procedure LblLodge1Click(Sender: TObject);
-    procedure SEPL1Change(Sender: TObject);
     procedure TimerUpdateScaleTimer(Sender: TObject);
 
   private
@@ -65,6 +65,7 @@ type
     Scale, Points1, Points2, Points3, Points4:Integer;
     points : array of Integer;
     Colours : array of string;
+    spinEdts : array of TSpinEdit;
   end;
 
 var
@@ -72,7 +73,6 @@ var
   //New code using arrays to give dynamic screen size adaptation
   //scoreColumns --> array to hold 1-10 segments for displaying numbr of points lodge has - duplicated for number of lodges on the system
   scoreColumns : array of array [ 0..9] of TShape;
-  spinEdts : array of TSpinEdit;
 
 implementation
 
@@ -104,15 +104,186 @@ begin
 
 end;
 
-procedure TTFrmPoints.SEPL1Change(Sender: TObject);
+procedure TTFrmPoints.TimerUpdateScaleTimer(Sender: TObject);
 var
-  DP:Integer;
+TP:Integer;
 begin
-TFrmPoints.Points1:= Trunc(SEPL1.Value);
+TP:=0;
+if (TFrmPoints.Points1>=TFrmPoints.Points2)and(TFrmPoints.Points1>=TFrmPoints.Points3)and(TFrmPoints.Points1>=TFrmPoints.Points4) then
+  TP:=Points1
+  else
+    if (TFrmPoints.Points2>=TFrmPoints.Points1)and(TFrmPoints.Points2>=TFrmPoints.Points3)and(TFrmPoints.Points2>=TFrmPoints.Points4) then
+      TP:=Points2
+      else
+        if (TFrmPoints.Points3>=TFrmPoints.Points1)and(TFrmPoints.Points3>=TFrmPoints.Points2)and(TFrmPoints.Points3>=TFrmPoints.Points4) then
+          TP:=Points3
+          else
+            if (TFrmPoints.Points4>=TFrmPoints.Points1)and(TFrmPoints.Points4>=TFrmPoints.Points2)and(TFrmPoints.Points4>=TFrmPoints.Points3) then
+              TP:=Points4;
+  case TP of
+  0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10:       begin
+                                            TFrmPoints.Scale:=10
+                                          end;
+  11, 12, 13, 14, 15, 16, 17, 18, 19, 20: begin
+                                            TFrmPoints.Scale:=20;
+                                          end;
+  21, 22, 23, 24, 25, 26, 27, 28, 29, 30: begin
+                                            TFrmPoints.Scale:=30;
+                                          end;
+  31, 32, 33, 34, 35, 36, 37, 38, 39, 40: begin
+                                            TFrmPoints.Scale:=40;
+                                          end;
+  41, 42, 43, 44, 45, 46, 47, 48, 49, 50: begin
+                                            TFrmPoints.Scale:=50;
+                                          end;
+  51, 52, 53, 54, 55, 56, 57, 58, 59, 60: begin
+                                            TFrmPoints.Scale:=60;
+                                          end;
+  61, 62, 63, 64, 65, 66, 67, 68, 69, 70: begin
+                                            TFrmPoints.Scale:=70;
+                                          end;
+  71, 72, 73, 74, 75, 76, 77, 78, 79, 80: begin
+                                            TFrmPoints.Scale:=80;
+                                          end;
+  81, 82, 83, 84, 85, 86, 87, 88, 89, 90: begin
+                                            TFrmPoints.Scale:=90;
+                                          end;
+  91, 92, 93, 94, 95, 96, 97, 98, 99, 100: begin
+                                            TFrmPoints.Scale:=100;
+                                          end;
+  end;
+
+  BtnAdjustScale.Click;
+end;
+
+procedure TTFrmPoints.BtnAdjustScaleClick(Sender: TObject);
+begin
+  try
+     LblPoints1.Caption:=IntToStr(Round(TFrmPoints.Scale/10));
+     LblPoints2.Caption:=InttoStr(Round((2*TFrmPoints.Scale)/10));
+     LblPoints3.Caption:=InttoStr(Round((3*TFrmPoints.Scale)/10));
+     LblPoints4.Caption:=InttoStr(Round((4*TFrmPoints.Scale)/10));
+     LblPoints5.Caption:=InttoStr(Round((5*TFrmPoints.Scale)/10));
+     LblPoints6.Caption:=InttoStr(Round((6*TFrmPoints.Scale)/10));
+     LblPoints7.Caption:=InttoStr(Round((7*TFrmPoints.Scale)/10));
+     LblPoints8.Caption:=InttoStr(Round((8*TFrmPoints.Scale)/10));
+     LblPoints9.Caption:=InttoStr(Round((9*TFrmPoints.Scale)/10));
+     LblPoints10.Caption:=InttoStr(Round((10*TFrmPoints.Scale)/10));
+  except
+    ShowMessage('Scale not recognised')
+  end;
+end;
+
+procedure TTFrmPoints.BtnActiveClick(Sender: TObject);
+begin
+
+end;
+
+//This hooks in to the OnResize event of the form
+procedure TTFrmPoints.BtnDrawScreenClick(Sender: TObject);
+var
+  //Setup varibles:
+  //screenWidth --> Stores the width, in pixels of the screen
+  //screenHeight --> Stores the height, in pixels of the screen
+  //noCols --> The number of columns of points to display depentant of the number of lodges to track points for
+  //colWidth --> The width, in pixels of the columns
+  //btwnCols --> The width, in pixels between columns
+  //hMargin --> The horizontal margin around the display
+  //vMarginT --> The vertical margin at the top of the display
+  //vMarginB --> The vertical margin at the bottom of the display
+  screenWidth, screenHeight, noCols, colWidth, btwnCols, hMargin, vMarginT, vMarginB: Integer;
+  i, j : Integer;
+begin
+  begin
+    //Setup screen width and height varibles
+    noCols := TFrmDepend.RecordNo;
+    if noCols < 1 then
+      begin
+        ShowMessage('The number of columns must be greater than 1');
+        noCols := 1;
+      end;
+    //Setup margins
+    screenHeight := TFrmPoints.Height;
+    screenWidth := TFrmPoints.Width;
+    hMargin := Round(0.05*screenWidth);
+    vMarginT := Round(0.05*screenHeight);
+    vMarginB := Round(1.5*vMarginT);
+    colWidth := Round((screenWidth-2*hMargin)/(noCols*2));
+    btwnCols := Round(colWidth+(colWidth/noCols));
+    //Set length of scoreColumns and spinEdts array
+    SetLength(scoreColumns, (noCols + 1));
+    SetLength(spinEdts, (noCols + 1));
+  end;
+  //Cleanup previously generated shapes and objects/components
+  begin
+    for i := noCols downto 0 do
+      begin
+        if spinEdts[i] is TSpinEdit then
+          spinEdts[i].Free;
+        for j := 9 downto 0 do
+          if scoreColumns[i,j] is TShape then
+          scoreColumns[i,j].Free;
+      end;
+  end;
+  //Generate the correct number of columns based on what is found in the database
+  begin
+    for i := 0 to noCols do
+      begin
+      //Workaround to different bases for arrays
+        //Set colour for column
+        if Colours[i+1] <> '' then
+          ColBox.Selected:=TColor(StringtoColor(Colours[i+1]));
+        //Generate segments for coloumns and set properties
+        for j := 0 to 9 do
+          begin
+            scoreColumns[i,j]:= TShape.Create(self);
+            with scoreColumns[i,j] do
+              begin
+                Parent := self;
+                Top := Round(vMarginT + j*Round((screenHeight-(vMarginT + vMarginB))/10)-j);
+                Height := Round((screenHeight-(vMarginT + vMarginB))/10);
+                Left := hMargin + (i*btwnCols) + (i*colWidth);
+                Width := colWidth;
+                Brush.Color:=ColBox.Selected
+              end;
+          end;
+        //Generate spin edit components to allow points to be added of subtracted from the coloumn score
+        spinEdts[i] := TSpinEdit.Create(self);
+        with spinEdts[i] do
+          begin
+            //Properties
+            Parent := self;
+            Top := Round((vMarginT*1.4) + ((screenHeight-(vMarginT + vMarginB))/10) + j*Round((screenHeight-(vMarginT + vMarginB))/10)-j);
+            Height := Round(vMarginT/2);
+            Left := Round(hMargin + (i*btwnCols) + (i*colWidth) + colWidth/4);
+            Width := Round(colWidth/2);
+            Value := TFrmPoints.points[i+1];
+            Name := 'SpEdit' + InttoStr(i);
+            //Event Handlers
+            OnChange := @BtnUpdateScoreClick;
+            //OnEditingDone := @BtnUpdateScoreClick(Name);
+            //OnExit := @BtnUpdateScoreClick;
+          end;
+      end;
+  end;
+end;
+
+procedure TTFrmPoints.BtnFwdClick(Sender: TObject);
+begin
+
+end;
+
+procedure TTFrmPoints.BtnUpdateScoreClick(Sender: TObject);
+begin
+  ShowMessage(Sender.toString());
+  TFrmPoints.LblPoints0.Caption := TFrmPoints.spinEdts[1].Name;
+
+//Begin Legacy code
+{TFrmPoints.Points1:= Trunc(SEPL1.Value);
 DP:=Round(SEPL1.Value/(TFrmPoints.Scale/10));
 BtnAdjustScale.Click;
 TFrmPoints.LbL1.Caption:=InttoStr(SEPL1.Value);
-{  try
+  try
       case DP of
       0: begin
            L1P1.Visible:=False;
@@ -250,171 +421,6 @@ TFrmPoints.LbL1.Caption:=InttoStr(SEPL1.Value);
    except
      ShowMessage('An error occured')
    end;}
-end;
-
-
-
-procedure TTFrmPoints.TimerUpdateScaleTimer(Sender: TObject);
-var
-TP:Integer;
-begin
-TP:=0;
-if (TFrmPoints.Points1>=TFrmPoints.Points2)and(TFrmPoints.Points1>=TFrmPoints.Points3)and(TFrmPoints.Points1>=TFrmPoints.Points4) then
-  TP:=Points1
-  else
-    if (TFrmPoints.Points2>=TFrmPoints.Points1)and(TFrmPoints.Points2>=TFrmPoints.Points3)and(TFrmPoints.Points2>=TFrmPoints.Points4) then
-      TP:=Points2
-      else
-        if (TFrmPoints.Points3>=TFrmPoints.Points1)and(TFrmPoints.Points3>=TFrmPoints.Points2)and(TFrmPoints.Points3>=TFrmPoints.Points4) then
-          TP:=Points3
-          else
-            if (TFrmPoints.Points4>=TFrmPoints.Points1)and(TFrmPoints.Points4>=TFrmPoints.Points2)and(TFrmPoints.Points4>=TFrmPoints.Points3) then
-              TP:=Points4;
-  case TP of
-  0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10:       begin
-                                            TFrmPoints.Scale:=10
-                                          end;
-  11, 12, 13, 14, 15, 16, 17, 18, 19, 20: begin
-                                            TFrmPoints.Scale:=20;
-                                          end;
-  21, 22, 23, 24, 25, 26, 27, 28, 29, 30: begin
-                                            TFrmPoints.Scale:=30;
-                                          end;
-  31, 32, 33, 34, 35, 36, 37, 38, 39, 40: begin
-                                            TFrmPoints.Scale:=40;
-                                          end;
-  41, 42, 43, 44, 45, 46, 47, 48, 49, 50: begin
-                                            TFrmPoints.Scale:=50;
-                                          end;
-  51, 52, 53, 54, 55, 56, 57, 58, 59, 60: begin
-                                            TFrmPoints.Scale:=60;
-                                          end;
-  61, 62, 63, 64, 65, 66, 67, 68, 69, 70: begin
-                                            TFrmPoints.Scale:=70;
-                                          end;
-  71, 72, 73, 74, 75, 76, 77, 78, 79, 80: begin
-                                            TFrmPoints.Scale:=80;
-                                          end;
-  81, 82, 83, 84, 85, 86, 87, 88, 89, 90: begin
-                                            TFrmPoints.Scale:=90;
-                                          end;
-  91, 92, 93, 94, 95, 96, 97, 98, 99, 100: begin
-                                            TFrmPoints.Scale:=100;
-                                          end;
-  end;
-
-  BtnAdjustScale.Click;
-end;
-
-procedure TTFrmPoints.BtnAdjustScaleClick(Sender: TObject);
-begin
-  try
-     LblPoints1.Caption:=IntToStr(Round(TFrmPoints.Scale/10));
-     LblPoints2.Caption:=InttoStr(Round((2*TFrmPoints.Scale)/10));
-     LblPoints3.Caption:=InttoStr(Round((3*TFrmPoints.Scale)/10));
-     LblPoints4.Caption:=InttoStr(Round((4*TFrmPoints.Scale)/10));
-     LblPoints5.Caption:=InttoStr(Round((5*TFrmPoints.Scale)/10));
-     LblPoints6.Caption:=InttoStr(Round((6*TFrmPoints.Scale)/10));
-     LblPoints7.Caption:=InttoStr(Round((7*TFrmPoints.Scale)/10));
-     LblPoints8.Caption:=InttoStr(Round((8*TFrmPoints.Scale)/10));
-     LblPoints9.Caption:=InttoStr(Round((9*TFrmPoints.Scale)/10));
-     LblPoints10.Caption:=InttoStr(Round((10*TFrmPoints.Scale)/10));
-  except
-    ShowMessage('Scale not recognised')
-  end;
-end;
-
-procedure TTFrmPoints.BtnActiveClick(Sender: TObject);
-begin
-
-end;
-
-//This hooks in to the OnResize event of the form
-procedure TTFrmPoints.BtnDrawScreenClick(Sender: TObject);
-var
-  //Setup varibles:
-  //screenWidth --> Stores the width, in pixels of the screen
-  //screenHeight --> Stores the height, in pixels of the screen
-  //noCols --> The number of columns of points to display depentant of the number of lodges to track points for
-  //colWidth --> The width, in pixels of the columns
-  //btwnCols --> The width, in pixels between columns
-  //hMargin --> The horizontal margin around the display
-  //vMarginT --> The vertical margin at the top of the display
-  //vMarginB --> The vertical margin at the bottom of the display
-  screenWidth, screenHeight, noCols, colWidth, btwnCols, hMargin, vMarginT, vMarginB: Integer;
-  i, j : Integer;
-begin
-  begin
-    //Setup screen width and height varibles
-    noCols := TFrmDepend.RecordNo;
-    if noCols < 1 then
-      begin
-        ShowMessage('The number of columns must be greater than 1');
-        noCols := 1;
-      end;
-    //Setup margins
-    screenHeight := TFrmPoints.Height;
-    screenWidth := TFrmPoints.Width;
-    hMargin := Round(0.05*screenWidth);
-    vMarginT := Round(0.05*screenHeight);
-    vMarginB := Round(1.5*vMarginT);
-    colWidth := Round((screenWidth-2*hMargin)/(noCols*2));
-    btwnCols := Round(colWidth+(colWidth/noCols));
-    //Set length of scoreColumns and spinEdts array
-    SetLength(scoreColumns, (noCols + 1));
-    SetLength(spinEdts, (noCols + 1));
-  end;
-  //Cleanup previously generated shapes and objects/components
-  begin
-    for i := noCols downto 0 do
-      begin
-        if spinEdts[i] is TSpinEdit then
-          spinEdts[i].Free;
-        for j := 9 downto 0 do
-          if scoreColumns[i,j] is TShape then
-          scoreColumns[i,j].Free;
-      end;
-  end;
-  //Set initial value for j varible to prevent components from being generated in the wrong places
-  j := 9;
-  //Generate the correct number of columns based on what is found in the database
-  begin
-    for i := 0 to noCols do
-      begin
-      //Workaround to different bases for arrays
-        //Set colour for column
-        if Colours[i+1] <> '' then
-          ColBox.Selected:=TColor(StringtoColor(Colours[i+1]));
-        //Generate spin edit components to allow points to be added of subtracted from the coloumn score
-        spinEdts[i] := TSpinEdit.Create(self);
-        with spinEdts[i] do
-          begin
-            Parent := self;
-            Top := Round((vMarginT*1.4) + ((screenHeight-(vMarginT + vMarginB))/10) + j*Round((screenHeight-(vMarginT + vMarginB))/10)-j);
-            Height := Round(vMarginT/2);
-            Left := Round(hMargin + (i*btwnCols) + (i*colWidth) + colWidth/4);
-            Width := Round(colWidth/2);
-          end;
-        //Generate segments for coloumns and set properties
-        for j := 0 to 9 do
-          begin
-            scoreColumns[i,j]:= TShape.Create(self);
-            with scoreColumns[i,j] do
-              begin
-                Parent := self;
-                Top := Round(vMarginT + j*Round((screenHeight-(vMarginT + vMarginB))/10)-j);
-                Height := Round((screenHeight-(vMarginT + vMarginB))/10);
-                Left := hMargin + (i*btwnCols) + (i*colWidth);
-                Width := colWidth;
-                Brush.Color:=ColBox.Selected
-              end;
-          end
-      end;
-  end;
-end;
-
-procedure TTFrmPoints.BtnFwdClick(Sender: TObject);
-begin
 
 end;
 
@@ -427,7 +433,7 @@ procedure TTFrmPoints.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   ShowMessage('Saving data...');
   try
-    TFrmDepend.BtnUpdateDB.Click;
+    //TFrmDepend.BtnUpdateDB.Click;
   except
     ShowMessage('Error saving')
   end;

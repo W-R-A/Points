@@ -1,7 +1,7 @@
 object TFrmPoints: TTFrmPoints
-  Left = 238
+  Left = 297
   Height = 706
-  Top = 75
+  Top = 155
   Width = 1360
   Caption = 'Points v2.0-dev'
   ClientHeight = 706
@@ -190,16 +190,6 @@ object TFrmPoints: TTFrmPoints
     Width = 123
     Visible = False
   end
-  object SEPL1: TSpinEdit
-    Left = 160
-    Height = 28
-    Top = 672
-    Width = 41
-    OnChange = SEPL1Change
-    OnEditingDone = SEPL1Change
-    OnExit = SEPL1Change
-    TabOrder = 2
-  end
   object ColBox: TColorBox
     Left = 1235
     Height = 22
@@ -207,7 +197,7 @@ object TFrmPoints: TTFrmPoints
     Width = 98
     ItemHeight = 16
     OnChange = ColBoxL1Change
-    TabOrder = 3
+    TabOrder = 2
     Visible = False
   end
   object LbL1: TLabel
@@ -277,7 +267,16 @@ object TFrmPoints: TTFrmPoints
     Width = 97
     Caption = 'BtnDrawScreen'
     OnClick = BtnDrawScreenClick
-    TabOrder = 4
+    TabOrder = 3
     Visible = False
+  end
+  object BtnUpdateScore: TButton
+    Left = 1248
+    Height = 53
+    Top = 35
+    Width = 76
+    Caption = 'BtnUpdateScore'
+    OnClick = BtnUpdateScoreClick
+    TabOrder = 4
   end
 end
