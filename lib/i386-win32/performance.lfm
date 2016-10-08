@@ -120,76 +120,6 @@ object TFrmPoints: TTFrmPoints
     TabOrder = 1
     Visible = False
   end
-  object L4P1: TShape
-    Left = 1056
-    Height = 60
-    Top = 568
-    Width = 123
-    Visible = False
-  end
-  object L4P2: TShape
-    Left = 1056
-    Height = 60
-    Top = 512
-    Width = 123
-    Visible = False
-  end
-  object L4P3: TShape
-    Left = 1056
-    Height = 60
-    Top = 456
-    Width = 123
-    Visible = False
-  end
-  object L4P4: TShape
-    Left = 1056
-    Height = 60
-    Top = 400
-    Width = 123
-    Visible = False
-  end
-  object L4P5: TShape
-    Left = 1056
-    Height = 60
-    Top = 344
-    Width = 123
-    Visible = False
-  end
-  object L4P6: TShape
-    Left = 1056
-    Height = 60
-    Top = 288
-    Width = 123
-    Visible = False
-  end
-  object L4P7: TShape
-    Left = 1056
-    Height = 60
-    Top = 232
-    Width = 123
-    Visible = False
-  end
-  object L4P8: TShape
-    Left = 1056
-    Height = 60
-    Top = 176
-    Width = 123
-    Visible = False
-  end
-  object L4P9: TShape
-    Left = 1056
-    Height = 60
-    Top = 120
-    Width = 123
-    Visible = False
-  end
-  object L4P10: TShape
-    Left = 1056
-    Height = 60
-    Top = 64
-    Width = 123
-    Visible = False
-  end
   object ColBox: TColorBox
     Left = 1235
     Height = 22
@@ -199,66 +129,6 @@ object TFrmPoints: TTFrmPoints
     OnChange = ColBoxL1Change
     TabOrder = 2
     Visible = False
-  end
-  object LbL1: TLabel
-    Left = 152
-    Height = 65
-    Top = 0
-    Width = 52
-    Caption = '10'
-    Font.CharSet = ANSI_CHARSET
-    Font.Height = -48
-    Font.Name = '@Arial Unicode MS'
-    Font.Pitch = fpVariable
-    Font.Quality = fqDraft
-    ParentColor = False
-    ParentFont = False
-    OnClick = LbL1Click
-  end
-  object LbL2: TLabel
-    Left = 464
-    Height = 65
-    Top = 0
-    Width = 52
-    Caption = '10'
-    Font.CharSet = ANSI_CHARSET
-    Font.Height = -48
-    Font.Name = '@Arial Unicode MS'
-    Font.Pitch = fpVariable
-    Font.Quality = fqDraft
-    ParentColor = False
-    ParentFont = False
-    OnClick = LbL1Click
-  end
-  object LbL3: TLabel
-    Left = 787
-    Height = 65
-    Top = 0
-    Width = 52
-    Caption = '10'
-    Font.CharSet = ANSI_CHARSET
-    Font.Height = -48
-    Font.Name = '@Arial Unicode MS'
-    Font.Pitch = fpVariable
-    Font.Quality = fqDraft
-    ParentColor = False
-    ParentFont = False
-    OnClick = LbL1Click
-  end
-  object LbL4: TLabel
-    Left = 1088
-    Height = 65
-    Top = 0
-    Width = 52
-    Caption = '10'
-    Font.CharSet = ANSI_CHARSET
-    Font.Height = -48
-    Font.Name = '@Arial Unicode MS'
-    Font.Pitch = fpVariable
-    Font.Quality = fqDraft
-    ParentColor = False
-    ParentFont = False
-    OnClick = LbL1Click
   end
   object BtnDrawScreen: TButton
     Left = 1236
@@ -278,5 +148,6 @@ object TFrmPoints: TTFrmPoints
     Caption = 'BtnUpdateScore'
     OnClick = BtnUpdateScoreClick
     TabOrder = 4
+    Visible = False
   end
 end

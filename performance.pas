@@ -21,20 +21,6 @@ type
     BtnDrawScreen: TButton;
     BtnUpdateScore: TButton;
     ColBox: TColorBox;
-    L4P1: TShape;
-    L4P2: TShape;
-    L4P3: TShape;
-    L4P4: TShape;
-    L4P5: TShape;
-    L4P6: TShape;
-    L4P7: TShape;
-    L4P8: TShape;
-    L4P9: TShape;
-    L4P10: TShape;
-    LbL1: TLabel;
-    LbL2: TLabel;
-    LbL3: TLabel;
-    LbL4: TLabel;
     LblPoints1: TLabel;
     LblPoints10: TLabel;
     LblPoints7: TLabel;
@@ -65,14 +51,17 @@ type
     Scale, Points1, Points2, Points3, Points4:Integer;
     points : array of Integer;
     Colours : array of string;
-    spinEdts : array of TSpinEdit;
   end;
 
 var
   TFrmPoints: TTFrmPoints;
   //New code using arrays to give dynamic screen size adaptation
   //scoreColumns --> array to hold 1-10 segments for displaying numbr of points lodge has - duplicated for number of lodges on the system
+  //SpinEdts --> array to hold the spin edit components used to set the score per lodge
+  //ScoreCaptions --> array to store the captions used to dislay the number of points in a clear way at the top of the scoe columns
   scoreColumns : array of array [ 0..9] of TShape;
+  spinEdts : array of TSpinEdit;
+  scoreLabels : array of TLabel;
 
 implementation
 
@@ -82,6 +71,7 @@ implementation
 uses
   Depend;
 
+//This is invoked when the form is created
 procedure TTFrmPoints.FormCreate(Sender: TObject);
 begin
   //Maximise program screen area then start database queries and set up program screen then activate it, also set initial scale
@@ -156,6 +146,7 @@ if (TFrmPoints.Points1>=TFrmPoints.Points2)and(TFrmPoints.Points1>=TFrmPoints.Po
   BtnAdjustScale.Click;
 end;
 
+//Legacy
 procedure TTFrmPoints.BtnAdjustScaleClick(Sender: TObject);
 begin
   try
@@ -213,14 +204,20 @@ begin
     //Set length of scoreColumns and spinEdts array
     SetLength(scoreColumns, (noCols + 1));
     SetLength(spinEdts, (noCols + 1));
+    SetLength(scoreLabels, (noCols + 1));
   end;
   //Cleanup previously generated shapes and objects/components
   begin
     for i := noCols downto 0 do
       begin
+        //Cleanup spinedit components
         if spinEdts[i] is TSpinEdit then
           spinEdts[i].Free;
+        //Cleanup label components
+        if scoreLabels[i] is TLabel then
+          scoreLabels[i].Free;
         for j := 9 downto 0 do
+          //Cleanup score columns segments
           if scoreColumns[i,j] is TShape then
           scoreColumns[i,j].Free;
       end;
@@ -233,6 +230,23 @@ begin
         //Set colour for column
         if Colours[i+1] <> '' then
           ColBox.Selected:=TColor(StringtoColor(Colours[i+1]));
+
+        //Generate label components to allow points to shown at the top of the columns
+        //Ensure j is 0 before executing
+        j := 0;
+        scoreLabels[i] := TLabel.Create(self);
+        with scoreLabels[i] do
+          begin
+            //Properties
+            Parent := self;
+            Top := Round((((screenHeight-(vMarginT + vMarginB))/10) + j*Round((screenHeight-(vMarginT + vMarginB))/10)-j)- (vMarginT*1.4));
+            Height := Round(vMarginT/2);
+            Left := Round(hMargin + (i*btwnCols) + (i*colWidth) + colWidth/4);
+            Width := Round(colWidth/2);
+            Caption := InttoStr(TFrmPoints.points[i+1]);
+            Name := 'Lbl_' + InttoStr(i);
+          end;
+
         //Generate segments for coloumns and set properties
         for j := 0 to 9 do
           begin
@@ -247,7 +261,7 @@ begin
                 Brush.Color:=ColBox.Selected
               end;
           end;
-        //Generate spin edit components to allow points to be added of subtracted from the coloumn score
+        //Generate spin edit components to allow points to be added or subtracted from the coloumn score
         spinEdts[i] := TSpinEdit.Create(self);
         with spinEdts[i] do
           begin
@@ -258,11 +272,9 @@ begin
             Left := Round(hMargin + (i*btwnCols) + (i*colWidth) + colWidth/4);
             Width := Round(colWidth/2);
             Value := TFrmPoints.points[i+1];
-            Name := 'SpEdit' + InttoStr(i);
-            //Event Handlers
+            Name := 'SpinEdit_' + InttoStr(i);
+            //Set the event handlers
             OnChange := @BtnUpdateScoreClick;
-            //OnEditingDone := @BtnUpdateScoreClick(Name);
-            //OnExit := @BtnUpdateScoreClick;
           end;
       end;
   end;
@@ -274,9 +286,22 @@ begin
 end;
 
 procedure TTFrmPoints.BtnUpdateScoreClick(Sender: TObject);
+var
+  i: Integer;
+  identiferList : TStrings;
 begin
-  ShowMessage(Sender.toString());
-  TFrmPoints.LblPoints0.Caption := TFrmPoints.spinEdts[1].Name;
+try
+   identiferList := TStringList.Create;
+   ExtractStrings(['_'], [], PChar((Sender as TSpinEdit).Name), identiferList);
+   i := StrtoInt(identiferList[1]);
+  finally
+    identiferList.Free;
+  end;
+
+points[i] := spinEdts[i].Value;
+ShowMessage(InttoStr(points[i]));
+//DP:=Round(points[i]/(TFrmPoints.Scale/10));
+
 
 //Begin Legacy code
 {TFrmPoints.Points1:= Trunc(SEPL1.Value);
