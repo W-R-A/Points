@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, db, sqldb, sqlite3conn, FileUtil, TAGraph, TASeries,
   TADbSource, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls, DbCtrls,
-  ColorBox, Buttons, ComCtrls, Spin, types;
+  ColorBox, Buttons, ComCtrls, Spin, types, math;
 
 type
 
@@ -48,7 +48,7 @@ type
     { private declarations }
   public
     { public declarations }
-    Scale, Points1, Points2, Points3, Points4:Integer;
+    Scale:Integer;
     points : array of Integer;
     Colours : array of string;
   end;
@@ -98,18 +98,7 @@ procedure TTFrmPoints.TimerUpdateScaleTimer(Sender: TObject);
 var
 TP:Integer;
 begin
-TP:=0;
-if (TFrmPoints.Points1>=TFrmPoints.Points2)and(TFrmPoints.Points1>=TFrmPoints.Points3)and(TFrmPoints.Points1>=TFrmPoints.Points4) then
-  TP:=Points1
-  else
-    if (TFrmPoints.Points2>=TFrmPoints.Points1)and(TFrmPoints.Points2>=TFrmPoints.Points3)and(TFrmPoints.Points2>=TFrmPoints.Points4) then
-      TP:=Points2
-      else
-        if (TFrmPoints.Points3>=TFrmPoints.Points1)and(TFrmPoints.Points3>=TFrmPoints.Points2)and(TFrmPoints.Points3>=TFrmPoints.Points4) then
-          TP:=Points3
-          else
-            if (TFrmPoints.Points4>=TFrmPoints.Points1)and(TFrmPoints.Points4>=TFrmPoints.Points2)and(TFrmPoints.Points4>=TFrmPoints.Points3) then
-              TP:=Points4;
+TP := MaxValue(points);
   case TP of
   0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10:       begin
                                             TFrmPoints.Scale:=10
@@ -216,8 +205,8 @@ begin
         //Cleanup label components
         if scoreLabels[i] is TLabel then
           scoreLabels[i].Free;
+        //Cleanup score column segments
         for j := 9 downto 0 do
-          //Cleanup score columns segments
           if scoreColumns[i,j] is TShape then
           scoreColumns[i,j].Free;
       end;
@@ -226,13 +215,11 @@ begin
   begin
     for i := 0 to noCols do
       begin
-      //Workaround to different bases for arrays
         //Set colour for column
-        if Colours[i+1] <> '' then
-          ColBox.Selected:=TColor(StringtoColor(Colours[i+1]));
+        if Colours[i] <> '' then
+          ColBox.Selected:=TColor(StringtoColor(Colours[i]));
 
         //Generate label components to allow points to shown at the top of the columns
-        //Ensure j is 0 before executing
         scoreLabels[i] := TLabel.Create(self);
         with scoreLabels[i] do
           begin
@@ -240,8 +227,9 @@ begin
             Parent := self;
             Font.Size := Round(vMarginT/3);
             Top := Round(vMarginT/Height);
-            Left := Round(hMargin + (i*btwnCols) + (i*colWidth) + (colWidth/2)-(0.5*Width));
-            Caption := InttoStr(TFrmPoints.points[i+1]);
+            Left := Round((hMargin + (i*btwnCols) + (i*colWidth) + (colWidth/2))-(0.5*Width));
+            //Caption := InttoStr(TFrmPoints.points[i]);
+            Caption := InttoStr(Width);
             Name := 'Lbl_' + InttoStr(i);
           end;
 
@@ -269,7 +257,7 @@ begin
             Height := Round(vMarginT/2);
             Left := Round(hMargin + (i*btwnCols) + (i*colWidth) + colWidth/4);
             Width := Round(colWidth/2);
-            Value := TFrmPoints.points[i+1];
+            Value := TFrmPoints.points[i];
             Name := 'SpinEdit_' + InttoStr(i);
             //Set the event handlers
             OnChange := @BtnUpdateScoreClick;

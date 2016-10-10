@@ -112,8 +112,8 @@ begin
       SQLQuery.SQL.Clear;
       SQLQuery.SQL.Text:='SELECT * FROM LodgePoints WHERE ID='+IntToStr(i);
       SQLQuery.Active:=True;
-      TFrmPoints.Colours[i]:=SQLQuery.Fields[1].AsString;
-      TFrmPoints.points[i]:=SQLQuery.Fields[2].AsInteger;
+      TFrmPoints.Colours[i-1]:=SQLQuery.Fields[1].AsString;
+      TFrmPoints.points[i-1]:=SQLQuery.Fields[2].AsInteger;
       SQLQuery.Active:=False;
     end;
   SQLTransactionIntergration.CloseDataSets;
@@ -159,7 +159,7 @@ end;
 
 procedure TTFrmDepend.BtnUpdateDBClick(Sender: TObject);
 begin
-  try
+ { try
     SQLite3ConnectionMain.Connected:=True;
     SQLite3ConnectionMain.Open;
     SQLTransactionIntergration.Active := True;
@@ -172,7 +172,7 @@ begin
   except
     ShowMessage('Unable to write to database')
   end;
-
+  }
 end;
 
 procedure TTFrmDepend.CBColorsChange(Sender: TObject);
