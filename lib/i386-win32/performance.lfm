@@ -74,6 +74,7 @@ object TFrmPoints: TTFrmPoints
     Width = 8
     Caption = '8'
     ParentColor = False
+    ParentFont = False
   end
   object LblPoints9: TLabel
     Left = 48
@@ -85,11 +86,13 @@ object TFrmPoints: TTFrmPoints
   end
   object LblPoints10: TLabel
     Left = 48
-    Height = 20
-    Top = 64
-    Width = 16
+    Height = 67
+    Top = 56
+    Width = 54
     Caption = '10'
+    Font.Height = -50
     ParentColor = False
+    ParentFont = False
   end
   object LblPoints7: TLabel
     Left = 48

@@ -233,16 +233,14 @@ begin
 
         //Generate label components to allow points to shown at the top of the columns
         //Ensure j is 0 before executing
-        j := 0;
         scoreLabels[i] := TLabel.Create(self);
         with scoreLabels[i] do
           begin
             //Properties
             Parent := self;
-            Top := Round((((screenHeight-(vMarginT + vMarginB))/10) + j*Round((screenHeight-(vMarginT + vMarginB))/10)-j)- (vMarginT*1.4));
-            Height := Round(vMarginT/2);
-            Left := Round(hMargin + (i*btwnCols) + (i*colWidth) + colWidth/4);
-            Width := Round(colWidth/2);
+            Font.Size := Round(vMarginT/3);
+            Top := Round(vMarginT/Height);
+            Left := Round(hMargin + (i*btwnCols) + (i*colWidth) + (colWidth/2)-(0.5*Width));
             Caption := InttoStr(TFrmPoints.points[i+1]);
             Name := 'Lbl_' + InttoStr(i);
           end;
