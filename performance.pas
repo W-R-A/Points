@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, db, sqldb, sqlite3conn, FileUtil, TAGraph, TASeries,
   TADbSource, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls, DbCtrls,
-  ColorBox, Buttons, ComCtrls, Spin, types, math;
+  ColorBox, Buttons, ComCtrls, Spin, types, math, crt;
 
 type
 
@@ -219,18 +219,21 @@ begin
         if Colours[i] <> '' then
           ColBox.Selected:=TColor(StringtoColor(Colours[i]));
 
-        //Generate label components to allow points to shown at the top of the columns
-        scoreLabels[i] := TLabel.Create(self);
-        with scoreLabels[i] do
+        //Generate label components to allow points to shown at the top of the columns, only if space is available
+        if Round(vMarginT/3) > 6 then
           begin
-            //Properties
-            Parent := self;
-            Font.Size := Round(vMarginT/3);
-            Top := Round(vMarginT/Height);
-            Left := Round((hMargin + (i*btwnCols) + (i*colWidth) + (colWidth/2))-(0.5*Width));
-            //Caption := InttoStr(TFrmPoints.points[i]);
-            Caption := InttoStr(Width);
-            Name := 'Lbl_' + InttoStr(i);
+               scoreLabels[i] := TLabel.Create(self);
+               with scoreLabels[i] do
+               begin
+                    //Properties
+                    Parent := self;
+                    Font.Size := Round(vMarginT/3);
+                    Caption := '00';
+                    Top := Round(vMarginT/Height);
+                    Left := Round((hMargin + (i*btwnCols) + (i*colWidth) + (colWidth/2))-(TFrmPoints.Canvas.TextWidth(Caption))/1.5);
+                    Name := 'Lbl_' + InttoStr(i);
+                    Caption := InttoStr(TFrmPoints.points[i]);
+               end;
           end;
 
         //Generate segments for coloumns and set properties
@@ -284,8 +287,13 @@ try
     identiferList.Free;
   end;
 
+//Update array with new value
 points[i] := spinEdts[i].Value;
-ShowMessage(InttoStr(points[i]));
+
+    //Update label caption
+    if scoreLabels[i] is TLabel then
+        scoreLabels[i].Caption := InttoStr(points[i]);
+
 //DP:=Round(points[i]/(TFrmPoints.Scale/10));
 
 
