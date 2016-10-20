@@ -105,7 +105,7 @@ begin
   SQLQuery.Active:=True;
   RecordNo := SQLQuery.RecordCount;
   SetLength(TFrmPoints.points, (RecordNo+1));
-  SetLength(TFrmPoints.Colours, (RecordNo+2));
+  SetLength(TFrmPoints.Colours, (RecordNo+1));
   SQLQuery.Active:=False;
   for i := 1 to RecordNo do
     begin
@@ -115,6 +115,7 @@ begin
       TFrmPoints.Colours[i-1]:=SQLQuery.Fields[1].AsString;
       TFrmPoints.points[i-1]:=SQLQuery.Fields[2].AsInteger;
       SQLQuery.Active:=False;
+      //UPDATE LodgePoints SET Points = '68' where ID = '4';
     end;
   SQLTransactionIntergration.CloseDataSets;
   SQLTransactionIntergration.CleanupInstance;

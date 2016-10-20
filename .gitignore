@@ -35,7 +35,15 @@
 
 #Ignore shortcut files
 
-*.ink
+*.lnk
+
+#Ignore batch files used by the build system
+
+*.bat
+
+#Ignore database files unique to program
+
+*.db
 
 # Delphi compiler-generated binaries (safe to delete)
 *.exe
@@ -58,7 +66,6 @@
 
 #Delphi complied units
 *.ppu
-#*.lfm
 *.compiled
 *.or
 *.res
