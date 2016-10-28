@@ -253,7 +253,7 @@ end;
 
 procedure TTFrmPoints.BtnUpdateScoreClick(Sender: TObject);
 var
-  i: Integer;
+  i, j, displayPoints, oldScale: Integer;
   identiferList : TStrings;
 begin
 try
@@ -272,158 +272,43 @@ if scoreLabels[i] is TLabel then
    scoreLabels[i].Caption := InttoStr(points[i]);
 
 //Update the scale
+oldScale := TFrmPoints.Scale;
 TFrmPoints.BtnAdjustScale.Click;
 
-DP:=Round(points[i]/(TFrmPoints.Scale/10));
+displayPoints:=9-Trunc(points[i]/(TFrmPoints.Scale/10));
 
+//Display number of segments
+for j := 0 to displayPoints+1 do
+begin
+     scoreColumns[i, j].Visible := False;
+end;
 
+if displayPoints < 9 then
+   begin
+        for j := displayPoints+1 to 9 do
+            begin
+                 scoreColumns[i, j].Visible := True;
+            end;
+   end;
+//Update other points displays only if needed
+if oldScale <> TFrmPoints.Scale then
+   for i := 0 to TFrmDepend.RecordNo do
+   begin
+     //Display number of segments for each colour
+     displayPoints:=9-Trunc(points[i]/(TFrmPoints.Scale/10));
+     for j := 0 to displayPoints do
+     begin
+          scoreColumns[i, j].Visible := False;
+     end;
 
-
-
-
-//Begin Legacy code
-{TFrmPoints.Points1:= Trunc(SEPL1.Value);
-DP:=Round(SEPL1.Value/(TFrmPoints.Scale/10));
-BtnAdjustScale.Click;
-TFrmPoints.LbL1.Caption:=InttoStr(SEPL1.Value);
-  try
-      case DP of
-      0: begin
-           L1P1.Visible:=False;
-           L1P2.Visible:=False;
-           L1P3.Visible:=False;
-           L1P4.Visible:=False;
-           L1P5.Visible:=False;
-           L1P6.Visible:=False;
-           L1P7.Visible:=False;
-           L1P8.Visible:=False;
-           L1P9.Visible:=False;
-           L1P10.Visible:=False;
-         end;
-      1: begin
-           L1P1.Visible:=True;
-           L1P2.Visible:=False;
-           L1P3.Visible:=False;
-           L1P4.Visible:=False;
-           L1P5.Visible:=False;
-           L1P6.Visible:=False;
-           L1P7.Visible:=False;
-           L1P8.Visible:=False;
-           L1P9.Visible:=False;
-           L1P10.Visible:=False;
-         end;
-      2: begin
-           L1P1.Visible:=True;
-           L1P2.Visible:=True;
-           L1P3.Visible:=False;
-           L1P4.Visible:=False;
-           L1P5.Visible:=False;
-           L1P6.Visible:=False;
-           L1P7.Visible:=False;
-           L1P8.Visible:=False;
-           L1P9.Visible:=False;
-           L1P10.Visible:=False;
-         end;
-      3:begin
-           L1P1.Visible:=True;
-           L1P2.Visible:=True;
-           L1P3.Visible:=True;
-           L1P4.Visible:=False;
-           L1P5.Visible:=False;
-           L1P6.Visible:=False;
-           L1P7.Visible:=False;
-           L1P8.Visible:=False;
-           L1P9.Visible:=False;
-           L1P10.Visible:=False;
-         end;
-      4:begin
-           L1P1.Visible:=True;
-           L1P2.Visible:=True;
-           L1P3.Visible:=True;
-           L1P4.Visible:=True;
-           L1P5.Visible:=False;
-           L1P6.Visible:=False;
-           L1P7.Visible:=False;
-           L1P8.Visible:=False;
-           L1P9.Visible:=False;
-           L1P10.Visible:=False;
-         end;
-      5:begin
-           L1P1.Visible:=True;
-           L1P2.Visible:=True;
-           L1P3.Visible:=True;
-           L1P4.Visible:=True;
-           L1P5.Visible:=True;
-           L1P6.Visible:=False;
-           L1P7.Visible:=False;
-           L1P8.Visible:=False;
-           L1P9.Visible:=False;
-           L1P10.Visible:=False;
-         end;
-      6:begin
-           L1P1.Visible:=True;
-           L1P2.Visible:=True;
-           L1P3.Visible:=True;
-           L1P4.Visible:=True;
-           L1P5.Visible:=True;
-           L1P6.Visible:=True;
-           L1P7.Visible:=False;
-           L1P8.Visible:=False;
-           L1P9.Visible:=False;
-           L1P10.Visible:=False;
-         end;
-      7:begin
-           L1P1.Visible:=True;
-           L1P2.Visible:=True;
-           L1P3.Visible:=True;
-           L1P4.Visible:=True;
-           L1P5.Visible:=True;
-           L1P6.Visible:=True;
-           L1P7.Visible:=True;
-           L1P8.Visible:=False;
-           L1P9.Visible:=False;
-           L1P10.Visible:=False;
-         end;
-      8:begin
-           L1P1.Visible:=True;
-           L1P2.Visible:=True;
-           L1P3.Visible:=True;
-           L1P4.Visible:=True;
-           L1P5.Visible:=True;
-           L1P6.Visible:=True;
-           L1P7.Visible:=True;
-           L1P8.Visible:=True;
-           L1P9.Visible:=False;
-           L1P10.Visible:=False;
-         end;
-      9:begin
-           L1P1.Visible:=True;
-           L1P2.Visible:=True;
-           L1P3.Visible:=True;
-           L1P4.Visible:=True;
-           L1P5.Visible:=True;
-           L1P6.Visible:=True;
-           L1P7.Visible:=True;
-           L1P8.Visible:=True;
-           L1P9.Visible:=True;
-           L1P10.Visible:=False;
-         end;
-      10:begin
-           L1P1.Visible:=True;
-           L1P2.Visible:=True;
-           L1P3.Visible:=True;
-           L1P4.Visible:=True;
-           L1P5.Visible:=True;
-           L1P6.Visible:=True;
-           L1P7.Visible:=True;
-           L1P8.Visible:=True;
-           L1P9.Visible:=True;
-           L1P10.Visible:=True;
-         end;
-    end;
-   except
-     ShowMessage('An error occured')
-   end;}
+     if displayPoints < 9 then
+     begin
+        for j := displayPoints to 9 do
+            begin
+                 scoreColumns[i, j].Visible := True;
+            end;
+     end;
+   end;
 
 end;
 
