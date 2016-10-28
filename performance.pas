@@ -12,27 +12,11 @@ uses
 type
 
   { TTFrmPoints }
-  //Declare record of points pieces
-  //TPointChunks = array [ 0..9] of TShape;
-
   TTFrmPoints = class(TForm)
-    BtnActive: TButton;
     BtnAdjustScale: TButton;
     BtnDrawScreen: TButton;
     BtnUpdateScore: TButton;
     ColBox: TColorBox;
-    LblPoints1: TLabel;
-    LblPoints10: TLabel;
-    LblPoints7: TLabel;
-    LblPoints2: TLabel;
-    LblPoints3: TLabel;
-    LblPoints4: TLabel;
-    LblPoints5: TLabel;
-    LblPoints6: TLabel;
-    LblPoints0: TLabel;
-    LblPoints8: TLabel;
-    LblPoints9: TLabel;
-    procedure BtnActiveClick(Sender: TObject);
     procedure BtnAdjustScaleClick(Sender: TObject);
     procedure BtnDrawScreenClick(Sender: TObject);
     procedure BtnFwdClick(Sender: TObject);
@@ -40,9 +24,6 @@ type
     procedure ColBoxL1Change(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
-    procedure LbL1Click(Sender: TObject);
-    procedure LblLodge1Click(Sender: TObject);
-    procedure TimerUpdateScaleTimer(Sender: TObject);
 
   private
     { private declarations }
@@ -57,11 +38,13 @@ var
   TFrmPoints: TTFrmPoints;
   //New code using arrays to give dynamic screen size adaptation
   //scoreColumns --> array to hold 1-10 segments for displaying numbr of points lodge has - duplicated for number of lodges on the system
-  //SpinEdts --> array to hold the spin edit components used to set the score per lodge
-  //ScoreCaptions --> array to store the captions used to dislay the number of points in a clear way at the top of the scoe columns
-  scoreColumns : array of array [ 0..9] of TShape;
+  //spinEdts --> array to hold the spin edit components used to set the score per lodge
+  //scoreCaptions --> array to store the captions used to dislay the number of points in a clear way at the top of the score columns
+  //scoreScale --> array to store the captions used to the blocks to points coversion on the left hand side of the screen
+  scoreColumns : array of array [0..9] of TShape;
   spinEdts : array of TSpinEdit;
   scoreLabels : array of TLabel;
+  scoreScale : array of array [0..9] of TLabel;
 
 implementation
 
@@ -84,19 +67,9 @@ begin
   end;
 end;
 
-procedure TTFrmPoints.LbL1Click(Sender: TObject);
-begin
-
-end;
-
-procedure TTFrmPoints.LblLodge1Click(Sender: TObject);
-begin
-
-end;
-
-procedure TTFrmPoints.TimerUpdateScaleTimer(Sender: TObject);
+procedure TTFrmPoints.BtnAdjustScaleClick(Sender: TObject);
 var
-TP:Integer;
+TP, j:Integer;
 begin
 TP := MaxValue(points);
   case TP of
@@ -131,33 +104,13 @@ TP := MaxValue(points);
                                             TFrmPoints.Scale:=100;
                                           end;
   end;
-
-  BtnAdjustScale.Click;
-end;
-
-//Legacy
-procedure TTFrmPoints.BtnAdjustScaleClick(Sender: TObject);
-begin
-  try
-     LblPoints1.Caption:=IntToStr(Round(TFrmPoints.Scale/10));
-     LblPoints2.Caption:=InttoStr(Round((2*TFrmPoints.Scale)/10));
-     LblPoints3.Caption:=InttoStr(Round((3*TFrmPoints.Scale)/10));
-     LblPoints4.Caption:=InttoStr(Round((4*TFrmPoints.Scale)/10));
-     LblPoints5.Caption:=InttoStr(Round((5*TFrmPoints.Scale)/10));
-     LblPoints6.Caption:=InttoStr(Round((6*TFrmPoints.Scale)/10));
-     LblPoints7.Caption:=InttoStr(Round((7*TFrmPoints.Scale)/10));
-     LblPoints8.Caption:=InttoStr(Round((8*TFrmPoints.Scale)/10));
-     LblPoints9.Caption:=InttoStr(Round((9*TFrmPoints.Scale)/10));
-     LblPoints10.Caption:=InttoStr(Round((10*TFrmPoints.Scale)/10));
-  except
-    ShowMessage('Scale not recognised')
+  //Update captions
+  for j := 0 to 9 do
+  begin
+       scoreScale[0, j].Caption := InttoStr(Round(((10-j)*TFrmPoints.Scale)/10));
   end;
 end;
 
-procedure TTFrmPoints.BtnActiveClick(Sender: TObject);
-begin
-
-end;
 
 //This hooks in to the OnResize event of the form
 procedure TTFrmPoints.BtnDrawScreenClick(Sender: TObject);
@@ -194,6 +147,7 @@ begin
     SetLength(scoreColumns, (noCols + 1));
     SetLength(spinEdts, (noCols + 1));
     SetLength(scoreLabels, (noCols + 1));
+    SetLength(scoreScale, (noCols + 1));
   end;
   //Cleanup previously generated shapes and objects/components
   begin
@@ -202,13 +156,19 @@ begin
         //Cleanup spinedit components
         if spinEdts[i] is TSpinEdit then
           spinEdts[i].Free;
-        //Cleanup label components
+        //Cleanup label components along the top of the display
         if scoreLabels[i] is TLabel then
           scoreLabels[i].Free;
-        //Cleanup score column segments
+        //Cleanup score column segments and label components
         for j := 9 downto 0 do
-          if scoreColumns[i,j] is TShape then
-          scoreColumns[i,j].Free;
+          begin
+               //Cleanup score column segments
+               if scoreColumns[i,j] is TShape then
+                  scoreColumns[i,j].Free;
+               //Cleanup label components for the scale on the left hand side
+               if scoreScale[i,j] is TLabel then
+                  scoreScale[i,j].Free;
+          end;
       end;
   end;
   //Generate the correct number of columns based on what is found in the database
@@ -249,6 +209,21 @@ begin
                 Width := colWidth;
                 Brush.Color:=ColBox.Selected
               end;
+          //If the first column is being generated, generate the scale as well
+          if (i = 0) then
+             begin
+               scoreScale[i, j] := TLabel.Create(self);
+               with scoreScale[i, j] do
+                    begin
+                         //Properties
+                         Parent := self;
+                         Font.Size := Round(hMargin/3);
+                         Caption := '00';
+                         Top := Round(vMarginT + j*Round((screenHeight-(vMarginT + vMarginB))/10)-j);
+                         Left := Round(((hMargin/2)-(TFrmPoints.Canvas.TextWidth(Caption)))*0.75);
+                         Name := 'LblScale_' + InttoStr(j);
+                    end;
+             end;
           end;
         //Generate spin edit components to allow points to be added or subtracted from the coloumn score
         spinEdts[i] := TSpinEdit.Create(self);
@@ -267,6 +242,8 @@ begin
           end;
       end;
   end;
+  //Update the scale
+  TFrmPoints.BtnAdjustScale.Click;
 end;
 
 procedure TTFrmPoints.BtnFwdClick(Sender: TObject);
@@ -290,11 +267,18 @@ try
 //Update array with new value
 points[i] := spinEdts[i].Value;
 
-    //Update label caption
-    if scoreLabels[i] is TLabel then
-        scoreLabels[i].Caption := InttoStr(points[i]);
+//Update label caption
+if scoreLabels[i] is TLabel then
+   scoreLabels[i].Caption := InttoStr(points[i]);
 
-//DP:=Round(points[i]/(TFrmPoints.Scale/10));
+//Update the scale
+TFrmPoints.BtnAdjustScale.Click;
+
+DP:=Round(points[i]/(TFrmPoints.Scale/10));
+
+
+
+
 
 
 //Begin Legacy code
