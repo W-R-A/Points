@@ -9,14 +9,16 @@ Alternatively pull requests are very welcome.
 #Points
 This is a program designed to allow beavers to see which of the lodges have the most points and help some friendly competion between lodges. It is written in Pascal, designed in delphi
 
-You will need a compiler such as lazarus to compile the code or for ease of use pre-built binaries are available from https://andrewarthacornwall.com/software
+You will need a pascal compiler such as the one included with lazarus to compile the code, or for ease of use pre-built binaries are available from https://andrewarthacornwall.com/software
 
-TODO:
+TODO, In order of priorty: 
+-Cleanup the part of the program that interacts with the database
 
--Dynamically adjust points locations to automatically optimise use of screen space on different devices
--- Update program to dynamically generate the components needed programtically to optimise the layout on different screen sizes
--- Rewrite the onChange event handler for the spin edit components to allow multiple spin edit components to use the same event handler
- 
--Allow the scores to be shown/uploaded on a website
+-Make the admin area of the program easier to use
+
+-Add some configuration options to customise the program 
+
+-Allow the scores to be shown/uploaded on/to a website
 
 -General code cleanup
+
