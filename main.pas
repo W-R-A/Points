@@ -5,8 +5,7 @@ unit Main;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, DBGrids,
-  ButtonPanel, StdCtrls;
+  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, DBGrids, StdCtrls;
 
 type
 

@@ -12,43 +12,52 @@ object TFrmPoints: TTFrmPoints
   OnResize = BtnDrawScreenClick
   LCLVersion = '1.6.0.4'
   object BtnAdjustScale: TButton
-    Left = 1248
-    Height = 49
-    Top = 304
-    Width = 69
+    Left = 528
+    Height = 81
+    Top = 112
+    Width = 228
     Caption = 'Adjust Scale'
     OnClick = BtnAdjustScaleClick
     TabOrder = 0
     Visible = False
   end
   object ColBox: TColorBox
-    Left = 1235
+    Left = 592
     Height = 22
-    Top = 416
+    Top = 408
     Width = 98
     ItemHeight = 16
-    OnChange = ColBoxL1Change
     TabOrder = 1
     Visible = False
   end
   object BtnDrawScreen: TButton
-    Left = 1236
-    Height = 37
-    Top = 368
-    Width = 97
-    Caption = 'BtnDrawScreen'
+    Left = 528
+    Height = 81
+    Top = 192
+    Width = 228
+    Caption = 'Draw Screen'
     OnClick = BtnDrawScreenClick
     TabOrder = 2
     Visible = False
   end
   object BtnUpdateScore: TButton
-    Left = 1248
-    Height = 53
-    Top = 35
-    Width = 76
-    Caption = 'BtnUpdateScore'
+    Left = 528
+    Height = 80
+    Top = 32
+    Width = 228
+    Caption = 'Update Score'
     OnClick = BtnUpdateScoreClick
     TabOrder = 3
+    Visible = False
+  end
+  object BtnDisplayScore: TButton
+    Left = 528
+    Height = 81
+    Top = 272
+    Width = 228
+    Caption = 'Display Score'
+    OnClick = BtnDisplayScoreClick
+    TabOrder = 4
     Visible = False
   end
 end

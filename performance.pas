@@ -5,9 +5,9 @@ unit performance;
 interface
 
 uses
-  Classes, SysUtils, db, sqldb, sqlite3conn, FileUtil, TAGraph, TASeries,
+  Classes, SysUtils, sqldb, sqlite3conn, FileUtil, TAGraph, TASeries,
   TADbSource, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls, DbCtrls,
-  ColorBox, Buttons, ComCtrls, Spin, types, math, crt;
+  ColorBox, Buttons, Spin, math, crt;
 
 type
 
@@ -16,12 +16,12 @@ type
     BtnAdjustScale: TButton;
     BtnDrawScreen: TButton;
     BtnUpdateScore: TButton;
+    BtnDisplayScore: TButton;
     ColBox: TColorBox;
     procedure BtnAdjustScaleClick(Sender: TObject);
+    procedure BtnDisplayScoreClick(Sender: TObject);
     procedure BtnDrawScreenClick(Sender: TObject);
-    procedure BtnFwdClick(Sender: TObject);
     procedure BtnUpdateScoreClick(Sender: TObject);
-    procedure ColBoxL1Change(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
 
@@ -54,15 +54,18 @@ implementation
 uses
   Depend;
 
-//This is invoked when the form is created
+//This is invoked when the program starts and this form is created
 procedure TTFrmPoints.FormCreate(Sender: TObject);
 begin
   //Maximise program screen area then start database queries and set up program screen then activate it, also set initial scale
   begin
   //Initiate other form to get data from DB
   TFrmDepend.BtnGetPoints.Click;
+  //Set the window state to maximise the progam window
   WindowState:=wsMaximized;
+  //Set the inital scale of the display
   TFrmPoints.Scale:= 10;
+  //Invoke procedure to generate the components and set everything up
   TFrmPoints.BtnDrawScreen.Click;
   end;
 end;
@@ -110,7 +113,6 @@ TP := MaxValue(points);
        scoreScale[0, j].Caption := InttoStr(Round(((10-j)*TFrmPoints.Scale)/10));
   end;
 end;
-
 
 //This hooks in to the OnResize event of the form
 procedure TTFrmPoints.BtnDrawScreenClick(Sender: TObject);
@@ -217,7 +219,7 @@ begin
                     begin
                          //Properties
                          Parent := self;
-                         Font.Size := Round(hMargin/3);
+                         Font.Size := Round(hMargin/4);
                          Caption := '00';
                          Top := Round(vMarginT + j*Round((screenHeight-(vMarginT + vMarginB))/10)-j);
                          Left := Round(((hMargin/2)-(TFrmPoints.Canvas.TextWidth(Caption)))*0.75);
@@ -244,78 +246,69 @@ begin
   end;
   //Update the scale
   TFrmPoints.BtnAdjustScale.Click;
-end;
-
-procedure TTFrmPoints.BtnFwdClick(Sender: TObject);
-begin
-
-end;
+  //Display the points on the screen
+  TFrmPoints.BtnDisplayScore.Click;
+end; //End procedure
 
 procedure TTFrmPoints.BtnUpdateScoreClick(Sender: TObject);
 var
-  i, j, displayPoints, oldScale: Integer;
+  i: Integer;
   identiferList : TStrings;
 begin
+//Find out which spin edit component changed and update the relevent colour accordingly
 try
    identiferList := TStringList.Create;
    ExtractStrings(['_'], [], PChar((Sender as TSpinEdit).Name), identiferList);
    i := StrtoInt(identiferList[1]);
   finally
     identiferList.Free;
-  end;
+  end; //End try
 
 //Update array with new value
 points[i] := spinEdts[i].Value;
 
-//Update label caption
-if scoreLabels[i] is TLabel then
-   scoreLabels[i].Caption := InttoStr(points[i]);
+//Update screen
+TFrmPoints.BtnDisplayScore.Click;
+end; //End procedure
 
+procedure TTFrmPoints.BtnDisplayScoreClick(Sender: TObject);
+var i, j, displayPoints : Integer;
+
+begin
 //Update the scale
-oldScale := TFrmPoints.Scale;
 TFrmPoints.BtnAdjustScale.Click;
 
-displayPoints:=9-Trunc(points[i]/(TFrmPoints.Scale/10));
-
-//Display number of segments
-for j := 0 to displayPoints+1 do
-begin
-     scoreColumns[i, j].Visible := False;
-end;
-
-if displayPoints < 9 then
+//Update the score points columns
+for i := 0 to TFrmDepend.RecordNo do
    begin
+       //Set / update the label captions
+       if scoreLabels[i] is TLabel then
+           scoreLabels[i].Caption := InttoStr(points[i]);
+
+     //Display number of segments for each colour by setting each block to either visisble or invisible
+     //Work out how many segments should be visible
+     displayPoints:=9-Trunc(points[i]/(TFrmPoints.Scale/10));
+
+     //Check to ensure the displayPoints is within allowed limits
+     if (displayPoints <= 9) and (displayPoints >= 0) then
+     //Set the required number of segemnts invisible
+     begin
+         for j := 0 to displayPoints do
+             begin
+                 scoreColumns[i, j].Visible := False;
+             end; //End if
+     end; //End if
+     //Check to ensure the displayPoints is within allowed limits, theese are one lower than before to prevent overwriting of the invisible value
+     if (displayPoints <= 8) and (displayPoints >= -1) then
+     //Set the required number of segemnts invisible
+     begin
         for j := displayPoints+1 to 9 do
             begin
                  scoreColumns[i, j].Visible := True;
-            end;
-   end;
-//Update other points displays only if needed
-if oldScale <> TFrmPoints.Scale then
-   for i := 0 to TFrmDepend.RecordNo do
-   begin
-     //Display number of segments for each colour
-     displayPoints:=9-Trunc(points[i]/(TFrmPoints.Scale/10));
-     for j := 0 to displayPoints do
-     begin
-          scoreColumns[i, j].Visible := False;
-     end;
-
-     if displayPoints < 9 then
-     begin
-        for j := displayPoints to 9 do
-            begin
-                 scoreColumns[i, j].Visible := True;
-            end;
-     end;
-   end;
-
-end;
-
-procedure TTFrmPoints.ColBoxL1Change(Sender: TObject);
-begin
-
-end;
+            end; //End for
+     end; //End if
+   end; //End for loop
+end; //End procedure
 
 procedure TTFrmPoints.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
