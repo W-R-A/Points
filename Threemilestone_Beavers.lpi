@@ -20,6 +20,7 @@
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="2"/>
+      <BuildNr Value="1"/>
       <Language Value="0809"/>
       <Attributes pvaDebug="True"/>
       <StringTable LegalCopyright="GPL v3" ProductVersion="Points"/>

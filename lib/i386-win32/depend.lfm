@@ -100,13 +100,22 @@ object TFrmDepend: TTFrmDepend
     TabOrder = 7
   end
   object BtnCustomColour: TButton
-    Left = 696
+    Left = 360
     Height = 60
-    Top = 104
+    Top = 224
     Width = 99
     Caption = 'BtnCustomColour'
     OnClick = BtnCustomColourClick
     TabOrder = 8
+  end
+  object BtnTestPointsDisplay: TButton
+    Left = 728
+    Height = 82
+    Top = 136
+    Width = 138
+    Caption = 'Test displaying points'
+    OnClick = BtnTestPointsDisplayClick
+    TabOrder = 9
   end
   object SQLite3ConnectionMain: TSQLite3Connection
     Connected = False
@@ -166,7 +175,7 @@ object TFrmDepend: TTFrmDepend
       'ColorS=F0FBFF'
       'ColorT=A4A0A0'
     )
-    left = 616
-    top = 104
+    left = 552
+    top = 360
   end
 end

@@ -17,10 +17,12 @@ type
     BtnDrawScreen: TButton;
     BtnUpdateScore: TButton;
     BtnDisplayScore: TButton;
+	BtnTestDisplay: TButton;
     ColBox: TColorBox;
     procedure BtnAdjustScaleClick(Sender: TObject);
     procedure BtnDisplayScoreClick(Sender: TObject);
     procedure BtnDrawScreenClick(Sender: TObject);
+	procedure BtnTestDisplayClick(Sender: TObject);
     procedure BtnUpdateScoreClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
@@ -320,7 +322,26 @@ begin
   end;
 end;
 
+//Test proceedures
+procedure TTFrmPoints.BtnTestDisplayClick(Sender: TObject);
+var
+  i,j,noCols:Integer;
+begin
+noCols := TFrmDepend.RecordNo;
+if noCols < 1 then
+  begin
+    ShowMessage('The number of columns must be greater than 1');
+    noCols := 1;
+  end;
+for i := 0 to noCols do
+    for j := 0 to 99 do
+        begin
+            spinEdts[i].Value:=j;
+            ShowMessage('Enter to continue');
+            //sleep(500);
+		end;
 
+end;
 
 end.
 

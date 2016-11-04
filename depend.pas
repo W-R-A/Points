@@ -18,6 +18,7 @@ type
     BtnUpdateDB: TButton;
     BtnGetPoints: TButton;
     BtnCustomColour: TButton;
+	BtnTestPointsDisplay: TButton;
     CBColors: TComboBox;
     CDSelColour: TColorDialog;
     DataSourceLodge: TDataSource;
@@ -32,6 +33,7 @@ type
     procedure BtnCheckClick(Sender: TObject);
     procedure BtnCustomColourClick(Sender: TObject);
     procedure BtnGetPointsClick(Sender: TObject);
+	procedure BtnTestPointsDisplayClick(Sender: TObject);
     procedure BtnUpdateClick(Sender: TObject);
     procedure BtnUpdateDBClick(Sender: TObject);
     procedure CBColorsChange(Sender: TObject);
@@ -121,6 +123,10 @@ begin
   SQLTransactionIntergration.CleanupInstance;
   SQLQuery.Active:=False;
   SQLQuery.Close;
+end;
+
+procedure TTFrmDepend.BtnTestPointsDisplayClick(Sender: TObject);
+begin
 end;
 
 
