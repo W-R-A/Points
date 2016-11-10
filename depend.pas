@@ -123,6 +123,11 @@ begin
   SQLTransactionIntergration.CleanupInstance;
   SQLQuery.Active:=False;
   SQLQuery.Close;
+    if RecordNo < 1 then
+      begin
+        ShowMessage('The number of columns must be greater than 1');
+        RecordNo := 1;
+      end;
 end;
 
 procedure TTFrmDepend.BtnTestPointsDisplayClick(Sender: TObject);

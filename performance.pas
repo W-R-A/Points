@@ -32,7 +32,8 @@ type
 
   private
     { private declarations }
-    testi, testj : Integer;
+    //noCols --> The number of columns of points to display dependant of the number of lodges to track points for
+    testi, testj, noCols, testcolval : Integer;
   public
     { public declarations }
     Scale:Integer;
@@ -73,6 +74,13 @@ begin
   TFrmPoints.Scale:= 10;
   //Invoke procedure to generate the components and set everything up
   TFrmPoints.BtnDrawScreen.Click;
+  //Set the number of columns global variable
+  noCols := TFrmDepend.RecordNo;
+    if noCols < 1 then
+      begin
+        ShowMessage('The number of columns must be greater than 1');
+        noCols := 1;
+      end;
   end;
 end;
 
@@ -126,23 +134,18 @@ var
   //Setup varibles:
   //screenWidth --> Stores the width, in pixels of the screen
   //screenHeight --> Stores the height, in pixels of the screen
-  //noCols --> The number of columns of points to display depentant of the number of lodges to track points for
   //colWidth --> The width, in pixels of the columns
   //btwnCols --> The width, in pixels between columns
   //hMargin --> The horizontal margin around the display
   //vMarginT --> The vertical margin at the top of the display
   //vMarginB --> The vertical margin at the bottom of the display
-  screenWidth, screenHeight, noCols, colWidth, btwnCols, hMargin, vMarginT, vMarginB: Integer;
+  screenWidth, screenHeight, colWidth, btwnCols, hMargin, vMarginT, vMarginB: Integer;
   i, j : Integer;
 begin
   begin
-    //Setup screen width and height varibles
+    //Workaround as the OnResize event fires before the onCreate event of the form
     noCols := TFrmDepend.RecordNo;
-    if noCols < 1 then
-      begin
-        ShowMessage('The number of columns must be greater than 1');
-        noCols := 1;
-      end;
+    //Setup screen width and height varibles
     //Setup margins
     screenHeight := TFrmPoints.Height;
     screenWidth := TFrmPoints.Width;
@@ -256,11 +259,6 @@ begin
   TFrmPoints.BtnDisplayScore.Click;
 end; //End procedure
 
-procedure TTFrmPoints.BtnTestClick(Sender: TObject);
-begin
-     TFrmPoints.TestTimer.Enabled:=True;
-end;
-
 procedure TTFrmPoints.BtnUpdateScoreClick(Sender: TObject);
 var
   i: Integer;
@@ -334,7 +332,7 @@ end;
 //Test proceedures
 procedure TTFrmPoints.BtnTestDisplayClick(Sender: TObject);
 var
-  noCols:Integer;
+  i: Integer;
 begin
 noCols := TFrmDepend.RecordNo;
 if noCols < 1 then
@@ -342,7 +340,7 @@ if noCols < 1 then
     ShowMessage('The number of columns must be greater than 1');
     noCols := 1;
   end;
-  if testi <= noCols then
+  if testi < noCols then
     begin
       if testj <= 100 then
         begin
@@ -351,17 +349,43 @@ if noCols < 1 then
 		end
 	  else
           begin
+            spinEdts[testi].Value:=testcolval;
             testj := 0;
             testi := testi + 1;
-          end;
+
+            if testi = noCols then
+              begin
+                   testcolval := testcolval + 1;
+                   if testcolval <=100 then
+                   begin
+                        for i := 0 to noCols do
+                        begin
+                           spinEdts[i].Value:=testcolval;
+                        end;
+                        testi := 0;
+                        testj := 0;
+			       end
+			  end;
+
+		  end;
 
 	end
   else
       begin
         TFrmPoints.TestTimer.Enabled:=False;
+        for i := 0 to noCols do
+            begin
+                spinEdts[i].Value:=0;
+            end;
 	  end;
 
 end;
+
+procedure TTFrmPoints.BtnTestClick(Sender: TObject);
+begin
+     TFrmPoints.TestTimer.Enabled:=True;
+end;
+
 
 end.
 

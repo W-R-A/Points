@@ -80,7 +80,7 @@ object TFrmPoints: TTFrmPoints
   end
   object TestTimer: TTimer
     Enabled = False
-    Interval = 100
+    Interval = 10
     OnTimer = BtnTestDisplayClick
     left = 216
     top = 224
