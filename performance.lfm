@@ -69,4 +69,20 @@ object TFrmPoints: TTFrmPoints
     OnClick = BtnTestDisplayClick
     TabOrder = 5
   end
+  object BtnTest: TButton
+    Left = 152
+    Height = 50
+    Top = 320
+    Width = 84
+    Caption = 'BtnTest'
+    OnClick = BtnTestClick
+    TabOrder = 6
+  end
+  object TestTimer: TTimer
+    Enabled = False
+    Interval = 100
+    OnTimer = BtnTestDisplayClick
+    left = 216
+    top = 224
+  end
 end

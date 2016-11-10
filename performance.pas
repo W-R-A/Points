@@ -18,10 +18,13 @@ type
     BtnUpdateScore: TButton;
     BtnDisplayScore: TButton;
 	BtnTestDisplay: TButton;
+	BtnTest: TButton;
     ColBox: TColorBox;
+	TestTimer: TTimer;
     procedure BtnAdjustScaleClick(Sender: TObject);
     procedure BtnDisplayScoreClick(Sender: TObject);
     procedure BtnDrawScreenClick(Sender: TObject);
+	procedure BtnTestClick(Sender: TObject);
 	procedure BtnTestDisplayClick(Sender: TObject);
     procedure BtnUpdateScoreClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -29,6 +32,7 @@ type
 
   private
     { private declarations }
+    testi, testj : Integer;
   public
     { public declarations }
     Scale:Integer;
@@ -252,6 +256,11 @@ begin
   TFrmPoints.BtnDisplayScore.Click;
 end; //End procedure
 
+procedure TTFrmPoints.BtnTestClick(Sender: TObject);
+begin
+     TFrmPoints.TestTimer.Enabled:=True;
+end;
+
 procedure TTFrmPoints.BtnUpdateScoreClick(Sender: TObject);
 var
   i: Integer;
@@ -325,7 +334,7 @@ end;
 //Test proceedures
 procedure TTFrmPoints.BtnTestDisplayClick(Sender: TObject);
 var
-  i,j,noCols:Integer;
+  noCols:Integer;
 begin
 noCols := TFrmDepend.RecordNo;
 if noCols < 1 then
@@ -333,13 +342,24 @@ if noCols < 1 then
     ShowMessage('The number of columns must be greater than 1');
     noCols := 1;
   end;
-for i := 0 to noCols do
-    for j := 0 to 99 do
+  if testi <= noCols then
+    begin
+      if testj <= 100 then
         begin
-            spinEdts[i].Value:=j;
-            ShowMessage('Enter to continue');
-            //sleep(500);
-		end;
+             spinEdts[testi].Value:=testj;
+             testj := testj + 1;
+		end
+	  else
+          begin
+            testj := 0;
+            testi := testi + 1;
+          end;
+
+	end
+  else
+      begin
+        TFrmPoints.TestTimer.Enabled:=False;
+	  end;
 
 end;
 
