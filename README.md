@@ -12,6 +12,8 @@ This is a program designed to allow beavers to see which of the lodges have the 
 You will need a pascal compiler such as the one included with lazarus to compile the code, or for ease of use pre-built binaries are available from https://andrewarthacornwall.com/software
 
 TODO, In order of priorty: 
+-Add some tests to ensure that the program is working as expected
+
 -Cleanup the part of the program that interacts with the database
 
 -Make the admin area of the program easier to use
