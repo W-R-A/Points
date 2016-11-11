@@ -6,21 +6,10 @@ If you would like to suggest a feature just raise an isssue in the Issues tab ab
 
 Alternatively pull requests are very welcome.
 
+The TODO list is available under the projects tab above
+
 #Points
 This is a program designed to allow beavers to see which of the lodges have the most points and help some friendly competion between lodges. It is written in Pascal, designed in delphi
 
 You will need a pascal compiler such as the one included with lazarus to compile the code, or for ease of use pre-built binaries are available from https://andrewarthacornwall.com/software
 
-TODO, In order of priorty: 
-
--Add some tests to ensure that the program is working as expected
-
--Cleanup the part of the program that interacts with the database
-
--Make the admin area of the program easier to use
-
--Add some configuration options to customise the program 
-
--Allow the scores to be shown/uploaded on/to a website
-
--General code cleanup
