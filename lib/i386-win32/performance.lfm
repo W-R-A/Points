@@ -3,14 +3,14 @@ object TFrmPoints: TTFrmPoints
   Height = 706
   Top = 155
   Width = 1360
-  Caption = 'Points v2.0-dev'
+  Caption = 'Points - Current Points'
   ClientHeight = 706
   ClientWidth = 1360
   Color = clWhite
   OnClose = FormClose
   OnCreate = FormCreate
   OnResize = BtnDrawScreenClick
-  LCLVersion = '1.4.4.0'
+  LCLVersion = '1.6.0.4'
   object BtnAdjustScale: TButton
     Left = 528
     Height = 81
@@ -61,28 +61,30 @@ object TFrmPoints: TTFrmPoints
     Visible = False
   end
   object BtnTestDisplay: TButton
-    Left = 528
-    Height = 80
-    Top = 352
-    Width = 228
+    Left = 584
+    Height = 64
+    Top = 512
+    Width = 124
     Caption = 'Test'
     OnClick = BtnTestDisplayClick
     TabOrder = 5
+    Visible = False
   end
   object BtnTest: TButton
-    Left = 152
-    Height = 50
-    Top = 320
-    Width = 84
-    Caption = 'BtnTest'
+    Left = 528
+    Height = 81
+    Top = 352
+    Width = 228
+    Caption = 'Test'
     OnClick = BtnTestClick
     TabOrder = 6
+    Visible = False
   end
   object TestTimer: TTimer
     Enabled = False
     Interval = 10
     OnTimer = BtnTestDisplayClick
-    left = 216
-    top = 224
+    left = 632
+    top = 616
   end
 end

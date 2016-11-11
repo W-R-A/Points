@@ -13,6 +13,7 @@ uses
 {$R *.res}
 
 begin
+  Application.Title:='Points';
   RequireDerivedFormResource := True;
   Application.Initialize;
   Application.CreateForm(TTFrmMain, TFrmMain);

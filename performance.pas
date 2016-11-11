@@ -17,15 +17,15 @@ type
     BtnDrawScreen: TButton;
     BtnUpdateScore: TButton;
     BtnDisplayScore: TButton;
-	BtnTestDisplay: TButton;
-	BtnTest: TButton;
+	  BtnTestDisplay: TButton;
+	  BtnTest: TButton;
     ColBox: TColorBox;
-	TestTimer: TTimer;
+	  TestTimer: TTimer;
     procedure BtnAdjustScaleClick(Sender: TObject);
     procedure BtnDisplayScoreClick(Sender: TObject);
     procedure BtnDrawScreenClick(Sender: TObject);
-	procedure BtnTestClick(Sender: TObject);
-	procedure BtnTestDisplayClick(Sender: TObject);
+	  procedure BtnTestClick(Sender: TObject);
+	  procedure BtnTestDisplayClick(Sender: TObject);
     procedure BtnUpdateScoreClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
@@ -33,10 +33,11 @@ type
   private
     { private declarations }
     //noCols --> The number of columns of points to display dependant of the number of lodges to track points for
-    testi, testj, noCols, testcolval : Integer;
+    testi, testj, testcolval : Integer;
+    devMode : Boolean;
   public
     { public declarations }
-    Scale:Integer;
+    Scale, noCols :Integer;
     points : array of Integer;
     Colours : array of string;
   end;
@@ -68,7 +69,7 @@ begin
   begin
   //Initiate other form to get data from DB
   TFrmDepend.BtnGetPoints.Click;
-  //Set the window state to maximise the progam window
+  //Set the window state to maximise the program window
   WindowState:=wsMaximized;
   //Set the inital scale of the display
   TFrmPoints.Scale:= 10;
@@ -76,11 +77,10 @@ begin
   TFrmPoints.BtnDrawScreen.Click;
   //Set the number of columns global variable
   noCols := TFrmDepend.RecordNo;
-    if noCols < 1 then
-      begin
-        ShowMessage('The number of columns must be greater than 1');
-        noCols := 1;
-      end;
+  //Set the devMode variable to true for testing, eventually this will be an option on the config screen
+  devMode := True;
+  //Set controls based on if development mode is on or not
+  TFrmPoints.BtnTest.Visible:=devMode;
   end;
 end;
 
@@ -334,19 +334,13 @@ procedure TTFrmPoints.BtnTestDisplayClick(Sender: TObject);
 var
   i: Integer;
 begin
-noCols := TFrmDepend.RecordNo;
-if noCols < 1 then
-  begin
-    ShowMessage('The number of columns must be greater than 1');
-    noCols := 1;
-  end;
   if testi < noCols then
     begin
       if testj <= 100 then
         begin
              spinEdts[testi].Value:=testj;
              testj := testj + 1;
-		end
+		    end  //End if
 	  else
           begin
             spinEdts[testi].Value:=testcolval;
@@ -361,25 +355,22 @@ if noCols < 1 then
                         for i := 0 to noCols do
                         begin
                            spinEdts[i].Value:=testcolval;
-                        end;
+                        end; //End for
                         testi := 0;
                         testj := 0;
-			       end
-			  end;
-
-		  end;
-
-	end
+			             end  //End if
+			        end; //End if
+		      end; //End else
+    end //End if
   else
       begin
         TFrmPoints.TestTimer.Enabled:=False;
         for i := 0 to noCols do
             begin
                 spinEdts[i].Value:=0;
-            end;
-	  end;
-
-end;
+            end; //End for
+	    end; //End else
+end; //End proceedure
 
 procedure TTFrmPoints.BtnTestClick(Sender: TObject);
 begin

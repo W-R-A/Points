@@ -218,7 +218,7 @@ end;
 
 procedure TTFrmDepend.FormCreate(Sender: TObject);
 begin
-  SQLiteLibraryName:='sqlite3.dll';
+  SQLiteLibraryName:= 'sqlite3.dll';
   TFrmDepend.BtnCheck.Click;
 end;
 
