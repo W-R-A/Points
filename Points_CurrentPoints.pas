@@ -1,13 +1,11 @@
-unit performance;
+unit currentPoints;
 
 {$mode objfpc}{$H+}
 
 interface
 
 uses
-  Classes, SysUtils, sqldb, sqlite3conn, FileUtil, TAGraph, TASeries,
-  TADbSource, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls, DbCtrls,
-  ColorBox, Buttons, Spin, math, crt;
+  Classes, SysUtils, FileUtil, TADbSource, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls, DbCtrls, ColorBox, Buttons, Spin, math, crt;
 
 type
 
