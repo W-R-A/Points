@@ -1,0 +1,30 @@
+object TFrmMain: TTFrmMain
+  Left = 375
+  Height = 360
+  Top = 188
+  Width = 480
+  Caption = 'Points - Main Menu'
+  ClientHeight = 360
+  ClientWidth = 480
+  Color = clWhite
+  OnCreate = FormCreate
+  LCLVersion = '1.6.0.4'
+  object BtnConnection: TButton
+    Left = 160
+    Height = 86
+    Top = 216
+    Width = 168
+    Caption = 'Configuration'
+    OnClick = BtnConnectionClick
+    TabOrder = 0
+  end
+  object BtnPerformance: TButton
+    Left = 160
+    Height = 96
+    Top = 56
+    Width = 168
+    Caption = 'Current points'
+    OnClick = BtnPerformanceClick
+    TabOrder = 1
+  end
+end
