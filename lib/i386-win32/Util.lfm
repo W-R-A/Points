@@ -18,44 +18,6 @@ object TFrmUtil: TTFrmUtil
     OnClick = BtnCheckClick
     TabOrder = 0
   end
-  object LabelInfo: TLabel
-    Left = 144
-    Height = 20
-    Top = 40
-    Width = 62
-    Caption = 'LabelInfo'
-    ParentColor = False
-  end
-  object EdtID: TEdit
-    Left = 328
-    Height = 28
-    Top = 40
-    Width = 129
-    TabOrder = 1
-  end
-  object EdtColour: TEdit
-    Left = 328
-    Height = 28
-    Top = 77
-    Width = 129
-    TabOrder = 2
-  end
-  object EdtPoints: TEdit
-    Left = 328
-    Height = 28
-    Top = 120
-    Width = 129
-    TabOrder = 3
-  end
-  object BtnUpdate: TButton
-    Left = 352
-    Height = 35
-    Top = 160
-    Width = 87
-    Caption = 'Update'
-    OnClick = BtnUpdateClick
-    TabOrder = 4
-  end
   object LblProgInfo: TLabel
     Left = 904
     Height = 20
@@ -77,8 +39,7 @@ object TFrmUtil: TTFrmUtil
       'Red'
       'Yellow'
     )
-    OnChange = CBColorsChange
-    TabOrder = 5
+    TabOrder = 1
     Text = 'CBColors'
   end
   object BtnUpdateDB: TButton
@@ -88,16 +49,16 @@ object TFrmUtil: TTFrmUtil
     Width = 96
     Caption = 'Update DB'
     OnClick = BtnUpdateDBClick
-    TabOrder = 6
+    TabOrder = 2
   end
   object BtnGetPoints: TButton
-    Left = 640
-    Height = 43
-    Top = 369
-    Width = 83
+    Left = 752
+    Height = 80
+    Top = 80
+    Width = 144
     Caption = 'BtnGetPoints'
     OnClick = BtnGetPointsClick
-    TabOrder = 7
+    TabOrder = 3
   end
   object BtnCustomColour: TButton
     Left = 360
@@ -106,16 +67,7 @@ object TFrmUtil: TTFrmUtil
     Width = 99
     Caption = 'BtnCustomColour'
     OnClick = BtnCustomColourClick
-    TabOrder = 8
-  end
-  object BtnTestPointsDisplay: TButton
-    Left = 728
-    Height = 82
-    Top = 136
-    Width = 138
-    Caption = 'Test displaying points'
-    OnClick = BtnTestPointsDisplayClick
-    TabOrder = 9
+    TabOrder = 4
   end
   object SQLite3ConnectionMain: TSQLite3Connection
     Connected = False
@@ -130,7 +82,6 @@ object TFrmUtil: TTFrmUtil
   end
   object DataSourceLodge: TDataSource
     DataSet = SQLQuery
-    OnDataChange = DataSourceLodgeDataChange
     left = 160
     top = 288
   end

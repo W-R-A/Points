@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, sqldb, sqlite3conn, db, dbf, FileUtil, Forms, Controls,
-  LResources, Graphics, Dialogs, ComCtrls, StdCtrls, DBGrids, ColorBox;
+  LResources, Graphics, Dialogs, StdCtrls, DBGrids;
 
 type
 
@@ -14,17 +14,12 @@ type
 
   TTFrmUtil = class(TForm)
     BtnCheck: TButton;
-    BtnUpdate: TButton;
     BtnUpdateDB: TButton;
     BtnGetPoints: TButton;
     BtnCustomColour: TButton;
-	BtnTestPointsDisplay: TButton;
     CBColors: TComboBox;
     CDSelColour: TColorDialog;
     DataSourceLodge: TDataSource;
-    EdtID: TEdit;
-    EdtColour: TEdit;
-    EdtPoints: TEdit;
     LblProgInfo: TLabel;
     LabelInfo: TLabel;
     SQLite3ConnectionMain: TSQLite3Connection;
@@ -33,12 +28,7 @@ type
     procedure BtnCheckClick(Sender: TObject);
     procedure BtnCustomColourClick(Sender: TObject);
     procedure BtnGetPointsClick(Sender: TObject);
-	procedure BtnTestPointsDisplayClick(Sender: TObject);
-    procedure BtnUpdateClick(Sender: TObject);
     procedure BtnUpdateDBClick(Sender: TObject);
-    procedure CBColorsChange(Sender: TObject);
-    procedure DataSourceLodgeDataChange(Sender: TObject; Field: TField);
-    procedure DBGridCurrentEditingDone(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure SQLite3ConnectionMainAfterConnect(Sender: TObject);
@@ -99,6 +89,8 @@ begin
   res := CDSelColour.Execute;
 end;
 
+
+//Insert into LodgePoints (Colour,Points) values ('FF0000', '0')
 procedure TTFrmUtil.BtnGetPointsClick(Sender: TObject);
 var
   i:Integer;
@@ -130,45 +122,6 @@ begin
       end;
 end;
 
-procedure TTFrmUtil.BtnTestPointsDisplayClick(Sender: TObject);
-begin
-end;
-
-
-procedure TTFrmUtil.BtnUpdateClick(Sender: TObject);
-var
-  Converted:Integer;
-begin
-  try
-    Converted:=StrtoInt(EdtPoints.Text);
-  except
-    ShowMessage('Error, incorrect format')
-  end;
-  //Write to database
-  try
-      if (EdtID.Text ='') and (EdtPoints.Text ='') and (EdtColour.Text ='') then
-         ShowMessage('No Data entered, try again')
-      else
-        SQLTransactionIntergration.Active:=True;
-        SQLQuery.Close;
-        SQLQuery.SQL.Text := 'Insert into LodgePoints (Colour,Points) values (col, 0)';
-        //Insert into LodgePoints (Colour,Points) values ('FF0000', '0')
-        SQLQuery.Params.ParamByName('PrID').AsString := EdtID.Text;
-        SQLQuery.Params.ParamByName('PrColour').AsString := EdtColour.Text;
-        SQLQuery.Params.ParamByName('PrPoints').AsInteger:= Converted;
-        SQLQuery.ExecSQL;
-        SQLTransactionIntergration.Commit;
-        EdtID.Text:='';
-        EdtPoints.Text:='';
-        EdtColour.Text:='';
-        SQLTransactionIntergration.Active := False;
-        SQLite3ConnectionMain.Close;
-        LabelInfo.Caption:='Success';
-  except
-    ShowMessage('Error writing to database')
-  end;
-end;
-
 procedure TTFrmUtil.BtnUpdateDBClick(Sender: TObject);
 begin
  { try
@@ -185,30 +138,6 @@ begin
     ShowMessage('Unable to write to database')
   end;
   }
-end;
-
-procedure TTFrmUtil.CBColorsChange(Sender: TObject);
-begin
-
-end;
-
-procedure TTFrmUtil.DataSourceLodgeDataChange(Sender: TObject; Field: TField);
-begin
-
-end;
-
-procedure TTFrmUtil.DBGridCurrentEditingDone(Sender: TObject);
-begin
-  try
-    SQLTransactionIntergration.Active:=True;
-    SQLTransactionIntergration.Commit;
-    SQLite3ConnectionMain.Close;
-    LabelInfo.Caption:='Success - Edit done';
-  except
-    ShowMessage('Database write error');
-  end;
-
-
 end;
 
 procedure TTFrmUtil.FormClose(Sender: TObject; var CloseAction: TCloseAction);
