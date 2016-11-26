@@ -32,11 +32,11 @@ implementation
 
 { TTFrmMain }
 uses
-  Util, performance;
+  config, performance;
 
 procedure TTFrmMain.BtnShowConfigClick(Sender: TObject);
 begin
-    TFrmUtil.ShowModal
+    TFrmConfig.ShowModal;
 end;
 
 

@@ -16,14 +16,11 @@ type
     BtnCheck: TButton;
     BtnUpdateDB: TButton;
     BtnGetPoints: TButton;
-    BtnAdjColour: TButton;
     DataSourceLodge: TDataSource;
-    LblProgInfo: TLabel;
     SQLite3ConnectionMain: TSQLite3Connection;
     SQLQuery: TSQLQuery;
     SQLTransactionIntergration: TSQLTransaction;
     procedure BtnCheckClick(Sender: TObject);
-    procedure BtnAdjColourClick(Sender: TObject);
     procedure BtnGetPointsClick(Sender: TObject);
     procedure BtnUpdateDBClick(Sender: TObject);
     procedure FormClose(Sender: TObject);
@@ -34,6 +31,8 @@ type
   public
     { public declarations }
     RecordNo : Integer;
+    Options : array of String;
+    OptionsValues : array of String;
   end;
 
 var
@@ -45,7 +44,7 @@ implementation
 
 { TTFrmUtil }
 uses
-  Main, AdjColour, performance;
+  Main, performance;
 
 procedure TTFrmUtil.SQLite3ConnectionMainAfterConnect(Sender: TObject);
 begin
@@ -77,12 +76,6 @@ begin
      end;
 end;
 
-procedure TTFrmUtil.BtnAdjColourClick(Sender: TObject);
-begin
-  TFrmAdjColour.ShowModal;
-end;
-
-
 //Insert into LodgePoints (Colour,Points) values ('FF0000', '0')
 procedure TTFrmUtil.BtnGetPointsClick(Sender: TObject);
 var
@@ -110,7 +103,7 @@ begin
   SQLQuery.Close;
     if RecordNo < 1 then
       begin
-        ShowMessage('There does not seem to be and data in the database, would you like to add a colour?');
+        //ShowMessage('There does not seem to be and data in the database, would you like to add a colour?');
         RecordNo := 1;
       end;
 end;

@@ -65,6 +65,19 @@
               </Win32>
             </Options>
           </Linking>
+          <Other>
+            <Verbosity>
+              <ShoLineNum Value="True"/>
+              <ShowAll Value="True"/>
+              <ShowDebugInfo Value="True"/>
+              <ShowUsedFiles Value="True"/>
+              <ShowTriedFiles Value="True"/>
+              <ShowCompProc Value="True"/>
+              <ShowCond Value="True"/>
+              <ShowExecInfo Value="True"/>
+              <ShowHintsForUnusedUnitsInMainSrc Value="True"/>
+            </Verbosity>
+          </Other>
         </CompilerOptions>
       </Item2>
       <Item3 Name="Release">
@@ -124,7 +137,7 @@
         <PackageName Value="LCL"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="5">
+    <Units Count="6">
       <Unit0>
         <Filename Value="Threemilestone_Beavers.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -159,6 +172,13 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="AdjColour"/>
       </Unit4>
+      <Unit5>
+        <Filename Value="config.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="TFrmConfig"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit5>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

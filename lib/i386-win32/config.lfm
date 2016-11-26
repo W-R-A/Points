@@ -1,0 +1,9 @@
+object TFrmConfig: TTFrmConfig
+  Left = 691
+  Height = 405
+  Top = 265
+  Width = 519
+  Caption = 'Points - Configuration'
+  OnCreate = FormCreate
+  LCLVersion = '1.6.0.4'
+end
