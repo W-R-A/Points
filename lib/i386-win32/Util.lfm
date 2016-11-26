@@ -1,7 +1,7 @@
 object TFrmUtil: TTFrmUtil
-  Left = 536
+  Left = 599
   Height = 600
-  Top = 132
+  Top = 244
   Width = 960
   Caption = 'Points - Configuration'
   ClientHeight = 600
@@ -52,6 +52,12 @@ object TFrmUtil: TTFrmUtil
     Caption = 'Select a colour'
     OnClick = BtnCustomColourClick
     TabOrder = 3
+  end
+  object ShpColour: TShape
+    Left = 280
+    Height = 51
+    Top = 320
+    Width = 81
   end
   object SQLite3ConnectionMain: TSQLite3Connection
     Connected = False

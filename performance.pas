@@ -27,7 +27,7 @@ type
 	  procedure BtnTestClick(Sender: TObject);
 	  procedure BtnTestDisplayClick(Sender: TObject);
     procedure BtnUpdateScoreClick(Sender: TObject);
-    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormClose(Sender: TObject);
     procedure FormCreate(Sender: TObject);
 
   private
@@ -319,7 +319,7 @@ for i := 0 to TFrmUtil.RecordNo do
    end; //End for loop
 end; //End procedure
 
-procedure TTFrmPoints.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+procedure TTFrmPoints.FormClose(Sender: TObject);
 begin
   ShowMessage('Saving data...');
   try
@@ -339,7 +339,7 @@ begin
       if testj <= 100 then
         begin
              spinEdts[testi].Value:=testj;
-             testj := testj + 1;
+             testj := testj + 2;
 		    end  //End if
 	  else
           begin
@@ -349,7 +349,7 @@ begin
 
             if testi = noCols then
               begin
-                   testcolval := testcolval + 1;
+                   testcolval := testcolval + 2;
                    if testcolval <=100 then
                    begin
                         for i := 0 to noCols do
@@ -374,7 +374,11 @@ end; //End proceedure
 
 procedure TTFrmPoints.BtnTestClick(Sender: TObject);
 begin
-     TFrmPoints.TestTimer.Enabled:=True;
+     if TFrmPoints.TestTimer.Enabled = True then
+        TFrmPoints.TestTimer.Enabled := False
+     else
+       TFrmPoints.TestTimer.Enabled := True
+
 end;
 
 

@@ -7,7 +7,7 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, dbflaz, tachartlazaruspkg, Main, performance, Util
+  Forms, dbflaz, tachartlazaruspkg, Main, performance, Util, AdjColour
   { you can add units after this };
 
 {$R *.res}
@@ -19,6 +19,7 @@ begin
   Application.CreateForm(TTFrmMain, TFrmMain);
   Application.CreateForm(TTFrmUtil, TFrmUtil);
   Application.CreateForm(TTFrmPoints, TFrmPoints);
+  Application.CreateForm(TTFrmAdjColour, TFrmAdjColour);
   Application.Run;
 end.
 

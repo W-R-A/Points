@@ -1,0 +1,8 @@
+object TFrmAdjColour: TTFrmAdjColour
+  Left = 628
+  Height = 240
+  Top = 299
+  Width = 320
+  Caption = 'Adjust a colour'
+  LCLVersion = '1.6.0.4'
+end

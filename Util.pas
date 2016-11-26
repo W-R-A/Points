@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, sqldb, sqlite3conn, db, dbf, FileUtil, Forms, Controls,
-  LResources, Graphics, Dialogs, StdCtrls, DBGrids;
+  LResources, Graphics, Dialogs, StdCtrls, DBGrids, ExtCtrls;
 
 type
 
@@ -20,6 +20,7 @@ type
     CDSelColour: TColorDialog;
     DataSourceLodge: TDataSource;
     LblProgInfo: TLabel;
+    ShpColour: TShape;
     SQLite3ConnectionMain: TSQLite3Connection;
     SQLQuery: TSQLQuery;
     SQLTransactionIntergration: TSQLTransaction;
@@ -27,7 +28,7 @@ type
     procedure BtnCustomColourClick(Sender: TObject);
     procedure BtnGetPointsClick(Sender: TObject);
     procedure BtnUpdateDBClick(Sender: TObject);
-    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormClose(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure SQLite3ConnectionMainAfterConnect(Sender: TObject);
   private
@@ -83,6 +84,8 @@ var
 res : Boolean;
 begin
   res := CDSelColour.Execute;
+
+  ShpColour.Brush.Color:=CDSelColour.Color;
 end;
 
 
@@ -113,7 +116,7 @@ begin
   SQLQuery.Close;
     if RecordNo < 1 then
       begin
-        ShowMessage('The number of columns must be greater than 1');
+        ShowMessage('There does not seem to be and data in the database, would you like to add a colour?');
         RecordNo := 1;
       end;
 end;
@@ -136,7 +139,7 @@ begin
   }
 end;
 
-procedure TTFrmUtil.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+procedure TTFrmUtil.FormClose(Sender: TObject);
 begin
   //TFrmMain.Close;
 end;

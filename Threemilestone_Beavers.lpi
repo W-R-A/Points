@@ -125,7 +125,7 @@
         <PackageName Value="LCL"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="4">
+    <Units Count="5">
       <Unit0>
         <Filename Value="Threemilestone_Beavers.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -152,6 +152,13 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit3>
+      <Unit4>
+        <Filename Value="adjcolour.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="TFrmAdjColour"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="AdjColour"/>
+      </Unit4>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

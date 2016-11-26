@@ -53,6 +53,12 @@ object TFrmUtil: TTFrmUtil
     OnClick = BtnCustomColourClick
     TabOrder = 3
   end
+  object ShpColour: TShape
+    Left = 280
+    Height = 51
+    Top = 320
+    Width = 81
+  end
   object SQLite3ConnectionMain: TSQLite3Connection
     Connected = False
     LoginPrompt = False
