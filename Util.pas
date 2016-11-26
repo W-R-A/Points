@@ -17,11 +17,9 @@ type
     BtnUpdateDB: TButton;
     BtnGetPoints: TButton;
     BtnCustomColour: TButton;
-    CBColors: TComboBox;
     CDSelColour: TColorDialog;
     DataSourceLodge: TDataSource;
     LblProgInfo: TLabel;
-    LabelInfo: TLabel;
     SQLite3ConnectionMain: TSQLite3Connection;
     SQLQuery: TSQLQuery;
     SQLTransactionIntergration: TSQLTransaction;
@@ -60,7 +58,7 @@ begin
   if SQLite3ConnectionMain.Connected then
      begin
        try
-          LabelInfo.Caption:='Successful connection established';
+          ShowMessage('A connection is already established');
           SQLTransactionIntergration.Active:=True;
           SQLQuery.Active:=True;
        except
@@ -71,11 +69,9 @@ begin
      end
    else
      begin
-       ShowMessage('Error, database is not open, attempting to open it now');
        try
          SQLite3ConnectionMain.Connected:=False;
          SQLite3ConnectionMain.Connected:=True;
-         ShowMessage('Success')
        except
          ShowMessage('Error connecting to database')
        end;
