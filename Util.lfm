@@ -44,20 +44,14 @@ object TFrmUtil: TTFrmUtil
     OnClick = BtnGetPointsClick
     TabOrder = 2
   end
-  object BtnCustomColour: TButton
+  object BtnAdjColour: TButton
     Left = 416
     Height = 60
     Top = 208
     Width = 121
     Caption = 'Select a colour'
-    OnClick = BtnCustomColourClick
+    OnClick = BtnAdjColourClick
     TabOrder = 3
-  end
-  object ShpColour: TShape
-    Left = 280
-    Height = 51
-    Top = 320
-    Width = 81
   end
   object SQLite3ConnectionMain: TSQLite3Connection
     Connected = False
@@ -93,32 +87,5 @@ object TFrmUtil: TTFrmUtil
     Options = []
     left = 80
     top = 424
-  end
-  object CDSelColour: TColorDialog
-    Color = clGreen
-    CustomColors.Strings = (
-      'ColorA=000000'
-      'ColorB=000080'
-      'ColorC=008000'
-      'ColorD=008080'
-      'ColorE=800000'
-      'ColorF=800080'
-      'ColorG=808000'
-      'ColorH=808080'
-      'ColorI=C0C0C0'
-      'ColorJ=0000FF'
-      'ColorK=00FF00'
-      'ColorL=00FFFF'
-      'ColorM=FF0000'
-      'ColorN=FF00FF'
-      'ColorO=FFFF00'
-      'ColorP=FFFFFF'
-      'ColorQ=C0DCC0'
-      'ColorR=F0CAA6'
-      'ColorS=F0FBFF'
-      'ColorT=A4A0A0'
-    )
-    left = 456
-    top = 296
   end
 end

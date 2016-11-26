@@ -5,7 +5,7 @@ unit Util;
 interface
 
 uses
-  Classes, SysUtils, sqldb, sqlite3conn, db, dbf, FileUtil, Forms, Controls,
+  Classes, SysUtils, sqldb, sqlite3conn, sqlite3dyn, db, dbf, FileUtil, Forms, Controls,
   LResources, Graphics, Dialogs, StdCtrls, DBGrids, ExtCtrls;
 
 type
@@ -16,16 +16,14 @@ type
     BtnCheck: TButton;
     BtnUpdateDB: TButton;
     BtnGetPoints: TButton;
-    BtnCustomColour: TButton;
-    CDSelColour: TColorDialog;
+    BtnAdjColour: TButton;
     DataSourceLodge: TDataSource;
     LblProgInfo: TLabel;
-    ShpColour: TShape;
     SQLite3ConnectionMain: TSQLite3Connection;
     SQLQuery: TSQLQuery;
     SQLTransactionIntergration: TSQLTransaction;
     procedure BtnCheckClick(Sender: TObject);
-    procedure BtnCustomColourClick(Sender: TObject);
+    procedure BtnAdjColourClick(Sender: TObject);
     procedure BtnGetPointsClick(Sender: TObject);
     procedure BtnUpdateDBClick(Sender: TObject);
     procedure FormClose(Sender: TObject);
@@ -47,7 +45,7 @@ implementation
 
 { TTFrmUtil }
 uses
-  Main, performance;
+  Main, AdjColour, performance;
 
 procedure TTFrmUtil.SQLite3ConnectionMainAfterConnect(Sender: TObject);
 begin
@@ -79,13 +77,9 @@ begin
      end;
 end;
 
-procedure TTFrmUtil.BtnCustomColourClick(Sender: TObject);
-var
-res : Boolean;
+procedure TTFrmUtil.BtnAdjColourClick(Sender: TObject);
 begin
-  res := CDSelColour.Execute;
-
-  ShpColour.Brush.Color:=CDSelColour.Color;
+  TFrmAdjColour.ShowModal;
 end;
 
 
@@ -146,7 +140,7 @@ end;
 
 procedure TTFrmUtil.FormCreate(Sender: TObject);
 begin
-  SQLiteLibraryName:= 'sqlite3.dll';
+  sqlite3dyn.SqliteDefaultLibrary := 'sqlite3.dll';
   TFrmUtil.BtnCheck.Click;
 end;
 

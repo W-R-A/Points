@@ -349,7 +349,7 @@ begin
 
             if testi = noCols then
               begin
-                   testcolval := testcolval + 2;
+                   testcolval := testcolval + 9;
                    if testcolval <=100 then
                    begin
                         for i := 0 to noCols do
