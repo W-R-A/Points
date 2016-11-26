@@ -60,7 +60,7 @@ implementation
 
 { TTFrmPoints }
 uses
-  Depend;
+  Util;
 
 //This is invoked when the program starts and this form is created
 procedure TTFrmPoints.FormCreate(Sender: TObject);
@@ -68,7 +68,7 @@ begin
   //Maximise program screen area then start database queries and set up program screen then activate it, also set initial scale
   begin
   //Initiate other form to get data from DB
-  TFrmDepend.BtnGetPoints.Click;
+  TFrmUtil.BtnGetPoints.Click;
   //Set the window state to maximise the program window
   WindowState:=wsMaximized;
   //Set the inital scale of the display
@@ -76,7 +76,7 @@ begin
   //Invoke procedure to generate the components and set everything up
   TFrmPoints.BtnDrawScreen.Click;
   //Set the number of columns global variable
-  noCols := TFrmDepend.RecordNo;
+  noCols := TFrmUtil.RecordNo;
   //Set the devMode variable to true for testing, eventually this will be an option on the config screen
   devMode := True;
   //Set controls based on if development mode is on or not
@@ -144,7 +144,7 @@ var
 begin
   begin
     //Workaround as the OnResize event fires before the onCreate event of the form
-    noCols := TFrmDepend.RecordNo;
+    noCols := TFrmUtil.RecordNo;
     //Setup screen width and height varibles
     //Setup margins
     screenHeight := TFrmPoints.Height;
@@ -288,7 +288,7 @@ begin
 TFrmPoints.BtnAdjustScale.Click;
 
 //Update the score points columns
-for i := 0 to TFrmDepend.RecordNo do
+for i := 0 to TFrmUtil.RecordNo do
    begin
        //Set / update the label captions
        if scoreLabels[i] is TLabel then

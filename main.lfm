@@ -9,22 +9,22 @@ object TFrmMain: TTFrmMain
   Color = clWhite
   OnCreate = FormCreate
   LCLVersion = '1.6.0.4'
-  object BtnConnection: TButton
+  object BtnShowConfig: TButton
     Left = 160
     Height = 86
     Top = 216
     Width = 168
     Caption = 'Configuration'
-    OnClick = BtnConnectionClick
+    OnClick = BtnShowConfigClick
     TabOrder = 0
   end
-  object BtnPerformance: TButton
+  object BtnCurrentPoints: TButton
     Left = 160
     Height = 96
     Top = 56
     Width = 168
     Caption = 'Current points'
-    OnClick = BtnPerformanceClick
+    OnClick = BtnCurrentPointsClick
     TabOrder = 1
   end
 end

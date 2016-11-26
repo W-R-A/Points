@@ -7,7 +7,7 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, dbflaz, tachartlazaruspkg, Main, Depend, performance
+  Forms, dbflaz, tachartlazaruspkg, Main, performance, Util
   { you can add units after this };
 
 {$R *.res}
@@ -17,7 +17,7 @@ begin
   RequireDerivedFormResource := True;
   Application.Initialize;
   Application.CreateForm(TTFrmMain, TFrmMain);
-  Application.CreateForm(TTFrmDepend, TFrmDepend);
+  Application.CreateForm(TTFrmUtil, TFrmUtil);
   Application.CreateForm(TTFrmPoints, TFrmPoints);
   Application.Run;
 end.

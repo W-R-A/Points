@@ -1,4 +1,4 @@
-object TFrmDepend: TTFrmDepend
+object TFrmUtil: TTFrmUtil
   Left = 536
   Height = 600
   Top = 132

@@ -12,10 +12,10 @@ type
   { TTFrmMain }
 
   TTFrmMain = class(TForm)
-    BtnConnection: TButton;
-    BtnPerformance: TButton;
-    procedure BtnConnectionClick(Sender: TObject);
-    procedure BtnPerformanceClick(Sender: TObject);
+    BtnShowConfig: TButton;
+    BtnCurrentPoints: TButton;
+    procedure BtnShowConfigClick(Sender: TObject);
+    procedure BtnCurrentPointsClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
     { private declarations }
@@ -32,27 +32,22 @@ implementation
 
 { TTFrmMain }
 uses
-  Depend, performance;
+  Util, performance;
 
-procedure TTFrmMain.BtnConnectionClick(Sender: TObject);
+procedure TTFrmMain.BtnShowConfigClick(Sender: TObject);
 begin
-  try
-    //Sleep(5);
-    //TFrmDepend.ShowModal
-  except
-    //ShowMessage('Connection error')
-  end;
-
+    TFrmUtil.ShowModal
 end;
 
-procedure TTFrmMain.BtnPerformanceClick(Sender: TObject);
+
+procedure TTFrmMain.BtnCurrentPointsClick(Sender: TObject);
 begin
   TFrmPoints.ShowModal;
 end;
 
 procedure TTFrmMain.FormCreate(Sender: TObject);
 begin
-  TFrmMain.BtnConnection.Click;
+
 end;
 
 end.

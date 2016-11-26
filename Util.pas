@@ -1,4 +1,4 @@
-unit Depend;
+unit Util;
 
 {$mode objfpc}{$H+}
 
@@ -10,9 +10,9 @@ uses
 
 type
 
-  { TTFrmDepend }
+  { TTFrmUtil }
 
-  TTFrmDepend = class(TForm)
+  TTFrmUtil = class(TForm)
     BtnCheck: TButton;
     BtnUpdate: TButton;
     BtnUpdateDB: TButton;
@@ -50,22 +50,22 @@ type
   end;
 
 var
-  TFrmDepend: TTFrmDepend;
+  TFrmUtil: TTFrmUtil;
 
 implementation
 
 {$R *.lfm}
 
-{ TTFrmDepend }
+{ TTFrmUtil }
 uses
   Main, performance;
 
-procedure TTFrmDepend.SQLite3ConnectionMainAfterConnect(Sender: TObject);
+procedure TTFrmUtil.SQLite3ConnectionMainAfterConnect(Sender: TObject);
 begin
 
 end;
 
-procedure TTFrmDepend.BtnCheckClick(Sender: TObject);
+procedure TTFrmUtil.BtnCheckClick(Sender: TObject);
 begin
   if SQLite3ConnectionMain.Connected then
      begin
@@ -92,14 +92,14 @@ begin
      end;
 end;
 
-procedure TTFrmDepend.BtnCustomColourClick(Sender: TObject);
+procedure TTFrmUtil.BtnCustomColourClick(Sender: TObject);
 var
 res : Boolean;
 begin
   res := CDSelColour.Execute;
 end;
 
-procedure TTFrmDepend.BtnGetPointsClick(Sender: TObject);
+procedure TTFrmUtil.BtnGetPointsClick(Sender: TObject);
 var
   i:Integer;
 begin
@@ -130,12 +130,12 @@ begin
       end;
 end;
 
-procedure TTFrmDepend.BtnTestPointsDisplayClick(Sender: TObject);
+procedure TTFrmUtil.BtnTestPointsDisplayClick(Sender: TObject);
 begin
 end;
 
 
-procedure TTFrmDepend.BtnUpdateClick(Sender: TObject);
+procedure TTFrmUtil.BtnUpdateClick(Sender: TObject);
 var
   Converted:Integer;
 begin
@@ -169,7 +169,7 @@ begin
   end;
 end;
 
-procedure TTFrmDepend.BtnUpdateDBClick(Sender: TObject);
+procedure TTFrmUtil.BtnUpdateDBClick(Sender: TObject);
 begin
  { try
     SQLite3ConnectionMain.Connected:=True;
@@ -187,17 +187,17 @@ begin
   }
 end;
 
-procedure TTFrmDepend.CBColorsChange(Sender: TObject);
+procedure TTFrmUtil.CBColorsChange(Sender: TObject);
 begin
 
 end;
 
-procedure TTFrmDepend.DataSourceLodgeDataChange(Sender: TObject; Field: TField);
+procedure TTFrmUtil.DataSourceLodgeDataChange(Sender: TObject; Field: TField);
 begin
 
 end;
 
-procedure TTFrmDepend.DBGridCurrentEditingDone(Sender: TObject);
+procedure TTFrmUtil.DBGridCurrentEditingDone(Sender: TObject);
 begin
   try
     SQLTransactionIntergration.Active:=True;
@@ -211,15 +211,15 @@ begin
 
 end;
 
-procedure TTFrmDepend.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+procedure TTFrmUtil.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   //TFrmMain.Close;
 end;
 
-procedure TTFrmDepend.FormCreate(Sender: TObject);
+procedure TTFrmUtil.FormCreate(Sender: TObject);
 begin
   SQLiteLibraryName:= 'sqlite3.dll';
-  TFrmDepend.BtnCheck.Click;
+  TFrmUtil.BtnCheck.Click;
 end;
 
 end.

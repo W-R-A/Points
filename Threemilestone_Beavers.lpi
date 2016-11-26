@@ -139,17 +139,16 @@
         <UnitName Value="Main"/>
       </Unit1>
       <Unit2>
-        <Filename Value="depend.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="TFrmDepend"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-        <UnitName Value="Depend"/>
-      </Unit2>
-      <Unit3>
         <Filename Value="performance.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="TFrmPoints"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="Util.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="TFrmUtil"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit3>
