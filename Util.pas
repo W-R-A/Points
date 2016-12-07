@@ -18,6 +18,7 @@ type
     BtnGetPoints: TButton;
     BtnLoadConfig: TButton;
     DataSourceLodge: TDataSource;
+    OpenDlgDatabase: TOpenDialog;
     SQLite3ConnectionMain: TSQLite3Connection;
     SQLQuery: TSQLQuery;
     SQLTransactionIntergration: TSQLTransaction;
@@ -76,6 +77,17 @@ begin
          ShowMessage('Error connecting to database')
        end;
      end;
+
+
+     //File checking
+
+     //Attempt to open
+
+      TFrmUtil.OpenDlgDatabase.Create(BtnGetPoints);
+
+
+      //Terminate
+      TFrmMain.Close;
 end;
 
 //Insert into LodgePoints (Colour,Points) values ('FF0000', '0')
@@ -91,12 +103,20 @@ begin
       SQLQuery.Active:=False;
       SQLQuery.SQL.Clear;
       SQLQuery.SQL.Text:='SELECT * FROM Points';
-      SQLQuery.Active:=True;
+      try
+          SQLQuery.Active:=True;
+      except
+        on EDatabaseError do
+        begin
+          ShowMessage('Unable to start database connection');
+          TFrmMain.Close;
+        end;
+      end;
       RecordNo := SQLQuery.RecordCount;
+      SQLQuery.Active:=False;
       //Set the arrays to the appropiate length based on what is in the database
       SetLength(TFrmPoints.points, (RecordNo+1));
       SetLength(TFrmPoints.Colours, (RecordNo+1));
-      SQLQuery.Active:=False;
       //Extract each row seperately from the database and process the data
       for i := 1 to RecordNo do
         begin
@@ -120,7 +140,7 @@ begin
             //ShowMessage('There does not seem to be and data in the database, would you like to add a colour?');
             RecordNo := 1;
           end; //End if
-      ShowMessage('Could not read database')
+      ShowMessage('Could not read database');
     end;
   end;
 end;
@@ -157,7 +177,7 @@ end;
 procedure TTFrmUtil.FormCreate(Sender: TObject);
 begin
   sqlite3dyn.SqliteDefaultLibrary := 'sqlite3.dll';
-  //TFrmUtil.BtnCheck.Click;
+  TFrmUtil.BtnCheck.Click;
 end;
 
 end.

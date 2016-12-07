@@ -44,9 +44,9 @@ object TFrmUtil: TTFrmUtil
     Visible = False
   end
   object BtnLoadConfig: TButton
-    Left = 40
+    Left = 56
     Height = 25
-    Top = 80
+    Top = 96
     Width = 252
     AutoSize = True
     Caption = 'Load Configuration settings from database'
@@ -88,5 +88,10 @@ object TFrmUtil: TTFrmUtil
     Options = []
     left = 80
     top = 424
+  end
+  object OpenDlgDatabase: TOpenDialog
+    Title = 'Open existing database'
+    left = 392
+    top = 96
   end
 end
