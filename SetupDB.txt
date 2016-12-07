@@ -1,0 +1,3 @@
+1) - create tableto hold the points for the colours: CREATE TABLE Points(ID INTEGER PRIMARY KEY NOT NULL,Colour VARCHAR(6),Points INTEGER(4));
+
+2) - create table to hold configuration options:CREATE TABLE config(configID INTEGER PRIMARY KEY NOT NULL,configOption VARCHAR(15),configValue INTEGER(5));

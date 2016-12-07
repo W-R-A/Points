@@ -12,7 +12,7 @@ object TFrmUtil: TTFrmUtil
   ClientWidth = 961
   OnClose = FormClose
   OnCreate = FormCreate
-  LCLVersion = '1.6.0.4'
+  LCLVersion = '1.6.2.0'
   object BtnCheck: TButton
     Left = 40
     Height = 30
@@ -43,6 +43,16 @@ object TFrmUtil: TTFrmUtil
     TabOrder = 2
     Visible = False
   end
+  object BtnLoadConfig: TButton
+    Left = 40
+    Height = 25
+    Top = 80
+    Width = 252
+    AutoSize = True
+    Caption = 'Load Configuration settings from database'
+    OnClick = BtnLoadConfigClick
+    TabOrder = 3
+  end
   object SQLite3ConnectionMain: TSQLite3Connection
     Connected = False
     LoginPrompt = False
@@ -60,11 +70,12 @@ object TFrmUtil: TTFrmUtil
     top = 424
   end
   object SQLQuery: TSQLQuery
+    PacketRecords = 1
     FieldDefs = <>
     Database = SQLite3ConnectionMain
     Transaction = SQLTransactionIntergration
     SQL.Strings = (
-      'SELECT * FROM LodgePoints'
+      ''
     )
     Options = []
     Params = <>

@@ -16,12 +16,14 @@ type
     BtnCheck: TButton;
     BtnUpdateDB: TButton;
     BtnGetPoints: TButton;
+    BtnLoadConfig: TButton;
     DataSourceLodge: TDataSource;
     SQLite3ConnectionMain: TSQLite3Connection;
     SQLQuery: TSQLQuery;
     SQLTransactionIntergration: TSQLTransaction;
     procedure BtnCheckClick(Sender: TObject);
     procedure BtnGetPointsClick(Sender: TObject);
+    procedure BtnLoadConfigClick(Sender: TObject);
     procedure BtnUpdateDBClick(Sender: TObject);
     procedure FormClose(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -81,35 +83,56 @@ procedure TTFrmUtil.BtnGetPointsClick(Sender: TObject);
 var
   i:Integer;
 begin
-  //Load points from database
-  SQLQuery.Active:=True;
-  RecordNo := SQLQuery.RecordCount;
-  SetLength(TFrmPoints.points, (RecordNo+1));
-  SetLength(TFrmPoints.Colours, (RecordNo+1));
-  SQLQuery.Active:=False;
-  for i := 1 to RecordNo do
+  try
     begin
-      SQLQuery.SQL.Clear;
-      SQLQuery.SQL.Text:='SELECT * FROM LodgePoints WHERE ID='+IntToStr(i);
-      SQLQuery.Active:=True;
-      TFrmPoints.Colours[i-1]:=SQLQuery.Fields[1].AsString;
-      TFrmPoints.points[i-1]:=SQLQuery.Fields[2].AsInteger;
+      //todo -- test to see if the file existes before opening it
+      //Load points from database
+      //Load all records to determine total number of rows in the database
       SQLQuery.Active:=False;
-      //UPDATE LodgePoints SET Points = '68' where ID = '4';
+      SQLQuery.SQL.Clear;
+      SQLQuery.SQL.Text:='SELECT * FROM Points';
+      SQLQuery.Active:=True;
+      RecordNo := SQLQuery.RecordCount;
+      //Set the arrays to the appropiate length based on what is in the database
+      SetLength(TFrmPoints.points, (RecordNo+1));
+      SetLength(TFrmPoints.Colours, (RecordNo+1));
+      SQLQuery.Active:=False;
+      //Extract each row seperately from the database and process the data
+      for i := 1 to RecordNo do
+        begin
+          SQLQuery.SQL.Clear;
+          SQLQuery.SQL.Text:='SELECT * FROM LodgePoints WHERE ID='+IntToStr(i);
+          SQLQuery.Active:=True;
+          TFrmPoints.Colours[i-1]:=SQLQuery.Fields[1].AsString;
+          TFrmPoints.points[i-1]:=SQLQuery.Fields[2].AsInteger;
+          SQLQuery.Active:=False;
+        end;
+      SQLTransactionIntergration.CloseDataSets;
+      SQLTransactionIntergration.CleanupInstance;
+      SQLQuery.Active:=False;
+      SQLQuery.Close;
     end;
-  SQLTransactionIntergration.CloseDataSets;
-  SQLTransactionIntergration.CleanupInstance;
-  SQLQuery.Active:=False;
-  SQLQuery.Close;
-    if RecordNo < 1 then
-      begin
-        //ShowMessage('There does not seem to be and data in the database, would you like to add a colour?');
-        RecordNo := 1;
-      end;
+  except
+    begin
+    //If no data can be found, override the value, TODO - display a setup screen if this happens
+        if RecordNo < 1 then
+          begin
+            //ShowMessage('There does not seem to be and data in the database, would you like to add a colour?');
+            RecordNo := 1;
+          end; //End if
+      ShowMessage('Could not read database')
+    end;
+  end;
+end;
+
+procedure TTFrmUtil.BtnLoadConfigClick(Sender: TObject);
+begin
+
 end;
 
 procedure TTFrmUtil.BtnUpdateDBClick(Sender: TObject);
 begin
+  //UPDATE LodgePoints SET Points = '68' where ID = '4';
  { try
     SQLite3ConnectionMain.Connected:=True;
     SQLite3ConnectionMain.Open;
@@ -134,7 +157,7 @@ end;
 procedure TTFrmUtil.FormCreate(Sender: TObject);
 begin
   sqlite3dyn.SqliteDefaultLibrary := 'sqlite3.dll';
-  TFrmUtil.BtnCheck.Click;
+  //TFrmUtil.BtnCheck.Click;
 end;
 
 end.

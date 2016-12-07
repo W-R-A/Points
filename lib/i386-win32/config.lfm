@@ -1,9 +1,20 @@
 object TFrmConfig: TTFrmConfig
-  Left = 691
+  Left = 715
   Height = 405
-  Top = 265
+  Top = 251
   Width = 519
   Caption = 'Points - Configuration'
+  ClientHeight = 405
+  ClientWidth = 519
   OnCreate = FormCreate
   LCLVersion = '1.6.0.4'
+  object CBDevMode: TCheckBox
+    Left = 168
+    Height = 24
+    Top = 352
+    Width = 183
+    Alignment = taLeftJustify
+    Caption = 'Enable developer mode'
+    TabOrder = 0
+  end
 end

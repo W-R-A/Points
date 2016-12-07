@@ -35,6 +35,7 @@ uses
 procedure TTFrmConfig.FormCreate(Sender: TObject);
 begin
   CBDevMode.Checked;
-end
+end;
+
 end.
 

@@ -10,7 +10,7 @@ object TFrmPoints: TTFrmPoints
   OnClose = FormClose
   OnCreate = FormCreate
   OnResize = BtnDrawScreenClick
-  LCLVersion = '1.6.0.4'
+  LCLVersion = '1.6.2.0'
   object BtnAdjustScale: TButton
     Left = 528
     Height = 81

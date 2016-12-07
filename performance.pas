@@ -78,7 +78,8 @@ begin
   //Set the number of columns global variable
   noCols := TFrmUtil.RecordNo;
   //Set the devMode variable to true for testing, eventually this will be an option on the config screen
-  devMode := TFrmUtil.CBDevMode.Checked;
+  //devMode := TFrmUtil.CBDevMode.Checked;
+  devMode := True;
   //Set controls based on if development mode is on or not
   TFrmPoints.BtnTest.Visible:=devMode;
   end;
