@@ -12,7 +12,7 @@ object TFrmUtil: TTFrmUtil
   ClientWidth = 961
   OnClose = FormClose
   OnCreate = FormCreate
-  LCLVersion = '1.6.2.0'
+  LCLVersion = '1.6.0.4'
   object BtnCheck: TButton
     Left = 40
     Height = 30
@@ -45,9 +45,9 @@ object TFrmUtil: TTFrmUtil
   end
   object BtnLoadConfig: TButton
     Left = 56
-    Height = 25
+    Height = 30
     Top = 96
-    Width = 252
+    Width = 310
     AutoSize = True
     Caption = 'Load Configuration settings from database'
     OnClick = BtnLoadConfigClick

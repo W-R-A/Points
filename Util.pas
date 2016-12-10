@@ -83,8 +83,6 @@ begin
 
      //Attempt to open
 
-      TFrmUtil.OpenDlgDatabase.Create(BtnGetPoints);
-
 
       //Terminate
       TFrmMain.Close;
@@ -108,7 +106,7 @@ begin
       except
         on EDatabaseError do
         begin
-          ShowMessage('Unable to start database connection');
+          ShowMessage('Unable to read the database');
           TFrmMain.Close;
         end;
       end;
@@ -177,7 +175,14 @@ end;
 procedure TTFrmUtil.FormCreate(Sender: TObject);
 begin
   sqlite3dyn.SqliteDefaultLibrary := 'sqlite3.dll';
+
+  TFrmUtil.OpenDlgDatabase.Create(BtnGetPoints);
+  TFrmUtil.OpenDlgDatabase.Execute;
+  SQLite3ConnectionMain.DatabaseName:=TFrmUtil.OpenDlgDatabase.FileName;
+
+
   TFrmUtil.BtnCheck.Click;
+
 end;
 
 end.
