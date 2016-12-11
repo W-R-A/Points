@@ -17,6 +17,7 @@ type
     BtnUpdateDB: TButton;
     BtnGetPoints: TButton;
     BtnLoadConfig: TButton;
+    BtnOpenDatabaseFile: TButton;
     DataSourceLodge: TDataSource;
     OpenDlgDatabase: TOpenDialog;
     SQLite3ConnectionMain: TSQLite3Connection;
@@ -25,6 +26,7 @@ type
     procedure BtnCheckClick(Sender: TObject);
     procedure BtnGetPointsClick(Sender: TObject);
     procedure BtnLoadConfigClick(Sender: TObject);
+    procedure BtnOpenDatabaseFileClick(Sender: TObject);
     procedure BtnUpdateDBClick(Sender: TObject);
     procedure FormClose(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -61,9 +63,8 @@ begin
        try
           ShowMessage('A connection is already established');
           SQLTransactionIntergration.Active:=True;
-          SQLQuery.Active:=True;
        except
-         ShowMessage('Fatal Error');
+         ShowMessage('A Fatal Error has occured');
          SQLite3ConnectionMain.Close();
          TFrmMain.Close;
        end;
@@ -78,14 +79,6 @@ begin
        end;
      end;
 
-
-     //File checking
-
-     //Attempt to open
-
-
-      //Terminate
-      TFrmMain.Close;
 end;
 
 //Insert into LodgePoints (Colour,Points) values ('FF0000', '0')
@@ -148,6 +141,28 @@ begin
 
 end;
 
+procedure TTFrmUtil.BtnOpenDatabaseFileClick(Sender: TObject);
+begin
+  if FileExists('Points.txt') then
+  begin
+    if MessageDlg('Confirm', 'Existing database found, would you like to open it?', mtConfirmation, [mbYes, mbNo],0) = mrYes then
+      SQLite3ConnectionMain.DatabaseName:='Points.db'
+    else
+      begin
+        TFrmUtil.OpenDlgDatabase.Create(BtnGetPoints);
+        TFrmUtil.OpenDlgDatabase.Execute;
+        SQLite3ConnectionMain.DatabaseName:=TFrmUtil.OpenDlgDatabase.FileName;
+      end;
+  end //End if
+  else
+    begin
+      TFrmUtil.OpenDlgDatabase.Create(BtnGetPoints);
+      TFrmUtil.OpenDlgDatabase.Execute;
+      SQLite3ConnectionMain.DatabaseName:=TFrmUtil.OpenDlgDatabase.FileName;
+    end;
+  TFrmUtil.BtnCheck.Click;
+end;
+
 procedure TTFrmUtil.BtnUpdateDBClick(Sender: TObject);
 begin
   //UPDATE LodgePoints SET Points = '68' where ID = '4';
@@ -176,12 +191,8 @@ procedure TTFrmUtil.FormCreate(Sender: TObject);
 begin
   sqlite3dyn.SqliteDefaultLibrary := 'sqlite3.dll';
 
-  TFrmUtil.OpenDlgDatabase.Create(BtnGetPoints);
-  TFrmUtil.OpenDlgDatabase.Execute;
-  SQLite3ConnectionMain.DatabaseName:=TFrmUtil.OpenDlgDatabase.FileName;
 
-
-  TFrmUtil.BtnCheck.Click;
+  TFrmUtil.BtnOpenDatabaseFile.Click;
 
 end;
 
