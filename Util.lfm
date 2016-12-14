@@ -72,7 +72,7 @@ object TFrmUtil: TTFrmUtil
   object SQLite3ConnectionMain: TSQLite3Connection
     Connected = False
     LoginPrompt = False
-    DatabaseName = 'LodgePoints.db'
+    DatabaseName = 'Points.db'
     KeepConnection = True
     Transaction = SQLTransactionIntergration
     LogEvents = []
@@ -112,6 +112,10 @@ object TFrmUtil: TTFrmUtil
     top = 328
   end
   object SaveDlgDatabase: TSaveDialog
+    Title = 'Save database as'
+    DefaultExt = '.db'
+    FileName = 'points'
+    Options = [ofOverwritePrompt, ofEnableSizing, ofViewDetail]
     left = 216
     top = 328
   end

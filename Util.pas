@@ -96,13 +96,18 @@ begin
      //Trap errors relating to an invaild database format
      on EDatabaseError do
        begin
-         //Tell user that an error occured while reading the database
-         ShowMessage('Unable to read the database or the data is in an invalid format, please try again');
          //Close down the connection with the invalid file
          SQLite3ConnectionMain.Connected:=False;
          SQLite3ConnectionMain.Close();
-         //Ask the user to choose a different file
-         TFrmUtil.BtnOpenDatabaseFile.Click;
+         //Tell user that file is not vaild and give them options on what to do
+         if QuestionDlg('Create or open', 'The database you selected is not valid, would you like to create a new one or browse for an existing one?', mtCustom, [mrYes, 'Create new database', mrNo, 'Browse for existing database', 'IsDefault'],0) = mrYes then
+         begin
+           TFrmUtil.BtnCreateDatabaseFile.Click;
+         end //End if
+         else
+           begin
+             TFrmUtil.BtnOpenDatabaseFile.Click;
+           end;
        end;
    end;
    //Now that inital tests show that the database is okay, cleanup unneeded stuff
@@ -111,7 +116,38 @@ end;
 
 procedure TTFrmUtil.BtnCreateDatabaseFileClick(Sender: TObject);
 begin
+  TFrmUtil.SaveDlgDatabase.Create(TFrmUtil.BtnCreateDatabaseFile);
+  while (TFrmUtil.SaveDlgDatabase.Execute = False) do
+    begin
+      ShowMessage('Try again');
+    end;
+  SQLite3ConnectionMain.DatabaseName:=TFrmUtil.SaveDlgDatabase.FileName;
+  //Create database
+  try
+    SQLite3ConnectionMain.Connected:=True;
+    SQLite3ConnectionMain.Open;
+    SQLTransactionIntergration.Active := True;
+    SQLite3ConnectionMain.ExecuteDirect('CREATE TABLE Points(ID INTEGER PRIMARY KEY NOT NULL,Colour VARCHAR(6),Points INTEGER(4));');
+    SQLite3ConnectionMain.ExecuteDirect('CREATE TABLE config(configID INTEGER PRIMARY KEY NOT NULL,configOption VARCHAR(15),configValue INTEGER(5));');
+    SQLTransactionIntergration.Commit;
+    SQLTransactionIntergration.Active := False;
+    ShowMessage('Database sucessfully created');
+  except
+    ShowMessage('Unable to create database, is the diectory read-only?');
+  end;
+end;
 
+procedure TTFrmUtil.BtnOpenDatabaseFileClick(Sender: TObject);
+begin
+  while (TFrmUtil.OpenDlgDatabase.Execute = False) do
+    begin
+      if QuestionDlg('Create or open', 'No file has been selected, would you like to create a new database instead?', mtCustom, [mrYes, 'Create new database', mrNo, 'Browse for existing database', 'IsDefault'],0) = mrYes then
+        begin
+          TFrmUtil.BtnCreateDatabaseFile.Click;
+        end //End if
+    end;
+  SQLite3ConnectionMain.DatabaseName:=TFrmUtil.OpenDlgDatabase.FileName;
+  TFrmUtil.BtnCheckDatabase.Click;
 end;
 
 //Insert into LodgePoints (Colour,Points) values ('FF0000', '0')
@@ -125,6 +161,8 @@ begin
       //Load all records to determine total number of rows in the database
       RecordNo := SQLQuery.RecordCount;
       SQLQuery.Active:=False;
+      if RecordNo < 1 then
+         RecordNo := 1;
       //Set the arrays to the appropiate length based on what is in the database
       SetLength(TFrmPoints.points, (RecordNo+1));
       SetLength(TFrmPoints.Colours, (RecordNo+1));
@@ -132,7 +170,7 @@ begin
       for i := 1 to RecordNo do
         begin
           SQLQuery.SQL.Clear;
-          SQLQuery.SQL.Text:='SELECT * FROM LodgePoints WHERE ID='+IntToStr(i);
+          SQLQuery.SQL.Text:='SELECT * FROM Points WHERE ID='+IntToStr(i);
           SQLQuery.Active:=True;
           TFrmPoints.Colours[i-1]:=SQLQuery.Fields[1].AsString;
           TFrmPoints.points[i-1]:=SQLQuery.Fields[2].AsInteger;
@@ -148,7 +186,7 @@ begin
     //If no data can be found, override the value, TODO - display a setup screen if this happens
         if RecordNo < 1 then
           begin
-            //ShowMessage('There does not seem to be and data in the database, would you like to add a colour?');
+            //ShowMessage('There does not seem to be any data in the database, would you like to add a colour?');
             RecordNo := 1;
           end; //End if
       ShowMessage('Could not read database');
@@ -159,16 +197,6 @@ end;
 procedure TTFrmUtil.BtnLoadConfigClick(Sender: TObject);
 begin
 
-end;
-
-procedure TTFrmUtil.BtnOpenDatabaseFileClick(Sender: TObject);
-begin
-  while (TFrmUtil.OpenDlgDatabase.Execute = False) do
-    begin
-      ShowMessage('No file has been selected, please try again');
-    end;
-  SQLite3ConnectionMain.DatabaseName:=TFrmUtil.OpenDlgDatabase.FileName;
-  TFrmUtil.BtnCheckDatabase.Click;
 end;
 
 procedure TTFrmUtil.BtnUpdateDatabaseClick(Sender: TObject);
@@ -194,16 +222,28 @@ procedure TTFrmUtil.FormCreate(Sender: TObject);
 begin
   sqlite3dyn.SqliteDefaultLibrary := 'sqlite3.dll';
 
-  if FileExists('Points.txt') then
+  if FileExists('Points.db') then
   begin
-    if MessageDlg('Confirm', 'Existing database found, would you like to open it?', mtConfirmation, [mbYes, mbNo],0) = mrYes then
+    if MessageDlg('Confirm', 'Existing database found. Open it?', mtConfirmation, [mbYes, mbNo],0) = mrYes then
       SQLite3ConnectionMain.DatabaseName:='Points.db'
     else
       begin
         TFrmUtil.OpenDlgDatabase.Create(TFrmUtil.BtnOpenDatabaseFile);
         TFrmUtil.BtnOpenDatabaseFile.Click;
+      end; //End else
+  end //End if
+  else
+    begin
+    if QuestionDlg('Create or open', 'No existing databases found, would you like to create a new one or browse for an existing one?', mtCustom, [mrYes, 'Create new database', mrNo, 'Browse for existing database', 'IsDefault'],0) = mrYes then
+      begin
+        TFrmUtil.BtnCreateDatabaseFile.Click;
+      end //End if
+    else
+      begin
+        TFrmUtil.OpenDlgDatabase.Create(TFrmUtil.BtnOpenDatabaseFile);
+        TFrmUtil.BtnOpenDatabaseFile.Click;
       end;
-  end;
+  end; //End else
 end;
 
 end.
