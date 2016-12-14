@@ -7,36 +7,35 @@ object TFrmUtil: TTFrmUtil
   HorzScrollBar.Range = 952
   VertScrollBar.Page = 588
   VertScrollBar.Range = 588
-  Caption = 'Points - Configuration'
+  Caption = 'Points - Util'
   ClientHeight = 604
   ClientWidth = 961
-  OnClose = FormClose
   OnCreate = FormCreate
-  LCLVersion = '1.6.0.4'
-  object BtnCheck: TButton
-    Left = 40
-    Height = 30
-    Top = 40
+  LCLVersion = '1.6.2.0'
+  object BtnCheckDatabase: TButton
+    Left = 8
+    Height = 32
+    Top = 8
     Width = 144
     Align = alCustom
     Caption = 'Check Connection'
-    OnClick = BtnCheckClick
+    OnClick = BtnCheckDatabaseClick
     TabOrder = 0
   end
-  object BtnUpdateDB: TButton
-    Left = 56
+  object BtnUpdateDatabase: TButton
+    Left = 32
     Height = 52
-    Top = 240
+    Top = 144
     Width = 96
     Caption = 'Update DB'
-    OnClick = BtnUpdateDBClick
+    OnClick = BtnUpdateDatabaseClick
     TabOrder = 1
     Visible = False
   end
   object BtnGetPoints: TButton
-    Left = 56
+    Left = 32
     Height = 56
-    Top = 136
+    Top = 200
     Width = 96
     Caption = 'Get Points'
     OnClick = BtnGetPointsClick
@@ -44,24 +43,31 @@ object TFrmUtil: TTFrmUtil
     Visible = False
   end
   object BtnLoadConfig: TButton
-    Left = 40
-    Height = 30
-    Top = 88
-    Width = 310
-    AutoSize = True
-    Caption = 'Load Configuration settings from database'
+    Left = 8
+    Height = 32
+    Top = 104
+    Width = 144
+    Caption = 'Load config settings'
     OnClick = BtnLoadConfigClick
     TabOrder = 3
   end
   object BtnOpenDatabaseFile: TButton
-    Left = 240
-    Height = 30
+    Left = 8
+    Height = 33
     Top = 40
-    Width = 152
-    AutoSize = True
+    Width = 144
     Caption = 'Open database file'
     OnClick = BtnOpenDatabaseFileClick
     TabOrder = 4
+  end
+  object BtnCreateDatabaseFile: TButton
+    Left = 8
+    Height = 34
+    Top = 72
+    Width = 144
+    Caption = 'Create database file'
+    OnClick = BtnCreateDatabaseFileClick
+    TabOrder = 5
   end
   object SQLite3ConnectionMain: TSQLite3Connection
     Connected = False
@@ -96,13 +102,17 @@ object TFrmUtil: TTFrmUtil
     Active = False
     Database = SQLite3ConnectionMain
     Options = []
-    left = 80
+    left = 72
     top = 424
   end
   object OpenDlgDatabase: TOpenDialog
     Title = 'Open existing database'
     Options = [ofExtensionDifferent, ofEnableSizing, ofViewDetail]
-    left = 248
-    top = 144
+    left = 72
+    top = 328
+  end
+  object SaveDlgDatabase: TSaveDialog
+    left = 216
+    top = 328
   end
 end

@@ -13,22 +13,24 @@ type
   { TTFrmUtil }
 
   TTFrmUtil = class(TForm)
-    BtnCheck: TButton;
-    BtnUpdateDB: TButton;
+    BtnCheckDatabase: TButton;
+    BtnCreateDatabaseFile: TButton;
+    BtnUpdateDatabase: TButton;
     BtnGetPoints: TButton;
     BtnLoadConfig: TButton;
     BtnOpenDatabaseFile: TButton;
     DataSourceLodge: TDataSource;
     OpenDlgDatabase: TOpenDialog;
+    SaveDlgDatabase: TSaveDialog;
     SQLite3ConnectionMain: TSQLite3Connection;
     SQLQuery: TSQLQuery;
     SQLTransactionIntergration: TSQLTransaction;
-    procedure BtnCheckClick(Sender: TObject);
+    procedure BtnCheckDatabaseClick(Sender: TObject);
+    procedure BtnCreateDatabaseFileClick(Sender: TObject);
     procedure BtnGetPointsClick(Sender: TObject);
     procedure BtnLoadConfigClick(Sender: TObject);
     procedure BtnOpenDatabaseFileClick(Sender: TObject);
-    procedure BtnUpdateDBClick(Sender: TObject);
-    procedure FormClose(Sender: TObject);
+    procedure BtnUpdateDatabaseClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure SQLite3ConnectionMainAfterConnect(Sender: TObject);
   private
@@ -56,14 +58,15 @@ begin
 
 end;
 
-procedure TTFrmUtil.BtnCheckClick(Sender: TObject);
+procedure TTFrmUtil.BtnCheckDatabaseClick(Sender: TObject);
 begin
   if SQLite3ConnectionMain.Connected then
      begin
        try
-          ShowMessage('A connection is already established');
-          SQLTransactionIntergration.Active:=True;
+         //If a connection is already present, start the database transaction
+         SQLTransactionIntergration.Active:=True;
        except
+         //If there is an error, trap it and close the program
          ShowMessage('A Fatal Error has occured');
          SQLite3ConnectionMain.Close();
          TFrmMain.Close;
@@ -72,12 +75,42 @@ begin
    else
      begin
        try
+         //Try and close and reopen the database to establish a connection
          SQLite3ConnectionMain.Connected:=False;
          SQLite3ConnectionMain.Connected:=True;
        except
+         //Tell the user that an error occured
          ShowMessage('Error connecting to database')
-       end;
+       end; //End except
      end; //End else
+
+   //Test to ensure the database is valid
+   SQLQuery.Active:=False;
+   SQLQuery.SQL.Clear;
+   SQLQuery.SQL.Text:='SELECT * FROM Points';
+   try
+     SQLQuery.Active:=True;
+     RecordNo := SQLQuery.RecordCount;
+     SQLQuery.Active:=False;
+   except
+     //Trap errors relating to an invaild database format
+     on EDatabaseError do
+       begin
+         //Tell user that an error occured while reading the database
+         ShowMessage('Unable to read the database or the data is in an invalid format, please try again');
+         //Close down the connection with the invalid file
+         SQLite3ConnectionMain.Connected:=False;
+         SQLite3ConnectionMain.Close();
+         //Ask the user to choose a different file
+         TFrmUtil.BtnOpenDatabaseFile.Click;
+       end;
+   end;
+   //Now that inital tests show that the database is okay, cleanup unneeded stuff
+   TFrmUtil.OpenDlgDatabase.CleanupInstance;
+end;
+
+procedure TTFrmUtil.BtnCreateDatabaseFileClick(Sender: TObject);
+begin
 
 end;
 
@@ -88,21 +121,8 @@ var
 begin
   try
     begin
-      //todo -- test to see if the file existes before opening it
       //Load points from database
       //Load all records to determine total number of rows in the database
-      SQLQuery.Active:=False;
-      SQLQuery.SQL.Clear;
-      SQLQuery.SQL.Text:='SELECT * FROM Points';
-      try
-          SQLQuery.Active:=True;
-      except
-        on EDatabaseError do
-        begin
-          ShowMessage('Unable to read the database');
-          TFrmMain.Close;
-        end;
-      end;
       RecordNo := SQLQuery.RecordCount;
       SQLQuery.Active:=False;
       //Set the arrays to the appropiate length based on what is in the database
@@ -143,30 +163,15 @@ end;
 
 procedure TTFrmUtil.BtnOpenDatabaseFileClick(Sender: TObject);
 begin
-  if FileExists('Points.txt') then
-  begin
-    if MessageDlg('Confirm', 'Existing database found, would you like to open it?', mtConfirmation, [mbYes, mbNo],0) = mrYes then
-      SQLite3ConnectionMain.DatabaseName:='Points.db'
-    else
-      begin
-        TFrmUtil.OpenDlgDatabase.Create(TFrmUtil.BtnOpenDatabaseFile);
-        while (TFrmUtil.OpenDlgDatabase.Execute = False) do
-          begin
-            ShowMessage('No file has been selected, please try again');
-          end;
-        SQLite3ConnectionMain.DatabaseName:=TFrmUtil.OpenDlgDatabase.FileName;
-      end;
-  end //End if
-  else
+  while (TFrmUtil.OpenDlgDatabase.Execute = False) do
     begin
-      TFrmUtil.OpenDlgDatabase.Create(TFrmUtil.BtnOpenDatabaseFile);
-      TFrmUtil.OpenDlgDatabase.Execute;
-      SQLite3ConnectionMain.DatabaseName:=TFrmUtil.OpenDlgDatabase.FileName;
+      ShowMessage('No file has been selected, please try again');
     end;
-  TFrmUtil.BtnCheck.Click;
+  SQLite3ConnectionMain.DatabaseName:=TFrmUtil.OpenDlgDatabase.FileName;
+  TFrmUtil.BtnCheckDatabase.Click;
 end;
 
-procedure TTFrmUtil.BtnUpdateDBClick(Sender: TObject);
+procedure TTFrmUtil.BtnUpdateDatabaseClick(Sender: TObject);
 begin
   //UPDATE LodgePoints SET Points = '68' where ID = '4';
  { try
@@ -185,18 +190,20 @@ begin
   }
 end;
 
-procedure TTFrmUtil.FormClose(Sender: TObject);
-begin
-  //TFrmMain.Close;
-end;
-
 procedure TTFrmUtil.FormCreate(Sender: TObject);
 begin
   sqlite3dyn.SqliteDefaultLibrary := 'sqlite3.dll';
 
-
-  TFrmUtil.BtnOpenDatabaseFile.Click;
-
+  if FileExists('Points.txt') then
+  begin
+    if MessageDlg('Confirm', 'Existing database found, would you like to open it?', mtConfirmation, [mbYes, mbNo],0) = mrYes then
+      SQLite3ConnectionMain.DatabaseName:='Points.db'
+    else
+      begin
+        TFrmUtil.OpenDlgDatabase.Create(TFrmUtil.BtnOpenDatabaseFile);
+        TFrmUtil.BtnOpenDatabaseFile.Click;
+      end;
+  end;
 end;
 
 end.
