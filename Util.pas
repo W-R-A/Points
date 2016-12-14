@@ -68,7 +68,7 @@ begin
          SQLite3ConnectionMain.Close();
          TFrmMain.Close;
        end;
-     end
+     end //End if
    else
      begin
        try
@@ -77,7 +77,7 @@ begin
        except
          ShowMessage('Error connecting to database')
        end;
-     end;
+     end; //End else
 
 end;
 
@@ -149,14 +149,17 @@ begin
       SQLite3ConnectionMain.DatabaseName:='Points.db'
     else
       begin
-        TFrmUtil.OpenDlgDatabase.Create(BtnGetPoints);
-        TFrmUtil.OpenDlgDatabase.Execute;
+        TFrmUtil.OpenDlgDatabase.Create(TFrmUtil.BtnOpenDatabaseFile);
+        while (TFrmUtil.OpenDlgDatabase.Execute = False) do
+          begin
+            ShowMessage('No file has been selected, please try again');
+          end;
         SQLite3ConnectionMain.DatabaseName:=TFrmUtil.OpenDlgDatabase.FileName;
       end;
   end //End if
   else
     begin
-      TFrmUtil.OpenDlgDatabase.Create(BtnGetPoints);
+      TFrmUtil.OpenDlgDatabase.Create(TFrmUtil.BtnOpenDatabaseFile);
       TFrmUtil.OpenDlgDatabase.Execute;
       SQLite3ConnectionMain.DatabaseName:=TFrmUtil.OpenDlgDatabase.FileName;
     end;

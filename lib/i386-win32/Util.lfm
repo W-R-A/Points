@@ -101,6 +101,7 @@ object TFrmUtil: TTFrmUtil
   end
   object OpenDlgDatabase: TOpenDialog
     Title = 'Open existing database'
+    Options = [ofExtensionDifferent, ofEnableSizing, ofViewDetail]
     left = 248
     top = 144
   end
